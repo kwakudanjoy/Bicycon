@@ -1,0 +1,325 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    height:100%;
+}
+
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color:#0a0f1f;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/*========= header ==========*/
+header{
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    padding: 0 5px;
+    height: 60px;   /* adjust based on your header */
+    flex-shrink: 0;
+    align-items: center;
+}
+  /* Page signature container */
+.page-signature {
+    display: flex;              /* enable flex layout */
+    align-items: center;        /* vertically center icon and text */
+    justify-content: center;    /* horizontally center the whole block (optional) */
+    gap: 10px;                  /* space between icon and text */
+}
+
+/* Icon styling */
+.page-signature div {
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    background: green;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.page-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+.page-signature p{
+    font-weight: bolder;
+    font-size: 25px;
+    font-family:cursive;
+}
+
+/*account signature*/
+
+.account-signature{
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border: 1px white solid;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.account-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+/*======== navigation ========*/
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;   /* adjust based on your nav */
+    flex-shrink: 0;
+}
+
+/* Base styling for .key-search scrollbar */
+.key-search {
+    display: flex;
+    cursor: pointer;
+    margin-left: 10px;
+    width: 560px;
+    overflow-x: auto; /* horizontal scrolling if needed */
+    overflow-y: hidden; /* hide vertical scrollbar if not needed */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(255,69,0,0.5) transparent; /* Firefox */
+}
+
+/* Webkit-based browsers (Chrome, Edge, Safari) */
+.key-search::-webkit-scrollbar {
+    height: 6px; /* initial scrollbar height */
+}
+
+.key-search::-webkit-scrollbar-thumb {
+    background-color: rgba(255,69,0,0.5); /* orange thumb */
+    border-radius: 10px;
+}
+
+.key-search::-webkit-scrollbar-track {
+    background: transparent; /* track color */
+}
+
+/* Increase scrollbar height on hover */
+@media (hover: hover) and (pointer: fine) { /* desktop only */
+    .key-search:hover::-webkit-scrollbar {
+        height: 12px; /* taller on hover */
+    }
+
+    .key-search:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(255,69,0,0.8); /* darker on hover */
+    }
+}
+
+.key-search div{
+    color: white;
+    padding: 5px 10px;
+    font-weight: bolder;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+.search-input{
+    display: none;
+    border: none;
+    outline: none;
+    margin-right: 8px;
+    padding: 10px 5px 10px 15px;
+    width: 560px;
+    background: transparent;
+    color: white;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-weight: bolder;
+}
+
+.search-icon{
+    cursor: pointer;
+    background: white;
+    width: 35px;
+    height: 35px;
+
+    display: flex;              /* make it a flex container */
+    align-items: center;        /* vertical center */
+    justify-content: center;    /* horizontal center */
+
+    border-radius: 50%;
+}
+
+/* ---------- GRID LAYOUT ---------- */
+main {
+        flex: 1 1 auto;    /* take remaining space */
+    overflow-y: auto;  /* enable vertical scrolling */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 5px;
+    padding: 10px;
+}
+
+/* Scrollbar styling */
+main::-webkit-scrollbar {
+    width: 6px;
+}
+main::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* ---------- PRODUCT CARD ---------- */
+.product-card {
+    width: 100%;            /* fill the grid cell */
+    max-width: 400px;       /* optional max-width */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+    border-radius: 10px;
+}
+
+/* Hover effect */
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* ---------- IMAGE ---------- */
+.product-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* ---------- PRODUCT INFO ---------- */
+.product-info {
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Retailer info */
+.retailer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+}
+
+.retailer img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+/* User detail block */
+.user-detail {
+    display: flex;
+    flex-direction: column;    /* stack name & email vertically */
+    justify-content: center;   /* vertically center inside retailer div */
+    overflow: hidden;          /* prevent text overflow */
+}
+
+/* Name styling */
+.user-detail .name {
+    font-weight: bold;
+    font-size: 14px;
+    color:white;
+    white-space: nowrap;       /* prevent breaking if too long */
+    overflow: hidden;
+    text-overflow: ellipsis;   /* truncate with dots */
+}
+
+/* Email / ID styling */
+.user-detail span:nth-child(2) {
+    font-size: 12px;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;   /* truncate long emails/IDs */
+    padding-left: 10px;
+    font-weight: bolder
+}
+/* Product text */
+.product-name {
+    font-size: 16px;
+    margin: 0;
+    color: white;
+}
+
+.product-price {
+    color: orangered;
+    margin: 0;
+}
+
+.product-description {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    width: 300px;
+    text-align: center;
+    display: -webkit-box;        /* flex container for truncation */
+    -webkit-line-clamp: 2;       /* limit to 2 lines (change to 3 if you want) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;             /* hide extra text */
+    text-overflow: ellipsis;      /* adds the ... at the end */
+}
+/* ---------- MOBILE RESPONSIVE ---------- */
+@media (max-width: 500px) {
+   
+}
+
+@media (max-width:770px){
+      main {
+        grid-template-columns: 1fr;  /* 1 card per row */
+        gap: 0;
+        padding: 0;
+    }
+    .product-card {
+        max-height: none;  /* allow flexible height */
+        border-radius: 0;
+    }
+
+    .product-image img {
+  
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+    .key-search{
+         width: 320px;
+    }
+    .search-bar{
+        margin-top: 5px;
+    }
+    .search-input{
+    width: 320px;
+}
+
+
+}

@@ -1,0 +1,355 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color:#0a0f1f;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/*========= header ==========*/
+header {
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+}
+
+  /* Page signature container */
+.page-signature {
+    display: flex;              /* enable flex layout */
+    align-items: center;       /* vertically center icon and text */
+    justify-content: center;    /* horizontally center the whole block (optional) */
+    gap: 10px;
+    margin: auto;                  /* space between icon and text */
+}
+
+/* Icon styling */
+.page-signature div {
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    background: green;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.page-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+.page-signature p{
+    font-weight: bolder;
+    font-size: 25px;
+    font-family:cursive;
+}
+
+/*account signature*/
+
+.back-signature{
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border: 1px white solid;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.back-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+/*Top Card*/
+
+.top {
+    flex-shrink: 0; /* fixed height, won't shrink */
+    height: 190px;
+    overflow: hidden;
+    position: relative;
+}
+.top > div{
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+}
+
+/*Cards*/
+#card-1{
+    width: 400px;
+    justify-self: center;
+    justify-items: center;
+    text-align: center;
+    border: 1px white solid;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+#card-1 h4{
+    color: white;
+    font-size: 20px;
+}
+
+#card-1 p{
+    color: rgba(255, 255, 255, 0.384);
+    font-size: 13px;
+    margin-top: 15px;
+}
+#card-2, #card-4, #card-5 {
+    display: flex;             /* make it a flex container */
+    flex-direction: column;    /* stack children vertically */
+    align-items: center;       /* horizontally center all children */
+    justify-content: center;   /* vertically center if needed */
+    justify-self: center; 
+    width: 390px;
+    border-radius: 20px;
+    padding: 15px 10px;
+    border: 1px white solid;
+    text-align: center;        /* center text inside p/span */
+}
+
+#card-3{
+    justify-items: center;
+    width: 390px;
+    justify-self: center;
+    border-radius: 20px;
+    align-items: center;
+    padding: 15px 10px;
+}
+
+
+#card-2 div,
+#card-4 div,
+#card-5 div{
+    display: flex;
+    flex-direction: column;
+    background: orangered;
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+    align-items: center;      /* horizontal center */
+    justify-content: center;  /* vertical center */
+    border-radius: 50%;
+    color: white;
+}
+
+#card-2 p,
+#card-3 p,
+#card-4 p{
+    color: white;
+    margin: 5px 15px;
+    font-size: 25px;
+    width: 300px;
+    text-align: center;
+    
+}
+
+#card-2 span,
+#card-4 span,
+#card-5 span {
+    display: block;           /* ensure it’s treated like a block */
+    margin-top: 8px;          /* small spacing under icon */
+    text-align: center;  
+    color: white;     /* center the text */
+}
+
+#card-5 p{
+    color: white;
+    margin-top: 12px;
+    font-size: 16px;
+    width: 300px;
+    text-align: center;
+}
+
+
+.show {
+    opacity: 1;
+    animation: fadeIn 0.8s ease forwards; /* forwards keeps final state */
+}
+
+.out {
+    opacity: 0;
+    animation: fadeOut 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+/*Main*/
+/* Main container: center content */
+main {
+    flex: 1; /* fill remaining space after header + top */
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* center vertically */
+    padding: 0 10px;
+    position: relative;
+    background-color: #0a0f1f;
+    overflow-y: hidden;
+}
+/* Common card styling for sign-in and sign-up */
+.sign-in,
+.sign-up {
+    position: absolute;      /* stack them in the same place */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* perfect center */     
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.63);
+    width: 100%;
+    max-width: 400px;
+    color: white;
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* smooth show/hide */
+}
+
+/* Hidden by default for sign-up */
+.sign-up {
+    display: none;
+    opacity: 0;
+}
+
+/* Show class to toggle */
+.show-card {
+    display: block;
+    opacity: 1;
+}
+
+/* Sign-in / Sign-up inner styles */
+.sign-in p:first-child,
+.sign-up p:first-child {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.sign-in form div,
+.sign-up form div {
+    margin-bottom: 15px;
+}
+
+.sign-in input,
+.sign-up input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    outline: none;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+}
+
+.sign-in input::placeholder,
+.sign-up input::placeholder {
+    color: #aaa;
+}
+
+.sign-in button,
+.sign-up button {
+    width: 60%;
+    padding: 12px 0;
+    border-radius: 20px;
+    border: none;
+    background: green;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+
+
+/* "Don't have an account / Already have an account" section */
+.sign-in > div:last-child,
+.sign-up > div:last-child {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.sign-in > div:last-child p,
+.sign-up > div:last-child p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-right: 10px;
+}
+
+.sign-in > div:last-child button,
+.sign-up > div:last-child button {
+    width: auto;
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid green;
+    color: white;
+   
+}
+
+.sign-in > div:last-child button:hover,
+.sign-up > div:last-child button:hover {
+   box-shadow: 0 0 10px green;
+}
+
+/* ---------- MOBILE RESPONSIVE ---------- */
+@media (max-width:770px){
+
+    #card-1,#card-2,#card-3,#card-4,#card-5{
+    width: 350px;
+    }
+
+
+.sign-in,
+    .sign-up {
+        padding: 20px;
+        width: 90%;
+    }
+    .sign-in p:first-child,
+    .sign-up p:first-child {
+        font-size: 24px;
+    }
+
+}
