@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/css/intlTelInput.css">
     <link rel="stylesheet" href="auth.css">
     <title>Document</title>
 </head>
@@ -45,9 +46,9 @@
         <div class="sign-in">
             <p>sign-in</p>
             <form action="">
-                <div><input type="text" name="" id="" placeholder="Enter Name"></div>
-                <div><input type="password" name="" id="" placeholder="Enter Password"></div>
-                <div><button>Sign in</button></div>
+                <div><input type="text" name="" id="sign-in-id" placeholder="Enter Id" required></div>
+                <div><input type="password" name="" id="sign-in-password" placeholder="Enter Password" required></div>
+                <div><button class="sign-In">Sign in</button></div>
             </form>
             <div>
                 <p>Don't have an account</p>
@@ -58,9 +59,9 @@
        <div class="sign-up">
              <p>sign-Up</p>
             <form action="">
-                <div><input type="text" name="" id="" placeholder="Enter new Name"></div>
-                <div><input type="password" name="" id="" placeholder="Enter new Password"></div>
-                <div><input type="text" name="" id="" placeholder="Confirm Password"></div>
+                <div><input type="text" name="" id="sign-up-name" placeholder="Enter new Name" required></div>
+                <div><input type="text" name="" id="sign-up-password" placeholder="Enter new Password" required></div>
+                <div><input type="text" name="" id="sign-up-confirm-password" placeholder="Confirm Password" required></div>
                 <div><button class="sign-Up">Sign Up</button></div>
             </form>
             <div>
@@ -68,20 +69,24 @@
                 <div><button>Sign In</button></div>
             </div>
        </div>
-       <div>
-        <p>Complete Account</p>
-        <div>
+       <div class="Complete-account">
+            <p>Complete Account</p>
             <div class="profile">
-                <div><i class="fa-solid fa-user"></i></div>
-                <div><img src="" alt="profile-pic"></div>
+                <div class="cancel-profile"><i class="fa-solid fa-x"></i></div>
+                <div class="user-2"><i class="fa-solid fa-camera"></i></div>
+                <img id="profileImg" src="" alt="profile-pic">
+                <div class="pen-icon"><i class="fa-solid fa-pen"></i></div>
+                <input type="file" id="fileInput" accept="image/*">
             </div>
-            <div><input type="tel" name="" id="" placeholder="Enter Phone Number"></div>
-            <div><input type="email" name="" id="" placeholder="Enter Email"></div>
-            <div><button>Next</button></div>
-        </div>
+            <form>
+                <input id="phone" type="tel" placeholder="Enter Phone Number">
+                <input type="email" id="e-mail" placeholder="Enter Email">
+                <button class="next">Next</button>
+            </form>
        </div>
     </main>
- 
+
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
     <script type="module" src="auth.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
 
+
 // Initially hide elements
 profilePic.style.display = "none";
 const User = localStorage.getItem("User");
