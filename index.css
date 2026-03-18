@@ -44,14 +44,13 @@ header{
     justify-content: center;    /* horizontally center icon */
     width: 35px;
     height: 35px;
-    background: green;
     border-radius: 50%;         /* perfectly circular */
     margin: 4px;
 }
 
 .page-signature div i {
-    font-size: 20px;            /* icon size */
-    color: white;
+    font-size: 30px;            /* icon size */
+    color: green;
 }
 
 .page-signature p{
@@ -68,9 +67,14 @@ header{
     justify-content: center;    /* horizontally center icon */
     width: 35px;
     height: 35px;
-    border: 1px white solid;
+    border: 1px green solid;
     border-radius: 50%;         /* perfectly circular */
     margin: 4px;
+    transition: 0.3s ease;
+}
+
+.account-signature:hover{
+    box-shadow: 0 0 10px green;
 }
 
 .account-signature div i {
@@ -91,7 +95,7 @@ nav{
 .key-search {
     display: flex;
     cursor: pointer;
-    margin-left: 10px;
+    margin-right: 10px;
     width: 560px;
     overflow-x: auto; /* horizontal scrolling if needed */
     overflow-y: hidden; /* hide vertical scrollbar if not needed */

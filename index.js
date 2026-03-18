@@ -5,10 +5,11 @@ const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
 
+const ipAddress = "10.136.126.228"
 
 // Initially hide elements
 profilePic.style.display = "none";
-const User = localStorage.getItem("User");
+const User = localStorage.getItem("user");
 
 document.addEventListener("DOMContentLoaded", async () => {
     await Insert_Categories();
@@ -50,6 +51,8 @@ searchIcon.addEventListener("click", () => {
 Auth.addEventListener("click",()=>{
     if(User === null){
         window.location.href = "/auth/auth.html"
+    }else{
+        window.location.href = "/main/main.html"
     }
 });
 
@@ -162,7 +165,7 @@ async function GetProducts(KeyWord) {
 
 async function Get(Payload) {
     try {
-        const response = await fetch("http://10.124.175.228:8080/api/process", {
+        const response = await fetch("http://" + ipAddress + ":8080/api/process", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Payload)

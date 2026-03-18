@@ -24,10 +24,12 @@ const profileImg = document.getElementById("profileImg");
 const faUser = document.querySelector(".user-2");
 const cancel = document.querySelector(".cancel-profile");
 const phoneInput = document.querySelector("#phone");
+const EmailInput = document.querySelector("#e-mail");
 
 const signIn = document.querySelector(".sign-In");
 const signUp = document.querySelector(".sign-Up");
 const Next = document.querySelector(".next");
+
 
 // Input fields
 const SignId = document.querySelector("#sign-in-id");
@@ -37,6 +39,7 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
+const ipAddress = "10.136.126.228"
 // ==================== LOCAL STORAGE ====================
 let User = null;
 const UserString = localStorage.getItem("user");
@@ -53,7 +56,6 @@ if (UserString) {
 function CheckUser() {
     if (!User) {
         signUpForm.classList.add('show-card');
-        alert(JSON.stringify(User));
     } else if (User.account_completed === "NO") {
         CompleteAccount.classList.add("show-card");
     } else {
@@ -65,7 +67,15 @@ function CheckUser() {
 CheckUser();
 
 // ==================== BACK BUTTON ====================
-Back.addEventListener("click", () => window.history.back());
+Back.addEventListener("click", () =>{
+    if(!window.history.back()){
+        location.href = "/index.html";
+        window.history.clear();
+    }else{
+        window.history.back();
+        
+    }
+});
 
 // ==================== CARD SEQUENCE ====================
 function showSequence() {
@@ -203,11 +213,11 @@ signUp.addEventListener("click", async (event) => {
 
     try {
         const Result = await Get(Payload);
-        alert(JSON.stringify(Result));
 
         if (Result) {
             localStorage.setItem("user", JSON.stringify(Result));
             User = Result;
+            signUpForm.classList.remove("show-card");
             CompleteAccount.classList.add("show-card");
         }
     } catch (err) {
@@ -235,10 +245,80 @@ SignUpConfirmPassword.addEventListener("input", () => {
     }
 });
 
+Next.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    if (!User) {
+        alert("User not found");
+        return;
+    }
+
+    const CountryData = iti.getSelectedCountryData(); // ✅ fixed typo
+    const Phone = iti.getNumber();
+    const Email = EmailInput.value.trim();
+
+    if (!Email || !Phone) {
+        alert("Please enter email and phone");
+        return;
+    }
+
+    const UserId = User["User-ID"];
+
+    const Payload = {
+        INSTRUCTION: "COMPLETE-ACCOUNT",
+        UserId: UserId,
+        Email: Email,
+        Phone: Phone,
+        CountryCode: CountryData.dialCode  // send only the dial code
+    };
+
+    try {
+        const Result = await Get(Payload);
+    if (Result && Result.status === "OK") {
+
+            let User = JSON.parse(localStorage.getItem("user"));
+            User.account_completed = "YES";
+            localStorage.setItem("user", JSON.stringify(User));
+
+        if (fileInput.files.length > 0) {
+
+            const file = fileInput.files[0];
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("File too large");
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("UserId", User["User-ID"]);
+
+                try {
+                    const uploadResult = await UploadFile(formData);
+
+                    if (uploadResult && uploadResult.status === "OK") {
+                        User.profileImg = uploadResult.file;
+                        localStorage.setItem("user", JSON.stringify(User));
+                        window.location.href = "/main/main.html";
+                    }
+
+                } catch (err) {
+                    alert("Upload failed");
+            }
+        }else{
+           window.location.href = "/main/main.html";  
+        }         
+    }
+
+    } catch (err) {
+        alert("Error completing account");
+    }
+});
+
 // ==================== ASYNC FETCH FUNCTION ====================
 async function Get(Payload) {
     try {
-        const response = await fetch("http://10.100.10.228:8080/api/process", {
+        const response = await fetch("http://"+ipAddress+":8080/api/process", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Payload)
@@ -251,6 +331,24 @@ async function Get(Payload) {
 
     } catch (err) {
         console.error("Fetch error:", err);
+        throw err;
+    }
+}
+
+async function UploadFile(formData) {
+    try {
+        const response = await fetch("http://" + ipAddress + ":8080/api/profile", {
+            method: "POST",
+            body: formData // send FormData directly
+        });
+
+        if (!response.ok) throw new Error(`Network Error: ${response.status}`);
+
+        const data = await response.json();
+        return data;
+
+    } catch (err) {
+        console.error("Upload error:", err);
         throw err;
     }
 }

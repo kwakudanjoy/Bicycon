@@ -37,7 +37,7 @@ header {
     align-items: center;       /* vertically center icon and text */
     justify-content: center;    /* horizontally center the whole block (optional) */
     gap: 10px;
-    margin: auto;                  /* space between icon and text */
+    margin: auto;               /* space between icon and text */
 }
 
 /* Icon styling */
@@ -47,14 +47,13 @@ header {
     justify-content: center;    /* horizontally center icon */
     width: 35px;
     height: 35px;
-    background: green;
     border-radius: 50%;         /* perfectly circular */
     margin: 4px;
 }
 
 .page-signature div i {
-    font-size: 20px;            /* icon size */
-    color: white;
+    font-size: 30px;            /* icon size */
+    color: green;
 }
 
 .page-signature p{
@@ -71,9 +70,14 @@ header {
     justify-content: center;    /* horizontally center icon */
     width: 35px;
     height: 35px;
-    border: 1px white solid;
     border-radius: 50%;         /* perfectly circular */
     margin: 4px;
+    border: 1px green solid;
+    transition: 0.3s ease;
+}
+
+.back-signature:hover{
+    box-shadow: 0 0 10px green;
 }
 
 .back-signature div i {
@@ -144,7 +148,7 @@ header {
 #card-5 div{
     display: flex;
     flex-direction: column;
-   background: #1f2937;
+    background: #1f2937;
     width: 60px;
     height: 60px;
     font-size: 25px;
@@ -223,7 +227,7 @@ main {
     align-items: center;     /* center vertically */
     padding: 0 10px;
     position: relative;
-    background-color: #0a0f1f;
+    background-color: transparent;
     overflow-y: hidden;
 }
 /* Common card styling for sign-in and sign-up */
@@ -265,7 +269,7 @@ main {
 
 .sign-in form div,
 .sign-up form div {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .sign-in input,
@@ -297,6 +301,7 @@ main {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease;
+    margin-top: 15px;
 }
 
 
@@ -365,7 +370,7 @@ main {
     position: relative;       /* container for absolute icons */
     width: 110px;
     height: 110px;
-    margin: 15px auto;             /* center profile in parent */
+    margin: 20px auto;             /* center profile in parent */
     display: block;
 }
 
@@ -379,13 +384,13 @@ main {
     border: none;
     width: 110px;
     height: 110px;
-    background: black;
+    background: #1f2937;
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
+    font-size: 60px;
     z-index: 1;
     position: relative;
 }

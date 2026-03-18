@@ -1,0 +1,199 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color:#0a0f1f;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/*========= header ==========*/
+header {
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+}
+
+  /* Page signature container */
+.page-signature {
+    display: flex;              /* enable flex layout */
+    align-items: center;       /* vertically center icon and text */
+    justify-content: center;    /* horizontally center the whole block (optional) */
+    gap: 10px;
+    margin: auto;               /* space between icon and text */
+}
+
+/* Icon styling */
+.page-signature div {
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.page-signature div i {
+    font-size: 30px;            /* icon size */
+    color: green;
+}
+
+.page-signature p{
+    font-weight: bolder;
+    font-size: 25px;
+    font-family:cursive;
+}
+
+/*account signature*/
+
+.back-signature{
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+    border: 1px green solid;
+    transition: 0.3s ease;
+}
+
+.back-signature:hover{
+    box-shadow: 0 0 10px green;
+}
+
+.back-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+
+
+/* Container */
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f7;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    max-width: 350px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Profile section */
+.top .profile {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
+}
+
+.top .profile .user-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #888;
+    transition: opacity 0.3s ease;
+}
+
+.top .profile .pro-pic img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: none; /* hidden until an image is uploaded */
+}
+
+/* Show the image if available */
+.top .profile .pro-pic img.active {
+    display: block;
+}
+
+.top .profile:hover .user-icon {
+    opacity: 0.5; /* subtle hover effect */
+}
+
+/* User name */
+.top .user-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* User info details */
+.top > div p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Optional: different styles for each info type */
+.top > div p.user-id {
+    font-weight: 500;
+    color: #222;
+}
+
+.top > div p.user-email {
+    color: #666;
+}
+
+.top > div p.user-tel {
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 770px) {
+    .top {
+        padding: 15px;
+    }
+    .top .profile {
+        width: 80px;
+        height: 80px;
+    }
+    .top .profile .user-icon,
+    .top .profile .pro-pic img {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+    .top .user-name {
+        font-size: 16px;
+    }
+    .top > div p {
+        font-size: 12px;
+    }
+}
+
+/* ---------- MOBILE RESPONSIVE ---------- */
+@media (max-width:770px){
+}
