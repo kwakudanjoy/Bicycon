@@ -5,7 +5,7 @@ const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
 
-const ipAddress = "https://fd96-41-204-44-1.ngrok-free.app"
+const ipAddress = "https://1376-41-204-44-1.ngrok-free.app"
 
 // Initially hide elements
 profilePic.style.display = "none";
