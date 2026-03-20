@@ -101,6 +101,8 @@ nav{
     overflow-y: hidden; /* hide vertical scrollbar if not needed */
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: rgba(255,69,0,0.5) transparent; /* Firefox */
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Webkit-based browsers (Chrome, Edge, Safari) */
@@ -115,6 +117,14 @@ nav{
 
 .key-search::-webkit-scrollbar-track {
     background: transparent; /* track color */
+}
+
+.selected{
+    background: green;
+}
+
+.key{
+    border-radius: 10px;
 }
 
 /* Increase scrollbar height on hover */
@@ -325,5 +335,9 @@ main::-webkit-scrollbar-thumb {
     width: 320px;
 }
 
+.key:hover{
+      background: green;
+      align-self: center;
+}
 
 }

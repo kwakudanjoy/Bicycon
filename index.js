@@ -5,7 +5,7 @@ const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
 
-const ipAddress = "10.136.126.228"
+const ipAddress = "https://fd96-41-204-44-1.ngrok-free.app"
 
 // Initially hide elements
 profilePic.style.display = "none";
@@ -17,6 +17,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     await GetProducts(storedCategories[0]);
 });
 
+keySearch.addEventListener("click", (e) => {
+    const Key = e.target.closest(".key");
+    if (!Key) return;
+
+    document.querySelectorAll(".key").forEach(el => {
+        el.classList.remove("selected");
+    });
+
+    Key.classList.add("selected");
+    const p = Key.querySelector("p");
+    GetProducts(p.textContent);
+});
 
 let searchOpen = false;
 
@@ -99,6 +111,7 @@ function displayCategories(categories, container) {
     container.innerHTML = ""; // clear previous
     categories.forEach(cat => {
         const div = document.createElement("div");
+        div.classList.add("key");
         div.innerHTML = `<p>${cat}</p>`;
         container.appendChild(div);
     });
@@ -123,11 +136,11 @@ function getLocalCategories() {
     }
 }
 
-async function GetProducts(KeyWord) {
+async function GetProducts(KeyWord1) {
 
     const Payload = {
         INSTRUCTION: "GET-PRODUCT",
-        KeySearch: KeyWord
+        KeySearch: KeyWord1
     };
 
     const products = await Get(Payload);  // await if Get is async
@@ -165,7 +178,7 @@ async function GetProducts(KeyWord) {
 
 async function Get(Payload) {
     try {
-        const response = await fetch("http://" + ipAddress + ":8080/api/process", {
+        const response = await fetch(ipAddress + "/api/process", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Payload)

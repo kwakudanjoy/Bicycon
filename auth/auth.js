@@ -39,7 +39,7 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress = "10.136.126.228"
+const ipAddress = "https://fd96-41-204-44-1.ngrok-free.app"
 // ==================== LOCAL STORAGE ====================
 let User = null;
 const UserString = localStorage.getItem("user");
@@ -318,7 +318,7 @@ Next.addEventListener("click", async (event) => {
 // ==================== ASYNC FETCH FUNCTION ====================
 async function Get(Payload) {
     try {
-        const response = await fetch("http://"+ipAddress+":8080/api/process", {
+        const response = await fetch(ipAddress+ "/api/process", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Payload)
@@ -337,7 +337,7 @@ async function Get(Payload) {
 
 async function UploadFile(formData) {
     try {
-        const response = await fetch("http://" + ipAddress + ":8080/api/profile", {
+        const response = await fetch(ipAddress + "/api/profile", {
             method: "POST",
             body: formData // send FormData directly
         });
