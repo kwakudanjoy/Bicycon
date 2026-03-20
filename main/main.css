@@ -16,7 +16,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color:#0a0f1f;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 1px);
     background-size: 40px 40px;
 }
 
@@ -84,10 +84,17 @@ header {
     font-size: 20px;            /* icon size */
     color: white;
 }
+
+/*main*/
+main{
+    display: flex;
+    height: 100vh;
+}
+
 /* Container */
 .top {
     width: 300px;
-    margin: 20px auto;
+    margin: 0 5px 10px 10px;
     padding: 20px;
     background: #111827; /* dark card background */
     border-radius: 15px;
@@ -96,6 +103,26 @@ header {
     align-items: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     font-family: 'Arial', sans-serif;
+}
+.open-close-menu{
+    display: flex;
+    margin: 0 0 0 auto;
+    background: rgba(31, 41, 55, 0.788); /* soft translucent */
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    transition: 0.3s ease;
+}
+
+.open-close-menu{
+    align-items: center;
+    justify-content: center;
+}
+
+.open-close-menu:hover{
+    background: #1f2937;
+    transform: scale(1.05);   
 }
 
 /* Profile section */
@@ -170,13 +197,14 @@ header {
 .location {
     display: flex;
     align-items: center;
-    color: #fbbf24; /* golden accent */
+    color: rgba(255, 68, 0, 0.63); /* golden accent */
     font-size: 20px;
     margin-left: 10px;
     cursor: pointer;
 }
 .location:hover {
-    color: #f59e0b; /* darker on hover */
+    color: orangered; /* darker on hover */
+     transform: scale(1.05);
 }
 
 /* Edit button */
@@ -184,7 +212,7 @@ header {
     display: flex;
     align-items: center;
     font-weight: bold;
-    background: #10b981; /* green */
+    border: 1px green solid;
     color: white;
     padding: 5px 15px;
     border-radius: 12px;
@@ -195,9 +223,52 @@ header {
     margin-right: 8px;
 }
 .edith:hover {
-    background: #059669; /* darker green on hover */
+    box-shadow: 0 0 10px green; /* darker green on hover */
     transform: scale(1.05);
 }
+
+.body{
+   flex: 1 1;
+   background: #1f2937;
+   margin: 0 10px 10px 5px;
+   border-radius: 10px;
+}
+
+.menu{
+    margin: 30px 0 0 0 ;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.menu-items{
+    justify-items: start;
+    background: rgba(31, 41, 55, 0.23); /* soft translucent */
+    padding: 8px;
+    border-radius: 20px;
+    font-weight: bolder;
+    align-items: center;
+    transition: 0.3s ease;
+    color: white;
+    cursor: pointer;
+}
+
+.menu-items i{
+    color: green;
+    margin-right: 10px;
+}
+
+.menu-items:hover{
+    background: #1f2937;
+   transform: scale(1.05);
+}
+
+.menu-items.show-menu-item{
+     background: #1f2937;
+}
+
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 400px) {
