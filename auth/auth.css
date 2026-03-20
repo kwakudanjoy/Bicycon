@@ -108,7 +108,6 @@ header {
     border: 1px white solid;
     padding: 10px;
     border-radius: 20px;
-    margin:auto;
 }
 
 #card-1 h4{
@@ -132,7 +131,6 @@ header {
     padding: 15px 10px;
     border: 1px white solid;
     text-align: center;        /* center text inside p/span */
-    margin:auto;
 }
 
 #card-3{
