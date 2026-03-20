@@ -61,7 +61,7 @@ searchIcon.addEventListener("click", () => {
 });
 
 Auth.addEventListener("click",()=>{
-    if(User === null){
+    if(User !== null){
         window.location.href = "/auth/auth.html"
     }else{
         window.location.href = "/main/main.html"
