@@ -9,52 +9,122 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <div class="back-signature" id="back">
-            <div class="user"><i class="fa-solid fa-house"></i></div>
-        </div>
-        <div class="page-signature">
-            <div><i class="fa-solid fa-bicycle"></i></div>
-            <p>Bicycon</p>
-        </div>
-    </header>
-    <main>
-        <div class="top">
-            <div class="open-close-menu"><i class="fa-solid fa-x"></i></div>
+    <nav>
+        <header>
+            <div><i class="fa-solid fa-arrow-left"></i></div>
             <div class="profile">
                 <div class="user-icon"><i class="fa-solid fa-user"></i></div>
                 <div class="pro-pic"><img src="" alt=""></div>
+                <span class="name">Cryptorn</span>
             </div>
-            <div class="name">Cryptorn<p></p></div>
-            <div>
-                <div class="extra-details">
-                    <p class="id">hhye6@bicycon</p>
-                    <p class="email">kwakudanjoy12@gmail.com</p>
-                    <p class="tel">0203544784</p>
-                </div>
             
+        </header>    
+        <div class="nav">
+            <div class="stores" style="display: none;">
+                <i class="fa-solid fa-house"></i>
+                <span>Stores</span>
             </div>
-            <div class="bottom">
-                <div class="location"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="edith"><i class="fa-solid fa-pen"></i><p>Edith</p></div>
+            <div class="products">
+                <i class="fa-solid fa-list"></i>
+                <span>Products</span>
             </div>
-            <div class="menu">
-                <div class="menu-items shops"><i class="fa-solid fa-shop"></i>Shops</div>
-                <div class="menu-items products"><i class="fa-solid fa-list"></i>Products</div>
-                <div class="menu-items orders"><i class="fa-solid fa-shopping-cart"></i> Orders</div>
-                <div class="menu-items ads"><i class="fa-solid fa-ad"></i> Ads</div>
-                <div class="menu-items inventory"><i class="fa-solid fa-box"></i> Inventory</div>
-                <div class="menu-items customers"><i class="fa-solid fa-users"></i> Customers</div>
-                <div class="menu-items analytics"><i class="fa-solid fa-chart-line"></i> Analytics</div>
-                <div class="menu-items settings"><i class="fa-solid fa-gear"></i> Settings</div>
-            </div>  
+            <div class="orders">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span>Orders</span>
+            </div>
         </div>
-        <div class="body">
-            <div class="child-map">
-                <div class="info"></div>
-                <div class="child-map"></div>
-                <div>Update Location</div>
+    </nav>
+    <main>
+        <div class="user-section" style="display: none;">
+
+        </div>
+        <div class="product-section">
+            <div class="product-count">
+                <h5>Product Count:</h5>
+                <p>0</p>
             </div>
+            <div class="no-product-section">
+                <h4>Sorry you have no product yet</h4>
+                <p>Press the plus ( + ) below to add your product</p>
+            </div>
+            <div class="add-prod">
+                <h5>Add a product</h5>
+                <!-- PRODUCT PROFILE MOBILE-FRIENDLY -->
+                <div class="prod-profile-wrapper">
+                    <div class="prod-profile">
+                        <!-- Product icon -->
+                        <div class="prod-icon"><i class="fa-solid fa-shopping-cart"></i></div>
+                        <!-- Product image -->
+                        <img class="prod-pro-pic" src="" alt="" style="display:none;">
+                    </div>
+
+                    <!-- Camera / Cancel buttons overlay -->
+                    <div class="image-buttons">
+                        <div class="camera"><i class="fa-solid fa-camera"></i></div>
+                        <div class="cancel" style="display:none;"><i class="fa-solid fa-x"></i></div>
+                    </div>
+
+                    <!-- Hidden file input -->
+                    <input type="file" accept="image/*" class="file-input" style="display:none;">
+                </div>
+
+                <!-- INPUTS -->
+                <div class="inputs">
+                    <div class="split-input">
+                        <input type="text" placeholder="Product Name" class="prod-name">
+                         <input type="number" placeholder="Price" class="prod-price">
+                    </div>
+                    <select class="prod-category">
+                        <option value="">Select Category</option>
+                    </select>
+                    <textarea placeholder="Product Description" class="prod-description"></textarea>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="add-or-cancel-prod">
+                    <button class="add-btn">Add</button>
+                    <button class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+            <div class="product-list">
+                <div class="list-card">
+                    <img src="" alt="" class="prod-img">
+                    <p class="pord-name">Jordan 6</p>
+                    <p class="prod-id">jjshdhdjjd</p>
+                    <p class="prod-price">GHC: 200</p>
+                    <P class="final-prod-description"></P>
+                    <div class="edith-delete-prod">
+                         <div class="edith-prod"><i class="fa-solid fa-pen"></i>Edith</div>
+                         <div class="delete-prod"><i class="fa-solid fa-x"></i>Delete</div>
+                    </div>
+                </div>
+            </div>
+            <div class="prod-edit">
+                <img src="" alt="" class="prod-image-update">
+                 <!-- Hidden file input -->
+                <input type="file" accept="image/*" class="prod-image-edit-file-input" style="display:none;">
+                <div class="edit-image-button">
+                    <div class="select-image"><i class="fa-solid fa-camera"></i></div>
+                    <div class="cancel-selected-image"><i class="fa-solid fa-x"></i></div>
+                </div>
+                <div class="edith-input">
+                    <div class="edith-split-input">
+                        <input type="text" name="" id="" class="edith-prod-name" placeholder="Enter new name">
+                        <input type="text" name="" id="" class="edith-prod-price" placeholder="Enter new price">
+                    </div>
+                    <div class="edith-prod-categpry"><p>Shoe</p></div>
+                    <textarea name="" id="" class="edith-prod-discription" placeholder="Enter new product discription"></textarea>
+                </div>
+                <div class="save-or-cancel">
+                    <button class="save-edith">Save</button>
+                    <button class="cancel-edth">Cancel</button>
+                </div>
+            </div>
+            <div class="plus">
+                <div class="plus-btn"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+        <div class="orders-section">
         </div>
     </main>
     <script type="module" src="main.js"></script>

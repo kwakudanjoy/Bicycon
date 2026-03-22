@@ -11,13 +11,18 @@ html, body{
 /* ================= BODY LAYOUT ================= */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color:#0a0f1f;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 40px 40px;
+
+    min-height: 100vh;
+background:
+        radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
+        #020617;
+
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
+
 
 /*========= header ==========*/
 header{
@@ -180,12 +185,13 @@ nav{
 
 /* ---------- GRID LAYOUT ---------- */
 main {
-        flex: 1 1 auto;    /* take remaining space */
+    flex: 1 1 auto;    /* take remaining space */
     overflow-y: auto;  /* enable vertical scrolling */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 5px;
     padding: 10px;
+    background: transparent;
 }
 
 /* Scrollbar styling */

@@ -46,7 +46,7 @@ searchIcon.addEventListener("click", () => {
     // SECOND CLICK
     const text = searchInput.value.trim();
 
-    if(text !== ""){
+    if(text === ""){
         console.log("Searching for:", text);
 
         // your search logic here
@@ -61,7 +61,7 @@ searchIcon.addEventListener("click", () => {
 });
 
 Auth.addEventListener("click",()=>{
-    if(User === null){
+    if(User !== null){
         window.location.href = "/auth/auth.html"
     }else{
         window.location.href = "/main/main.html"

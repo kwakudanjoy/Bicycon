@@ -1,83 +1,138 @@
-// tag idetiites
-document.addEventListener("DOMContentLoaded", () => {
-    
-const User_Icon = document.querySelector(".user-icon"); //user icon
-const User_Pro_Pic = document.querySelector(".pro-pic"); //user profile pic
-const User_Nmae = document.querySelector(".name"); //user name
-const User_ID = document.querySelector(".id"); // user ID
-const User_Email = document.querySelector(".email"); // user Email
-const User_Tel = document.querySelector(".tel"); // User Tel 
-const Map_Icon = document.querySelector(".location") // map
-const Edith =document.querySelector(".edith"); // edith
-const Menu = document.querySelector(".menu"); //menu 
-const Shops = document.querySelector(".shops"); // shops
-const Product = document.querySelector(".products"); // products Button
-const Orders = document.querySelector(".orders"); // orders button
-const Ads = document.querySelector(".ads"); // ads buttons
-const Inventory = document.querySelector(".inventory"); // inventory buttons
-const Customers = document.querySelector(".customers");
-const Analytics = document.querySelector(".analytics"); // analutic button
-const Settings = document.querySelector(".settings"); // settings button
-const Map =document.querySelector(".map"); // map display
+const Products = document.querySelector(".products");
+const Orders = document.querySelector(".orders");
+const ProductList = document.querySelector(".product-list");
+const NoProduct = document.querySelector(".no-product-section");
+const ProductCount = document.querySelector(".product-count > p");
 
+
+const addProd = document.querySelector('.add-prod');
+const prodProfile = addProd.querySelector('.prod-profile');
+const prodIcon = prodProfile.querySelector('.prod-icon');
+const prodImage = prodProfile.querySelector('.prod-pro-pic');
+const cameraBtn = addProd.querySelector('.camera');
+const cancelBtn = addProd.querySelector('.cancel');
+const fileInput = addProd.querySelector('.file-input');
+
+
+
+const User = localStorage.getItem("user");
 const ipAddress = "https://1376-41-204-44-1.ngrok-free.app";
-//uploading the mape to the user
-function UploadMap() {
-    
+
+//geting all my products
+GetMyProducts();
+async function GetMyProducts() {
+    let producCount = 0;
+    const fragment = document.createDocumentFragment();
+
+    let Payload = {
+        INSTRUCTION: "GET-MY-PRODUCTS",
+        User_id: User["User-ID"]
+    };
+
+    const productList = await Get(Payload);
+
+    console.log(productList); // better than alert
+    alert(JSON.stringify(productList));
+
+    if (Array.isArray(productList) && productList.length > 0) {
+
+        productList.forEach(prodItem => {
+            const listCard = document.createElement("div");
+            listCard.classList.add("list-card");
+
+            listCard.innerHTML = `
+                <img src="${prodItem.Url}" alt="" class="prod-img">
+                <p class="pord-name">${prodItem.name}</p>
+                <p class="prod-id">${prodItem.Id}</p>
+                <p class="prod-price">GHC: ${prodItem.price}</p>
+                <p class="final-prod-description">${prodItem.discription}</p>
+                <div class="edith-delete-prod">
+                    <div class="edith-prod"><i class="fa-solid fa-pen"></i>Edit</div>
+                    <div class="delete-prod"><i class="fa-solid fa-x"></i>Delete</div>
+                </div>
+            `;
+
+            fragment.appendChild(listCard);
+            producCount++;
+        });
+
+        ProductList.innerHTML = ""; // clear old data
+        ProductList.appendChild(fragment);
+
+        ProductCount.textContent = producCount;
+
+        NoProduct.style.display = "none";
+        ProductList.style.display = "grid";
+        Products.classList.add("active");
+
+    } else {
+        alert("No products found");
+
+        NoProduct.style.display = "block";
+        ProductList.style.display = "none";
+        ProductCount.textContent = "0";
+        Products.classList.add("active");
+    }
 }
 
-// onclicks on memu muttons
 
-Menu.addEventListener("click", (e) => {
-    const child = e.target.closest(".menu-items");
-    if (!child) return;
-
-    // Remove the class from all items
-     document.querySelectorAll(".menu-items").forEach(el => {
-        el.classList.remove("show-menu-item"); // ✅ no dot
+document.querySelectorAll('.nav > div').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelector('.nav .active')?.classList.remove('active');
+        item.classList.add('active');
     });
-
-    // Add the class to the clicked item
-    child.classList.add("show-menu-item"); // ✅ no dot
 });
 
-// Shops
-Shops.addEventListener("click", ()=>{
-    alert("sds");
+cameraBtn.addEventListener('click', () => {
+    fileInput.click();
 });
 
-//Products
-Product.addEventListener("click",()=>{
-
+fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(event){
+            prodImage.src = event.target.result;
+            prodImage.style.display = 'block';
+            prodIcon.style.display = 'none';
+            cancelBtn.style.display = 'flex';
+        }
+        reader.readAsDataURL(file);
+    }
 });
 
-//orders
-Orders.addEventListener("click",()=>{
-
+cancelBtn.addEventListener('click', () => {
+    prodImage.src = '';
+    prodImage.style.display = 'none';
+    prodIcon.style.display = 'flex';
+    cancelBtn.style.display = 'none';
+    fileInput.value = '';
 });
 
-//ads
-Ads.addEventListener("click",()=>{
+//sending requests for resalts
+async function Get(Payload) {
+    try {
+        const response = await fetch(ipAddress + "/api/process", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Payload)
+        });
 
-});
+        if (!response.ok) {
+            throw new Error(`Network Error: ${response.status}`);
+        }
 
-//Inventory
-Inventory.addEventListener("click",()=>{
+        const data = await response.json();
 
-});
+        if (!data) {
+            throw new Error("Server returned empty data");
+        }
 
-//Customers
-Customers.addEventListener("click",()=>{
+        return data; // ✅ Return the JSON to the caller
 
-});
-
-//Analytics
-Analytics.addEventListener("click",()=>{
-
-});
-
-//Setting
-Settings.addEventListener("click",()=>{
-
-}); 
-});
+    } catch (err) {
+        console.error("Fetch error:", err);
+        alert("Error occured");
+        throw err; // ✅ Propagate the error if you want the caller to handle it
+    }
+}
