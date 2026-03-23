@@ -1,4 +1,5 @@
 // ====== ELEMENTS ======
+const ProductSection = document.querySelector(".product-section");
 const Products = document.querySelector(".products");
 const Orders = document.querySelector(".orders");
 const ProductList = document.querySelector(".product-list");
@@ -11,6 +12,7 @@ const Back = document.querySelector(".back");
 const UserIcon = document.querySelector(".user-icon");
 const ProfileImg = document.querySelector(".pro-pic > img");
 const Pro_Pic = document.querySelector(".pro-pic");
+const MyProfile = document.querySelector(".my-profile");
 
 //Variable for add iv 
 const prodProfile = AddProduct.querySelector('.prod-profile');
@@ -27,6 +29,29 @@ const ProdDiscription = AddProduct.querySelector(".prod-description");
 const CancelNewProd = AddProduct.querySelector(".cancel-btn");
 const Profile = document.querySelector(".profile");
 
+//Account Edithing element
+const Edit_User_Icon = document.querySelector(".edith-user-icon"); // for displaying no file pic
+const Display_Profile_Contanner = document.querySelector(".profile-pic") // profile containner
+const Display_Profile_Image = document.querySelector(".profile-pic > img");
+const PickNew_Image = document.querySelector(".select-new-profile"); // camera for piccking images
+const PickNew_Image_Container = document.querySelector(".profile-actions");
+const NewImage_Input = document.querySelector("#profile-file"); // input for taking image file for device
+const Upload_New_Image = document.querySelector(".upload-new-profile");
+const Edith_OldPro_file_Image = document.querySelector(".edith-old-profile");
+const Cancel_New_Profile_Update = document.querySelector(".cance-profile-update");
+const Display_Account_Id = document.querySelector(".display-account-id");
+const Display_Account_Name = document.querySelector(".display-account-name");
+const Display_Old_Email = document.querySelector(".display-email");
+const New_Email_Input =document.querySelector(".new-email-input");
+const Upload_New_Email = document.querySelector(".upload-new-email");
+const Edit_Old_Email = document.querySelector(".edith-old-email");
+const Cancel_New_Email_Upload = document.querySelector(".cancel-email-update");
+const Display_Old_Phone = document.querySelector(".display-phone");
+const New_Phone_Input = document.querySelector(".new-phone-input");
+const Upload_New_Phone = document.querySelector(".upload-new-phone");
+const Edit_Old_Phone = document.querySelector(".edith-old-phone");
+const Cancel_New_Phone_Upload = document.querySelector(".cancel-phone-update");
+
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
 const ipAddress = "https://c67e-41-204-44-211.ngrok-free.app" ; //"http://localhost:8080";
@@ -34,6 +59,7 @@ const ipAddress = "https://c67e-41-204-44-211.ngrok-free.app" ; //"http://localh
 // ====== DISPLAY FUNCTIONS ======
 function showNoProduct() {
     NoProduct.style.display = "block";
+     MyProfile.style.display = "none";
     ProductList.style.display = "none";
     AddProduct.style.display = "none";
     EdithProduct.style.display = "none";
@@ -48,6 +74,7 @@ function showProducts() {
     EdithProduct.style.display = "none";
     Products.classList.add("active");
     Plus.style.display = "flex";
+    MyProfile.style.display = "none";
 }
 
 function showAddProduct() {
@@ -56,6 +83,7 @@ function showAddProduct() {
     AddProduct.style.display = "flex";
     EdithProduct.style.display = "none";
     Plus.style.display = "none";
+    MyProfile.style.display = "none";
 
     // Reset image preview
     prodImage.src = '';
@@ -71,6 +99,19 @@ function showEditProduct() {
     AddProduct.style.display = "none";
     EdithProduct.style.display = "flex";
     Plus.style.display = "none";
+    MyProfile.style.display = "none";
+}
+
+function showMyProfile(){
+    ProductSection.style.display = "none";
+    MyProfile.style.display = "block";  
+    MyProfile.classList.add("active");
+    NoProduct.style.display = "none";
+    ProductList.style.display = "none";
+    AddProduct.style.display = "none";
+    EdithProduct.style.display = "none";
+    ProductCount.textContent = "0";
+    Products.classList.remove("active"); 
 }
 
 function CheckUser(){
@@ -269,10 +310,133 @@ CancelNewProd.addEventListener("click",(e)=>{
         showProducts();
     } else {
         showNoProduct();
+        Plus.style.display = "flex";
     }
   
 });
 
+Profile.addEventListener("click",()=>{
+    showMyProfile();
+
+    let User = JSON.parse(localStorage.getItem("user"));
+
+    //showing nessary items for fist star
+    PickNew_Image_Container.style.display = "none";
+    Upload_New_Image.style.display = "none";
+    Cancel_New_Profile_Update.style.display = "none";
+    Upload_New_Email.style.display = "none";
+    Upload_New_Phone.style.display = "none";
+    Cancel_New_Email_Upload.style.display = "none";
+    Cancel_New_Phone_Upload.style.display = "none";
+    document.querySelector(".iti").style.display = "none";
+
+    if(User){
+        Display_Account_Name.textContent = User["User-Name"];
+        Display_Account_Id.textContent = User["User-ID"];
+
+
+         if(User.profilePic){
+            Edit_User_Icon.style.display = "none";
+            alert(User["profilePic"]);
+            Display_Profile_Image.src = `${ipAddress}/profile/${User["profilePic"]}`;
+            Display_Profile_Image.style.display = "block";
+            Display_Profile_Contanner.style.display = "flex";
+           
+        }else{
+            UserIcon.style.display = "none";
+            Display_Profile_Image.style.display = "none";
+            Display_Profile_Image.style.display = "none";
+        }
+    }
+   
+});
+
+Edith_OldPro_file_Image.addEventListener("click",()=>{
+    PickNew_Image_Container.style.display = "flex";
+    Cancel_New_Profile_Update.style.display = "block";
+    Edith_OldPro_file_Image.style.display = "none";
+});
+
+Cancel_New_Profile_Update.addEventListener("click",()=>{
+    if(NewImage_Input.value === ""){
+        Display_Profile_Image.src = "";
+        NewImage_Input.value ="";
+        Upload_New_Image.style.display = "none";
+        PickNew_Image_Container.style.display = "none";
+        Cancel_New_Profile_Update.style.display = "none";
+        Edith_OldPro_file_Image.style.display = "block"; 
+        Display_Profile_Contanner.style.display = "none";
+        Edit_User_Icon.style.display = "flex";
+    }else{
+        Display_Profile_Image.src = "";
+        NewImage_Input.value ="";
+        Display_Profile_Contanner.style.display = "none";
+        Edit_User_Icon.style.display = "flex";
+        Upload_New_Image.style.display = "none";
+    }
+    
+    
+});
+
+PickNew_Image.addEventListener("click",()=>{
+    NewImage_Input.click();
+});
+
+NewImage_Input.addEventListener("change",e=>{
+    const file = e.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(evt){
+            Display_Profile_Image.src = evt.target.result;
+            Display_Profile_Image.style.display = "block";
+            Edit_User_Icon.style.display = "none";
+            Display_Profile_Contanner.style.display = "flex";
+            Upload_New_Image.style.display = "block";
+        }
+
+        reader.readAsDataURL(file);
+    }
+});
+
+Edit_Old_Email.addEventListener("click",()=>{
+    Display_Old_Email.style.display = "none";
+    New_Email_Input.style.display = "block";
+    New_Email_Input.focus();
+    Upload_New_Email.style.display = "block";
+    Cancel_New_Email_Upload.style.display = "block"
+    Edit_Old_Email.style.display = "none";
+    
+});
+
+Cancel_New_Email_Upload.addEventListener("click",()=>{
+    Display_Old_Email.style.display = "block";
+    New_Email_Input.style.display = "none";
+    New_Email_Input.value = "";
+    Upload_New_Email.style.display = "none";
+    Cancel_New_Email_Upload.style.display = "none"
+    Edit_Old_Email.style.display = "block";
+});
+
+Edit_Old_Phone.addEventListener("click",()=>{
+    Display_Old_Phone.style.display = "none";
+    New_Phone_Input.style.display = "block";
+    New_Phone_Input.value = "";
+    document.querySelector(".iti").style.display = "block";
+    New_Phone_Input.focus();
+    Upload_New_Phone.style.display = "block";
+    Cancel_New_Phone_Upload.style = "block";
+    Edit_Old_Phone.style.display = "none";
+    
+});
+
+Cancel_New_Phone_Upload.addEventListener("click",()=>{
+    Display_Old_Phone.style.display = "block";
+    New_Phone_Input.style.display = "none";
+    Upload_New_Phone.style.display = "none";
+    Cancel_New_Phone_Upload.style.display = "none";
+    Edit_Old_Phone.style.display = "block";
+    document.querySelector(".iti").style.display = "none";
+});
 
 
 // ====== NAVIGATION ======
@@ -282,4 +446,17 @@ document.querySelectorAll('.nav > div').forEach(item => {
         item.classList.add('active');
     });
 });
+
+const iti = window.intlTelInput(New_Phone_Input, {
+    initialCountry: "auto",
+    geoIpLookup: function (callback) {
+        fetch("https://ipapi.co/json")
+            .then(res => res.json())
+            .then(data => callback(data.country_code))
+            .catch(() => callback("us"));
+    },
+    separateDialCode: true,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+});
+
 

@@ -17,16 +17,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     await GetProducts(storedCategories[0]);
 });
 
-
-function CheckUser(){
-   
+function CheckUser() {
     if(User && User.profilePic){
         UserIcon.style.display = "none";
         profile.style.display = "block";
-        ProfileImage.src = `${ipAddress}/profile/${User["profilePic"]}`;
-    }else{
+        ProfileImage.src = `${ipAddress}/profile/${User.profilePic}`;
+    } else {
         UserIcon.style.display = "flex";
-        Pro_Pic.style.display = "none";
+        profile.style.display = "none";  // use correct variable
+        ProfileImage.src = "https://via.placeholder.com/35"; // optional fallback
     }
 }
 

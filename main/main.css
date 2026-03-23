@@ -81,6 +81,7 @@ nav .name{
     display: flex;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
 }
 
 .user-icon, .pro-pic{
@@ -662,6 +663,175 @@ main{
    box-shadow: 0 0 10px red;
 }
 
+/*Edith account*/
+.my-profile{
+    height: 100%;
+    align-content: center;
+    justify-items: center;
+}
+
+.edith-profile{
+    justify-items: center;
+}
+
+.edith-user-icon{
+    background: rgba(255,255,255,0.05);
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.profile-pic{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.profile-pic > img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}    
+
+.profile-pic > input{
+    display: none;
+}
+
+/*profile action*/
+.profile-actions{
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.quick-buttons{
+    display: flex;
+}
+.quick-buttons div{
+    border: none;
+}
+.edit-account-email,
+.edit-account-phone{
+    margin: 10px 0;
+    display: flex;
+    justify-items: center;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.upload-new-profile,
+.edith-old-profile,
+.cance-profile-update{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-weight: bolder;
+    background: transparent;
+    background: rgba(255,255,255,0.05);
+    margin: 10px  7px 0 0 ;
+}
+
+.edit-account-email button,
+.edit-account-phone button{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-weight: bolder;
+    background: transparent;
+    background: rgba(255,255,255,0.05);
+    margin:0 7px 0 0 ;
+}
+
+.edit-account-email .field-buttons,
+.edit-account-phone .field-buttons{
+    display: inline-flex;
+    margin: 0 0 0 10px;
+}
+.upload-new-profile,
+.upload-new-email,
+.upload-new-phone{
+    color: green;
+}
+.edith-old-profile,
+.edith-old-email,
+.edith-old-phone{
+    color: white;
+}
+
+.cance-profile-update,
+.cancel-email-update,
+.cancel-phone-update{
+    color: red;
+}
+
+.account-info{
+    margin-top: 20px;
+}
+
+.account-info p:nth-child(1){
+    color: rgba(255, 255, 255, 0.459);
+   margin: 5px 0;
+   width: 330px;
+   border-radius: 10px;
+   font-weight: bolder;
+   font-size: 30px;
+}
+
+.account-info p:nth-child(2){
+   margin: 5px 0;
+   width: 330px;
+   padding: 0 0 7px 25px;
+   border-radius: 10px;
+   font-weight: bolder;
+   font-size: 13px;
+   color: rgba(255, 255, 255, 0.459);
+}
+
+.display-email,
+.display-phone{
+    background: rgba(255,255,255,0.05);
+   margin: 5px 0;
+   width: 280px;
+   padding: 7px;
+   border-radius: 10px;
+   font-weight: bolder;
+}
+
+/*Email*/
+.new-email-input,
+.new-phone-input{
+   width: 230px;
+   padding: 10px 10px;
+   border-radius: 10px;
+   outline: none;
+   border: none;
+   display: none;
+   background: rgba(255,255,255,0.05);
+   color: white;
+   font-weight: bolder;
+}
+
+/* Phone input adjustments */
+.iti{
+    width: 100%;
+}
+.iti__selected-flag{
+    max-width: 90px;
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 770px) {
 
@@ -701,5 +871,8 @@ main{
         height: 35px;
     }
 
+    .new-email-input,
+.new-phone-input{
+}
 }
 
