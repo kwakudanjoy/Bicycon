@@ -87,8 +87,6 @@ nav .name{
     width: 35px;
     height: 35px;
     border-radius: 50%;
-
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -100,9 +98,11 @@ nav .name{
 .user-icon i{
     color: white;
 }
+
 .pro-pic{
-    display: none;
+    display: none ;
 }
+
 .pro-pic img{
     width: 100%;
     height: 100%;

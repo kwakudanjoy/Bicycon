@@ -11,7 +11,7 @@
 <body>
     <nav>
         <header>
-            <div><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="back"><i class="fa-solid fa-arrow-left"></i></div>
             <div class="profile">
                 <div class="user-icon"><i class="fa-solid fa-user"></i></div>
                 <div class="pro-pic"><img src="" alt=""></div>
@@ -47,7 +47,7 @@
                 <h4>Sorry you have no product yet</h4>
                 <p>Press the plus ( + ) below to add your product</p>
             </div>
-            <div class="add-prod">
+            <form class="add-prod">
                 <h5>Add a product</h5>
                 <!-- PRODUCT PROFILE MOBILE-FRIENDLY -->
                 <div class="prod-profile-wrapper">
@@ -76,28 +76,18 @@
                     </div>
                     <select class="prod-category">
                         <option value="">Select Category</option>
+                        <option value="">Food</option>
                     </select>
                     <textarea placeholder="Product Description" class="prod-description"></textarea>
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="add-or-cancel-prod">
-                    <button class="add-btn">Add</button>
-                    <button class="cancel-btn">Cancel</button>
+                    <button class="add-btn" type="button">Add</button>
+                    <button class="cancel-btn" type="button">Cancel</button>
                 </div>
-            </div>
+            </form>
             <div class="product-list">
-                <div class="list-card">
-                    <img src="" alt="" class="prod-img">
-                    <p class="pord-name">Jordan 6</p>
-                    <p class="prod-id">jjshdhdjjd</p>
-                    <p class="prod-price">GHC: 200</p>
-                    <P class="final-prod-description"></P>
-                    <div class="edith-delete-prod">
-                         <div class="edith-prod"><i class="fa-solid fa-pen"></i>Edith</div>
-                         <div class="delete-prod"><i class="fa-solid fa-x"></i>Delete</div>
-                    </div>
-                </div>
             </div>
             <div class="prod-edit">
                 <img src="" alt="" class="prod-image-update">
@@ -116,8 +106,8 @@
                     <textarea name="" id="" class="edith-prod-discription" placeholder="Enter new product discription"></textarea>
                 </div>
                 <div class="save-or-cancel">
-                    <button class="save-edith">Save</button>
-                    <button class="cancel-edth">Cancel</button>
+                    <button class="save-edith" type="button">Save</button>
+                    <button class="cancel-edth" type="button">Cancel</button>
                 </div>
             </div>
             <div class="plus">

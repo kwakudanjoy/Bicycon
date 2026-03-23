@@ -39,18 +39,10 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress = "https://fd96-41-204-44-1.ngrok-free.app"
+const ipAddress = "https://c67e-41-204-44-211.ngrok-free.app"
 // ==================== LOCAL STORAGE ====================
-let User = null;
-const UserString = localStorage.getItem("user");
-if (UserString) {
-    try {
-        User = JSON.parse(UserString);
-    } catch (e) {
-        console.error("Invalid user in localStorage", e);
-        localStorage.removeItem("user");
-    }
-}
+
+const User = JSON.parse(localStorage.getItem("user") || "null");
 
 // ==================== CHECK USER ====================
 function CheckUser() {
@@ -59,8 +51,7 @@ function CheckUser() {
     } else if (User.account_completed === "NO") {
         CompleteAccount.classList.add("show-card");
     } else {
-        // Redirect to dashboard or homepage
-        //window.location.href = "/dashboard.html"; // adjust this
+        
     }
 }
 
@@ -210,13 +201,14 @@ signUp.addEventListener("click", async (event) => {
     }
 
     const Payload = { INSTRUCTION: "SIGN-UP", Name, Password };
+    
 
     try {
         const Result = await Get(Payload);
+        //alert(JSON.stringify(Result))
 
         if (Result) {
             localStorage.setItem("user", JSON.stringify(Result));
-            User = Result;
             signUpForm.classList.remove("show-card");
             CompleteAccount.classList.add("show-card");
         }
@@ -248,6 +240,8 @@ SignUpConfirmPassword.addEventListener("input", () => {
 Next.addEventListener("click", async (event) => {
     event.preventDefault();
 
+    const User = JSON.parse(localStorage.getItem("user") || "null");
+
     if (!User) {
         alert("User not found");
         return;
@@ -273,7 +267,9 @@ Next.addEventListener("click", async (event) => {
     };
 
     try {
+
         const Result = await Get(Payload);
+    
     if (Result && Result.status === "OK") {
 
             let User = JSON.parse(localStorage.getItem("user"));
@@ -282,28 +278,29 @@ Next.addEventListener("click", async (event) => {
 
         if (fileInput.files.length > 0) {
 
+            let Payload ={
+                INSTRUCTION : "UPLOAD-PROFILE",
+                User_Id : User["User-ID"]
+            }
+
             const file = fileInput.files[0];
 
-                if (file.size > 5 * 1024 * 1024) {
-                    alert("File too large");
-                    return;
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("Data", JSON.stringify(Payload));
+           
+            try {
+                const uploadResult = await UploadFileWithData(formData);
+
+            if (uploadResult && uploadResult["status"] === "OK") {
+                    let User = JSON.parse(localStorage.getItem("user"));
+                    User.profilePic = uploadResult["Url"];
+                    localStorage.setItem("user", JSON.stringify(User));
+                    window.location.href = "/main/main.html";
                 }
 
-                const formData = new FormData();
-                formData.append("file", file);
-                formData.append("UserId", User["User-ID"]);
-
-                try {
-                    const uploadResult = await UploadFile(formData);
-
-                    if (uploadResult && uploadResult.status === "OK") {
-                        User.profileImg = uploadResult.file;
-                        localStorage.setItem("user", JSON.stringify(User));
-                        window.location.href = "/main/main.html";
-                    }
-
-                } catch (err) {
-                    alert("Upload failed");
+            } catch (err) {
+                alert("Upload failed");
             }
         }else{
            window.location.href = "/main/main.html";  
@@ -318,7 +315,7 @@ Next.addEventListener("click", async (event) => {
 // ==================== ASYNC FETCH FUNCTION ====================
 async function Get(Payload) {
     try {
-        const response = await fetch(ipAddress+ "/api/process", {
+        const response = await fetch(`${ipAddress}/api/process`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Payload)
@@ -327,6 +324,7 @@ async function Get(Payload) {
         if (!response.ok) throw new Error(`Network Error: ${response.status}`);
 
         const data = await response.json();
+
         return data;
 
     } catch (err) {
@@ -335,20 +333,34 @@ async function Get(Payload) {
     }
 }
 
-async function UploadFile(formData) {
+async function UploadFileWithData(formData) {
     try {
-        const response = await fetch(ipAddress + "/api/profile", {
+        const response = await fetch(`${ipAddress}/api/file`, {
             method: "POST",
-            body: formData // send FormData directly
+            body: formData
         });
 
-        if (!response.ok) throw new Error(`Network Error: ${response.status}`);
+        // ✅ Only fail if the network response itself failed
+        if (!response.ok) {
+            throw new Error(`Network Error: ${response.status}`);
+        }
 
-        const data = await response.json();
-        return data;
+        // Try to parse JSON, but fallback to text if server returns something else
+        let result;
+        const text = await response.text();
+        console.log("RAW RESPONSE:", text);
+
+        try {
+            result = JSON.parse(text); // attempt to parse JSON
+        } catch {
+            result = text; // fallback to raw text
+        }
+
+        // ✅ Return whatever server gave back
+        return result;
 
     } catch (err) {
         console.error("Upload error:", err);
-        throw err;
+        throw err; // let caller decide what to do
     }
 }

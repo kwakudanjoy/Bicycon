@@ -64,28 +64,45 @@ header{
     font-family:cursive;
 }
 
-/*account signature*/
+
 
 .account-signature{
-    display: flex;              /* make the inner div a flex container */
-    align-items: center;        /* vertically center icon inside the div */
-    justify-content: center;    /* horizontally center icon */
-    width: 35px;
-    height: 35px;
-    border: 1px green solid;
-    border-radius: 50%;         /* perfectly circular */
+    display: flex;             
+    align-items: center;        
+    justify-content: center;        
     margin: 4px;
-    transition: 0.3s ease;
+    border: 1px green solid;
+    border-radius: 50%; 
 }
+
+
 
 .account-signature:hover{
     box-shadow: 0 0 10px green;
 }
 
-.account-signature div i {
-    font-size: 20px;            /* icon size */
+.user{
+    display: flex;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
     color: white;
 }
+
+.profile{
+    display: none;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+}
+
+ .profile > img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%; 
+ }
 
 /*======== navigation ========*/
 nav{
@@ -191,7 +208,7 @@ main {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 5px;
     padding: 10px;
-    background: transparent;
+    background: red;
 }
 
 /* Scrollbar styling */

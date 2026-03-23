@@ -1,21 +1,36 @@
-const profilePic = document.querySelector(".profile");
+const profile = document.querySelector(".profile");
+const ProfileImage = document.querySelector(".profile > img");
+const UserIcon = document.querySelector(".user");
 const searchInput = document.querySelector(".search-input");
 const searchIcon = document.querySelector(".search-icon");
 const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
 
-const ipAddress = "https://1376-41-204-44-1.ngrok-free.app"
-
+const ipAddress = "https://c67e-41-204-44-211.ngrok-free.app" ; //"http://localhost:8080";
 // Initially hide elements
-profilePic.style.display = "none";
-const User = localStorage.getItem("user");
+const User =JSON.parse(localStorage.getItem("user") || "null");
 
 document.addEventListener("DOMContentLoaded", async () => {
     await Insert_Categories();
     const storedCategories = getLocalCategories();
     await GetProducts(storedCategories[0]);
 });
+
+
+function CheckUser(){
+   
+    if(User && User.profilePic){
+        UserIcon.style.display = "none";
+        profile.style.display = "block";
+        ProfileImage.src = `${ipAddress}/profile/${User["profilePic"]}`;
+    }else{
+        UserIcon.style.display = "flex";
+        Pro_Pic.style.display = "none";
+    }
+}
+
+CheckUser();
 
 keySearch.addEventListener("click", (e) => {
     const Key = e.target.closest(".key");
@@ -29,6 +44,7 @@ keySearch.addEventListener("click", (e) => {
     const p = Key.querySelector("p");
     GetProducts(p.textContent);
 });
+
 
 let searchOpen = false;
 
@@ -46,7 +62,7 @@ searchIcon.addEventListener("click", () => {
     // SECOND CLICK
     const text = searchInput.value.trim();
 
-    if(text === ""){
+    if(text){
         console.log("Searching for:", text);
 
         // your search logic here
@@ -61,10 +77,10 @@ searchIcon.addEventListener("click", () => {
 });
 
 Auth.addEventListener("click",()=>{
-    if(User !== null){
-        window.location.href = "/auth/auth.html"
-    }else{
+    if(User && User.account_completed === "YES"){
         window.location.href = "/main/main.html"
+    }else{
+        window.location.href = "/auth/auth.html"
     }
 });
 
