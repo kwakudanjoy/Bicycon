@@ -225,7 +225,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    max-height: 85vh;
+    max-height: 89vh;
     color: white;
 }
 
@@ -573,6 +573,7 @@ main {
 
 /* ===== PRODUCT LIST (GRID CONTAINER) ===== */
 .product-list {
+    
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2px;
     padding: 10px;
@@ -581,6 +582,7 @@ main {
     margin-top: 50px;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-gutter: stable;
     display: none;
     height: 150%;
     width: 100%;
