@@ -219,7 +219,6 @@ main {
 /* ===== PRODUCTS SECTION ===== */
 /* center everything */
 .product-section {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
