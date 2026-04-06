@@ -22,11 +22,12 @@ const ipAddress = "https://ea88-41-204-44-80.ngrok-free.app" ; //"http://localho
 const User =JSON.parse(localStorage.getItem("user") || "null");
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await Insert_Categories();
-    const storedCategories = getLocalCategories();
     Loading.style.display = "flex";
-    await GetProducts(storedCategories[0]);
+    await Insert_Categories();
     Loading.style.display = "none";
+    const storedCategories = getLocalCategories();
+    await GetProducts(storedCategories[0]);
+   
 });
 
 async function Load_Image (Url){

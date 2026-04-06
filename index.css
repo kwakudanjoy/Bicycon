@@ -563,6 +563,7 @@ main::-webkit-scrollbar-thumb {
     text-overflow: ellipsis;      /* adds the ... at the end */
     margin: auto;
     height: 34px;
+    padding: 2px 0;
 }
 
 .cart{
@@ -593,6 +594,7 @@ main::-webkit-scrollbar-thumb {
     .product-card {
         max-height: none;  /* allow flexible height */
         border-radius: 0;
+        border: none;
     }
 
     .product-image img {
