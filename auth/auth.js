@@ -45,13 +45,11 @@ const ipAddress ="https://ea88-41-204-44-80.ngrok-free.app";
 // ==================== LOCAL STORAGE ====================
 
 const User = JSON.parse(localStorage.getItem("user") || "null");
-alert(JSON.stringify(User));
 // ==================== CHECK USER ====================
 function CheckUser() {
     if (!User) {
         signUpForm.classList.add('show-card');
     } else if (User.account_completed === "NO") {
-        alert("account not complete");
         CompleteAccount.classList.add("show-card");
     } else {
         
@@ -67,7 +65,7 @@ Back.addEventListener("click", () =>{
         window.history.clear();
     }else{
         window.history.back();
-       
+        window.history.clear();
     }
 });
 
@@ -151,7 +149,6 @@ const iti = window.intlTelInput(phoneInput, {
 // ==================== SIGN-IN ====================
 signIn.addEventListener("click", async (event) => {
     event.preventDefault();
-   // alert("clicked");
     const Id = SignId.value;
     const Password = SignInPassword.value;
     

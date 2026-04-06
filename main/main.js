@@ -126,7 +126,7 @@ Back.addEventListener("click", () => {
         window.history.clear();
     } else {
         window.history.back();
-
+        window.history.clear();
     }
 });
 
