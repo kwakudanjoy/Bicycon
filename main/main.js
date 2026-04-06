@@ -58,7 +58,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://ea88-41-204-44-80.ngrok-free.apps"; //"http://localhost:8080";
+const ipAddress = "https://ea88-41-204-44-80.ngrok-free.app"; //"http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
 function showNoProduct() {
@@ -157,16 +157,16 @@ async function fetchData(payload) {
         if (!response.ok) throw new Error(`Network Error: ${response.status}`);
         const data = await response.json();
         if (!data) throw new Error("Server returned empty data");
+
         return data;
 
     } catch (err) {
         console.error("Fetch error:", err);
         alert("Sorry an error ocured. ! Please check your internet connect.");
         Loading.style.display = "none";
+        return null;
     }
 }
-
-
 
 async function UploadFileWithData(formData) {
     try {
@@ -203,8 +203,7 @@ async function UploadFileWithData(formData) {
 
 // ====== GET MY PRODUCTS ======
 async function getMyProducts() {
-    Loading.style.display = "flex"
-
+   
 
     let User = JSON.parse(localStorage.getItem("user")); // get user data
     //Loading.style.display = "flex";
@@ -217,6 +216,7 @@ async function getMyProducts() {
     };
 
     Loading.style.display = "flex";
+    alert(JSON.stringify(payload));
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
         Loading.style.display = "none";
