@@ -41,7 +41,7 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://b4e8-41-204-44-80.ngrok-free.app";
+const ipAddress ="https://ea88-41-204-44-80.ngrok-free.app";
 // ==================== LOCAL STORAGE ====================
 
 const User = JSON.parse(localStorage.getItem("user") || "null");
