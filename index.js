@@ -128,7 +128,7 @@ async function Insert_Categories() {
     if (online) {
         // Online → fetch categories from server
         try {
-            const data = await Get({ INSTRUCTION: "GET-CATEGORIES" });
+            const data = await fetchData({ INSTRUCTION: "GET-CATEGORIES" });
             if (data && data.Product_Categories) {
                 displayCategories(data.Product_Categories, keySearch);
                 saveLocalCategories(data.Product_Categories);
