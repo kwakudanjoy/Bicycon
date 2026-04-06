@@ -1191,6 +1191,7 @@ header p {
     .list-card{
         border-radius: 0;
         border: none !important;
+        margin: none;
     }
 
     .list-card .prod-img {
