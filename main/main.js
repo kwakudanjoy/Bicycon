@@ -58,7 +58,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://4b51-102-176-94-215.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://b4e8-41-204-44-80.ngrok-free.app"; //"http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
 function showNoProduct() {
