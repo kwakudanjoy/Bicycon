@@ -119,7 +119,7 @@ async function Insert_Categories() {
     // Check internet connection by pinging server
     let online = true;
     try {
-        const pingResponse = await Get({ INSTRUCTION: "PING" });
+        const pingResponse = await fetchData({ INSTRUCTION: "PING" });
         if (!pingResponse || pingResponse.status !== "OK") online = false;
     } catch {
         online = false;
@@ -128,6 +128,7 @@ async function Insert_Categories() {
     if (online) {
         // Online → fetch categories from server
         try {
+           
             const data = await fetchData({ INSTRUCTION: "GET-CATEGORIES" });
             if (data && data.Product_Categories) {
                 displayCategories(data.Product_Categories, keySearch);
