@@ -216,7 +216,7 @@ async function getMyProducts() {
     };
 
     Loading.style.display = "flex";
-    alert(JSON.stringify(payload));
+  
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
         Loading.style.display = "none";

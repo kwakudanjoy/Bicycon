@@ -1,11 +1,12 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html, body{
-    height:100%;
+html,
+body {
+    height: 100%;
 }
 
 /* ================= BODY LAYOUT ================= */
@@ -15,8 +16,8 @@ body {
     flex-direction: column;
 
     min-height: 100vh;
-background:
-        radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 60%),
         #020617;
 
     background-attachment: fixed;
@@ -34,7 +35,8 @@ background:
     background: rgba(0, 0, 0, 0.356);
 
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* for Safari */
+    -webkit-backdrop-filter: blur(5px);
+    /* for Safari */
 
     display: none;
     justify-content: center;
@@ -65,10 +67,12 @@ background:
         transform: scale(1);
         opacity: 1;
     }
+
     50% {
         transform: scale(1.5);
         opacity: 0.6;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -77,63 +81,74 @@ background:
 
 
 /*========= header ==========*/
-header{
+header {
     display: flex;
     color: white;
     justify-content: space-between;
     padding: 0 5px;
-    height: 60px;   /* adjust based on your header */
+    height: 60px;
+    /* adjust based on your header */
     flex-shrink: 0;
     align-items: center;
 }
-  /* Page signature container */
+
+/* Page signature container */
 .page-signature {
-    display: flex;              /* enable flex layout */
-    align-items: center;        /* vertically center icon and text */
-    justify-content: center;    /* horizontally center the whole block (optional) */
-    gap: 10px;                  /* space between icon and text */
+    display: flex;
+    /* enable flex layout */
+    align-items: center;
+    /* vertically center icon and text */
+    justify-content: center;
+    /* horizontally center the whole block (optional) */
+    gap: 10px;
+    /* space between icon and text */
 }
 
 /* Icon styling */
 .page-signature div {
-    display: flex;              /* make the inner div a flex container */
-    align-items: center;        /* vertically center icon inside the div */
-    justify-content: center;    /* horizontally center icon */
+    display: flex;
+    /* make the inner div a flex container */
+    align-items: center;
+    /* vertically center icon inside the div */
+    justify-content: center;
+    /* horizontally center icon */
     width: 35px;
     height: 35px;
-    border-radius: 50%;         /* perfectly circular */
+    border-radius: 50%;
+    /* perfectly circular */
     margin: 4px;
 }
 
 .page-signature div i {
-    font-size: 30px;            /* icon size */
+    font-size: 30px;
+    /* icon size */
     color: green;
 }
 
-.page-signature p{
+.page-signature p {
     font-weight: bolder;
     font-size: 25px;
-    font-family:cursive;
+    font-family: cursive;
 }
 
 
 
-.account-signature{
-    display: flex;             
-    align-items: center;        
-    justify-content: center;        
+.account-signature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 4px;
     border: 1px green solid;
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 
 
 
-.account-signature:hover{
+.account-signature:hover {
     box-shadow: 0 0 10px green;
 }
 
-.user{
+.user {
     display: flex;
     width: 35px;
     height: 35px;
@@ -142,7 +157,7 @@ header{
     color: white;
 }
 
-.profile{
+.profile {
     display: none;
     width: 35px;
     height: 35px;
@@ -150,18 +165,19 @@ header{
     justify-content: center;
 }
 
- .profile > img{
+.profile>img {
     width: 35px;
     height: 35px;
-    border-radius: 50%; 
- }
+    border-radius: 50%;
+}
 
 /*======== navigation ========*/
-nav{
+nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;   /* adjust based on your nav */
+    height: 60px;
+    /* adjust based on your nav */
     flex-shrink: 0;
 }
 
@@ -171,63 +187,74 @@ nav{
     cursor: pointer;
     margin-right: 10px;
     width: 560px;
-    overflow-x: auto; /* horizontal scrolling if needed */
-    overflow-y: hidden; /* hide vertical scrollbar if not needed */
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: rgba(0, 255, 0, 0.336) transparent; /* Firefox */
+    overflow-x: auto;
+    /* horizontal scrolling if needed */
+    overflow-y: hidden;
+    /* hide vertical scrollbar if not needed */
+    scrollbar-width: thin;
+    /* Firefox */
+    scrollbar-color: rgba(0, 255, 0, 0.336) transparent;
+    /* Firefox */
     background: transparent;
     -webkit-tap-highlight-color: transparent;
 }
 
 /* Webkit-based browsers (Chrome, Edge, Safari) */
 .key-search::-webkit-scrollbar {
-    height: 6px; /* initial scrollbar height */
+    height: 6px;
+    /* initial scrollbar height */
 }
 
 .key-search::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 255, 0, 0.336); /* orange thumb */
+    background-color: rgba(0, 255, 0, 0.336);
+    /* orange thumb */
     border-radius: 10px;
 }
 
 .key-search::-webkit-scrollbar-track {
-    background: transparent; /* track color */
+    background: transparent;
+    /* track color */
 }
 
-.selected{
-    background: rgba(34,197,94,0.2);
+.selected {
+    background: rgba(34, 197, 94, 0.2);
     color: #22c55e !important;
-   
+
 }
 
-.key{
+.key {
     border-radius: 10px;
 }
 
 /* Increase scrollbar height on hover */
-@media (hover: hover) and (pointer: fine) { /* desktop only */
+@media (hover: hover) and (pointer: fine) {
+
+    /* desktop only */
     .key-search:hover::-webkit-scrollbar {
-        height: 12px; /* taller on hover */
+        height: 12px;
+        /* taller on hover */
     }
 
     .key-search:hover::-webkit-scrollbar-thumb {
-        background-color: rgba(255,69,0,0.8); /* darker on hover */
+        background-color: rgba(255, 69, 0, 0.8);
+        /* darker on hover */
     }
 }
 
-.key-search div{
+.key-search div {
     color: white;
     padding: 5px 10px;
     font-weight: bolder;
 }
 
-.search-bar{
+.search-bar {
     display: flex;
     align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
 }
 
-.search-input{
+.search-input {
     display: none;
     border: none;
     outline: none;
@@ -241,16 +268,19 @@ nav{
     font-weight: bolder;
 }
 
-.search-icon{
+.search-icon {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 35px;
     height: 35px;
     color: white;
-    display: flex;              /* make it a flex container */
-    align-items: center;        /* vertical center */
-    justify-content: center;    /* horizontal center */
+    display: flex;
+    /* make it a flex container */
+    align-items: center;
+    /* vertical center */
+    justify-content: center;
+    /* horizontal center */
 
     border-radius: 50%;
 }
@@ -279,7 +309,7 @@ nav{
     border-radius: 12px;
     padding: 20px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
 }
 
@@ -314,10 +344,10 @@ nav{
     border-radius: 10px;
 }
 
-.cart-product__name{
+.cart-product__name {
     font-weight: bold;
     font-size: 20px;
-    color:black;
+    color: black;
 }
 
 .cart-product__price {
@@ -334,7 +364,8 @@ nav{
     height: 120px;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* show only 3 lines */
+    -webkit-line-clamp: 3;
+    /* show only 3 lines */
     -webkit-box-orient: vertical;
     overflow: auto;
     word-break: break-word;
@@ -419,6 +450,7 @@ nav{
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -428,8 +460,10 @@ nav{
 
 /* ---------- GRID LAYOUT ---------- */
 main {
-    flex: 1 1 auto;    /* take remaining space */
-    overflow-y: auto;  /* enable vertical scrolling */
+    flex: 1 1 auto;
+    /* take remaining space */
+    overflow-y: auto;
+    /* enable vertical scrolling */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2px;
@@ -441,6 +475,7 @@ main {
 main::-webkit-scrollbar {
     width: 6px;
 }
+
 main::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 10px;
@@ -450,8 +485,10 @@ main::-webkit-scrollbar-thumb {
 .product-card {
     background: black;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    width: 100%;            /* fill the grid cell */
-    max-width: 400px;       /* optional max-width */
+    width: 100%;
+    /* fill the grid cell */
+    max-width: 400px;
+    /* optional max-width */
     display: flex;
     flex-direction: column;
     transition: 0.3s ease;
@@ -491,13 +528,13 @@ main::-webkit-scrollbar-thumb {
     align-items: center;
     gap: 8px;
     color: white;
-    padding: 5px ;
-    cursor:pointer;
+    padding: 5px;
+    cursor: pointer;
     transition: 0.3s ease;
 }
 
-.retailer:hover{
-     background: rgba(255, 255, 255, 0.089);
+.retailer:hover {
+    background: rgba(255, 255, 255, 0.089);
 }
 
 .retailer img {
@@ -510,20 +547,25 @@ main::-webkit-scrollbar-thumb {
 /* User detail block */
 .user-detail {
     display: flex;
-    flex-direction: column;    /* stack name & email vertically */
-    justify-content: center;   /* vertically center inside retailer div */
-    overflow: hidden;          /* prevent text overflow */
+    flex-direction: column;
+    /* stack name & email vertically */
+    justify-content: center;
+    /* vertically center inside retailer div */
+    overflow: hidden;
+    /* prevent text overflow */
 }
 
 /* Name styling */
 .user-detail .name {
     font-weight: bold;
     font-size: 14px;
-    color:white;
-    white-space: nowrap;       /* prevent breaking if too long */
+    color: white;
+    white-space: nowrap;
+    /* prevent breaking if too long */
     overflow: hidden;
-    text-overflow: ellipsis;   /* truncate with dots */
-    
+    text-overflow: ellipsis;
+    /* truncate with dots */
+
 }
 
 /* Email / ID styling */
@@ -532,10 +574,12 @@ main::-webkit-scrollbar-thumb {
     color: #777;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;   /* truncate long emails/IDs */
+    text-overflow: ellipsis;
+    /* truncate long emails/IDs */
     padding-left: 5px;
     font-weight: bolder
 }
+
 /* Product text */
 .product-name {
     font-size: 18px;
@@ -556,17 +600,21 @@ main::-webkit-scrollbar-thumb {
     color: #555;
     margin: 0;
     width: 300px;
-    display: -webkit-box;        /* flex container for truncation */
-    -webkit-line-clamp: 2;       /* limit to 2 lines (change to 3 if you want) */
+    display: -webkit-box;
+    /* flex container for truncation */
+    -webkit-line-clamp: 2;
+    /* limit to 2 lines (change to 3 if you want) */
     -webkit-box-orient: vertical;
-    overflow: hidden;             /* hide extra text */
-    text-overflow: ellipsis;      /* adds the ... at the end */
+    overflow: hidden;
+    /* hide extra text */
+    text-overflow: ellipsis;
+    /* adds the ... at the end */
     margin: auto;
     height: 34px;
     padding: 2px 0;
 }
 
-.cart{
+.cart {
     color: white;
     background: rgba(255, 255, 255, 0.158);
     width: 40px;
@@ -581,42 +629,48 @@ main::-webkit-scrollbar-thumb {
     border: none;
 }
 
-.cart:hover{
+.cart:hover {
     transform: scale(1.22);
 }
 
-@media (max-width:770px){
-      main {
-        grid-template-columns: 1fr;  /* 1 card per row */
+@media (max-width:770px) {
+    main {
+        grid-template-columns: 1fr;
+        /* 1 card per row */
         gap: 0;
         padding: 0;
     }
+
     .product-card {
-        max-height: none;  /* allow flexible height */
+        max-height: none;
+        /* allow flexible height */
         border-radius: 0;
-        border: none;
+        border:none !important;
     }
+
 
     .product-image img {
-  
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
 
-
-    .key-search{
-         width: 320px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
-    .search-bar{
+
+
+    .key-search {
+        width: 320px;
+    }
+
+    .search-bar {
         margin-top: 5px;
     }
-    .search-input{
-    width: 320px;
-}
 
-.key:hover{
-      background: green;
-      align-self: center;
-}
+    .search-input {
+        width: 320px;
+    }
+
+    .key:hover {
+        background: green;
+        align-self: center;
+    }
 
 }
