@@ -1,0 +1,620 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    height:100%;
+}
+
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+background:
+        radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
+        #020617;
+
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/*========= loading Overlay ========*/
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.356);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* for Safari */
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+
+/* Hide class */
+.hidden {
+    display: none;
+}
+
+/* White pulsing circle */
+.loader-circle {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/*========= header ==========*/
+header{
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    padding: 0 5px;
+    height: 60px;   /* adjust based on your header */
+    flex-shrink: 0;
+    align-items: center;
+}
+  /* Page signature container */
+.page-signature {
+    display: flex;              /* enable flex layout */
+    align-items: center;        /* vertically center icon and text */
+    justify-content: center;    /* horizontally center the whole block (optional) */
+    gap: 10px;                  /* space between icon and text */
+}
+
+/* Icon styling */
+.page-signature div {
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.page-signature div i {
+    font-size: 30px;            /* icon size */
+    color: green;
+}
+
+.page-signature p{
+    font-weight: bolder;
+    font-size: 25px;
+    font-family:cursive;
+}
+
+
+
+.account-signature{
+    display: flex;             
+    align-items: center;        
+    justify-content: center;        
+    margin: 4px;
+    border: 1px green solid;
+    border-radius: 50%; 
+}
+
+
+
+.account-signature:hover{
+    box-shadow: 0 0 10px green;
+}
+
+.user{
+    display: flex;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.profile{
+    display: none;
+    width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+}
+
+ .profile > img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%; 
+ }
+
+/*======== navigation ========*/
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;   /* adjust based on your nav */
+    flex-shrink: 0;
+}
+
+/* Base styling for .key-search scrollbar */
+.key-search {
+    display: flex;
+    cursor: pointer;
+    margin-right: 10px;
+    width: 560px;
+    overflow-x: auto; /* horizontal scrolling if needed */
+    overflow-y: hidden; /* hide vertical scrollbar if not needed */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(0, 255, 0, 0.336) transparent; /* Firefox */
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Webkit-based browsers (Chrome, Edge, Safari) */
+.key-search::-webkit-scrollbar {
+    height: 6px; /* initial scrollbar height */
+}
+
+.key-search::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 255, 0, 0.336); /* orange thumb */
+    border-radius: 10px;
+}
+
+.key-search::-webkit-scrollbar-track {
+    background: transparent; /* track color */
+}
+
+.selected{
+    background: rgba(34,197,94,0.2);
+    color: #22c55e !important;
+   
+}
+
+.key{
+    border-radius: 10px;
+}
+
+/* Increase scrollbar height on hover */
+@media (hover: hover) and (pointer: fine) { /* desktop only */
+    .key-search:hover::-webkit-scrollbar {
+        height: 12px; /* taller on hover */
+    }
+
+    .key-search:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(255,69,0,0.8); /* darker on hover */
+    }
+}
+
+.key-search div{
+    color: white;
+    padding: 5px 10px;
+    font-weight: bolder;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+.search-input{
+    display: none;
+    border: none;
+    outline: none;
+    margin-right: 8px;
+    padding: 10px 5px 10px 15px;
+    width: 560px;
+    background: transparent;
+    color: white;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-weight: bolder;
+}
+
+.search-icon{
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 35px;
+    height: 35px;
+    color: white;
+    display: flex;              /* make it a flex container */
+    align-items: center;        /* vertical center */
+    justify-content: center;    /* horizontal center */
+
+    border-radius: 50%;
+}
+
+/* OVERLAY BACKGROUND */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+/* MODAL CONTAINER */
+.cart-modal {
+    background: #fff;
+    width: 90%;
+    max-width: 520px;
+    height: 330px;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+/* CLOSE BUTTON */
+.cart-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border: none;
+    background: rgba(0, 0, 0, 0.103);
+    border-radius: 50%;
+    color: red;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* PRODUCT SECTION */
+.cart-product {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+
+}
+
+.cart-product__image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.cart-product__name{
+    font-weight: bold;
+    font-size: 20px;
+    color:black;
+}
+
+.cart-product__price {
+    font-weight: bold;
+    font-size: 16px;
+    color: green;
+    padding-left: 20px;
+}
+
+.cart-product__description {
+    font-size: 13px;
+    color: black;
+    padding: 5px;
+    height: 120px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* show only 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: auto;
+    word-break: break-word;
+    margin-top: 15px;
+}
+
+/* RETAILER */
+.cart-retailer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cart-retailer__image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cart-retailer__name {
+    font-weight: bold;
+}
+
+.cart-retailer__email,
+.cart-retailer__phone {
+    font-size: 12px;
+    color: #777;
+}
+
+/* ACTIONS */
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* QUANTITY CONTROL */
+.cart-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    background: #eee;
+    border-radius: 6px;
+
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.qty-number {
+    font-weight: bold;
+}
+
+/* BUY BUTTON */
+.cart-buy-btn {
+    background: #000;
+    color: #fff;
+
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cart-buy-btn:hover {
+    background: #333;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ---------- GRID LAYOUT ---------- */
+main {
+    flex: 1 1 auto;    /* take remaining space */
+    overflow-y: auto;  /* enable vertical scrolling */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px;
+    padding: 10px;
+    background: transparent;
+}
+
+/* Scrollbar styling */
+main::-webkit-scrollbar {
+    width: 6px;
+}
+main::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* ---------- PRODUCT CARD ---------- */
+.product-card {
+    background: black;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;            /* fill the grid cell */
+    max-width: 400px;       /* optional max-width */
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+    border-radius: 10px;
+    height: 400px;
+}
+
+/* Hover effect */
+.product-card:hover {
+    border: 1px rgba(255, 255, 255, 0.329) solid;
+}
+
+/* ---------- IMAGE ---------- */
+.product-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* ---------- PRODUCT INFO ---------- */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Retailer info */
+.retailer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    padding: 5px ;
+    cursor:pointer;
+    transition: 0.3s ease;
+}
+
+.retailer:hover{
+     background: rgba(255, 255, 255, 0.089);
+}
+
+.retailer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+/* User detail block */
+.user-detail {
+    display: flex;
+    flex-direction: column;    /* stack name & email vertically */
+    justify-content: center;   /* vertically center inside retailer div */
+    overflow: hidden;          /* prevent text overflow */
+}
+
+/* Name styling */
+.user-detail .name {
+    font-weight: bold;
+    font-size: 14px;
+    color:white;
+    white-space: nowrap;       /* prevent breaking if too long */
+    overflow: hidden;
+    text-overflow: ellipsis;   /* truncate with dots */
+    
+}
+
+/* Email / ID styling */
+.user-detail span:nth-child(2) {
+    font-size: 12px;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;   /* truncate long emails/IDs */
+    padding-left: 5px;
+    font-weight: bolder
+}
+/* Product text */
+.product-name {
+    font-size: 18px;
+    margin: 0;
+    color: white;
+    padding-left: 10px;
+}
+
+.product-price {
+    color: green;
+    margin: 0;
+    font-size: 15px;
+    padding-left: 14px;
+}
+
+.product-description {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    width: 300px;
+    display: -webkit-box;        /* flex container for truncation */
+    -webkit-line-clamp: 2;       /* limit to 2 lines (change to 3 if you want) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;             /* hide extra text */
+    text-overflow: ellipsis;      /* adds the ... at the end */
+    margin: auto;
+    height: 34px;
+}
+
+.cart{
+    color: white;
+    background: rgba(255, 255, 255, 0.158);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto 10px 0 auto;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: none;
+}
+
+.cart:hover{
+    transform: scale(1.22);
+}
+
+@media (max-width:770px){
+      main {
+        grid-template-columns: 1fr;  /* 1 card per row */
+        gap: 0;
+        padding: 0;
+    }
+    .product-card {
+        max-height: none;  /* allow flexible height */
+        border-radius: 0;
+    }
+
+    .product-image img {
+  
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+    .key-search{
+         width: 320px;
+    }
+    .search-bar{
+        margin-top: 5px;
+    }
+    .search-input{
+    width: 320px;
+}
+
+.key:hover{
+      background: green;
+      align-self: center;
+}
+
+}

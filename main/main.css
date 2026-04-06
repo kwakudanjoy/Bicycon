@@ -1,0 +1,1229 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+   background: radial-gradient(circle at center, rgba(255, 255, 255, 0.082), transparent 90%),
+   #020617;
+
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/*========= loading Overlay ========*/
+#loading-overlay {
+   
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.356);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* for Safari */
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* White pulsing circle */
+.loader-circle {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/*========= Nav =========*/
+/* ===== NAV CONTAINER ===== */
+nav{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 10px 15px;
+
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== HEADER ROW ===== */
+nav header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+/* back button */
+nav header > div:first-child{
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+nav header > div:first-child:hover{
+    background: rgba(255,255,255,0.1);
+}
+
+/* title */
+nav .name{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* profile */
+.profile{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.profile:focus {
+    background: rgba(34,197,94,0.2) !important;
+    padding: 0 5px ;
+    border-radius: 25px !important;
+    border: 1px #22c55e solid !important;
+}
+
+.user-icon, .pro-pic{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-icon{
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.user-icon i{
+    color: white;
+}
+
+.pro-pic{
+    display: none ;
+}
+
+.pro-pic img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* ===== MENU ROW ===== */
+.nav{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* menu items */
+.nav > div{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+    border-radius: 20px;
+
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+/* hover */
+.nav > div:hover{
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+/* active menu */
+.nav > div.active{
+    background: rgba(34,197,94,0.2);
+    color: #22c55e;
+}
+
+/* icons */
+.nav i{
+    font-size: 14px;
+}
+main{
+    height: 100vh;
+}
+/* ===== PRODUCTS SECTION ===== */
+/* center everything */
+.product-section{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-height: 85vh;
+    color: white;
+}
+
+
+/* ===== PRODUCT COUNT TOP ===== */
+.product-count{
+    position: absolute;
+    top: 110px;
+    left: 15px;
+    right: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+
+    padding: 10px 15px;
+
+    backdrop-filter: blur(10px);
+    width: 300px;
+    justify-self: center;
+}
+
+/* label */
+.product-count h5{
+    font-size: 14px;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+/* number */
+.product-count p{
+    font-size: 18px;
+    font-weight: bold;
+    color: #22c55e;
+}
+
+/* no product text */
+.no-product-section{
+    display: none;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* PLUS CONTAINER */
+.plus{
+    position: fixed;   /* 🔥 key */
+    bottom: 20px;
+    right: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    z-index: 999; /* stays above everything */
+}
+
+/* ACTUAL BUTTON */
+.plus-btn{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* icon */
+.plus-btn i{
+    color: white;
+    font-size: 24px;
+}
+
+/* hover effect */
+.plus-btn:hover{
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+/* click effect */
+.plus-btn:active{
+    transform: scale(0.95);
+}
+
+/* ===== ADD PRODUCT FORM ===== */
+.add-prod {
+    position: fixed; /* float above everything */
+    top: 50%;        /* vertical center */
+    left: 50%;       /* horizontal center */
+    transform: translate(-50%, -50%); /* truly center */
+    
+    width: 95%;
+    max-width: 420px;
+    padding: 20px;
+
+    border-radius: 16px;
+    background: #ffffff;
+   
+    display: flex; /* show with JS */
+    flex-direction: column;
+    gap: 18px;
+    z-index: 9999; /* float above everything else */
+}
+
+.add-prod-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3); /* semi-transparent background */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* make sure it’s above all other content */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* TITLE */
+.add-prod h5 {
+    text-align: center;
+    font-size: 18px;
+    color: #222;
+}
+
+/* ===== PRODUCT IMAGE ===== */
+.prod-profile {
+    width: 100%;
+    height: 220px;
+
+    border-radius: 14px;
+    overflow: hidden;
+
+    background: #f7f7f7;
+    border: 1px solid #eee;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s;
+}
+
+.prod-profile:hover {
+    background: #f0f0f0;
+}
+
+/* ICON */
+.prod-icon i {
+    font-size: 36px;
+    color: #bbb;
+}
+
+/* IMAGE */
+.prod-pro-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* IMAGE BUTTONS */
+.image-buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    margin: 0 20px 330px auto;
+}
+
+.image-buttons div {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.2s;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.image-buttons i {
+    color: black;
+    font-size: 14px;
+}
+
+.image-buttons div:hover {
+    background: #f2f2f2;
+}
+
+/* ===== INPUTS ===== */
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+   
+}
+
+.split-input {
+    display: flex;
+    gap: 10px;
+}
+
+/* INPUT FIELDS */
+.inputs input,
+.inputs textarea {
+    width: 100%;
+    padding: 12px;
+
+    border-radius: 10px;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px  rgba(0, 0, 0, 0.568);
+    background: #fafafa;
+    color: #333;
+
+    font-size: 14px;
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.inputs input:focus,
+.inputs textarea:focus {
+    background: #fff;
+    border-color: #ddd;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
+}
+
+/* TEXTAREA */
+.inputs textarea {
+    height: 110px;
+    resize: none;
+}
+
+/* ===== CUSTOM SELECT ===== */
+.custom-select {
+    background: #fafafa;
+    border: 1px solid #eee;
+    color: #333;
+    box-shadow: 0 0 10px  rgba(0, 0, 0, 0.568);
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.custom-select .selected::after {
+    content: "▾";
+    position: absolute;
+    right: 12px;
+    color: #999;
+}
+
+/* OPTIONS */
+.custom-select .options {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    right: 0;
+
+    background: #fff;
+    border-radius: 10px;
+
+    display: none;
+    max-height: 180px;
+    overflow-y: auto;
+
+    border: 1px solid #eee;
+    box-shadow: 0 6px 20px  rgba(0, 0, 0, 0.568);
+}
+
+.custom-select .option {
+    padding: 10px;
+    transition: 0.2s;
+}
+
+.custom-select .option:hover {
+    background: #f5f5f5;
+}
+
+/* ===== BUTTONS ===== */
+.add-or-cancel-prod {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.add-or-cancel-prod button {
+    flex: 1;
+    padding: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.568);
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ADD BUTTON */
+.add-btn {
+    border: 1px green solid;
+    background: #f9f9f9;
+    color: #333;
+}
+
+.add-btn:hover,.cancel-btn:hover {
+    transform: scale(1.05);
+}
+
+/* CANCEL BUTTON */
+.cancel-btn {
+    border: 1px red solid;
+    background: #fff;
+    color: red;
+}
+
+/* ===== PRODUCT LIST (GRID CONTAINER) ===== */
+.product-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: start; /* Prevent grid items from stretching */
+    margin-top: 50px;
+    overflow-y: auto;
+   display: none;
+   height: 150%;
+}
+
+.product-list::-webkit-scrollbar {
+    width: 6px; /* initial scrollbar height */
+}
+
+.product-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 255, 0, 0.336); /* orange thumb */
+    border-radius: 10px;
+}
+
+.product-list::-webkit-scrollbar-track {
+    background: transparent; /* track color */
+}
+
+/* ===== PRODUCT CARD ===== */
+.list-card {
+    gap: 3px;
+    background: black;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+    cursor: pointer;
+  
+}
+
+/* Hover effect */
+.list-card:hover {
+    border: 1px rgba(255, 255, 255, 0.329) solid;
+}
+
+/* PRODUCT IMAGE */
+.list-card .prod-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0 12px 0 0;
+}
+
+/* PRODUCT NAME */
+.list-card .pord-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    margin-left: 5px;
+}
+
+/* PRODUCT ID */
+.list-card .prod-id {
+    font-size: 12px;
+    color: #aaa;
+    margin-left: 9px;
+    word-break: break-all;
+}
+
+/* PRODUCT PRICE */
+.list-card .prod-price {
+    font-size: 14px;
+    font-weight: 500;
+    color: #22c55e;
+    margin-left: 20px;
+
+}
+
+/* PRODUCT DESCRIPTION */
+.list-card .final-prod-description {
+    font-size: 13px;
+    color: #ddd;
+    margin: 0 10px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 34px;
+    word-break: break-word; /* handles long strings */
+}
+
+
+/* EDIT BUTTON */
+.edith-delete-prod{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px;
+}
+
+.edith-delete-prod div{
+    display: flex;
+    padding: 5px 10px;
+    gap: 5px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+
+.edith-prod{
+    border: 1px green solid;
+}
+
+.delete-prod{
+     border: 1px red solid;
+}
+
+/* ===== EDIT PRODUCT CONTAINER ===== */
+.edith-prod-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.356);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* for Safari */
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9998;
+}
+.prod-edit {
+    width: 95%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: white;
+}
+
+/* ===== IMAGE SECTION ===== */
+.prod-edit .prod-image-update {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+}
+
+/* IMAGE BUTTONS (overlay style) */
+.prod-edit .edit-image-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: -60px; /* overlaps image slightly */
+    padding-right: 10px;
+}
+
+.prod-edit .edit-image-button div {
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.select-image{
+    display: flex;
+    border-radius: 50%;
+    background: green;
+}
+
+.cancel-selected-image{
+    display: none;
+    border-radius: 50%;
+    background: red;
+}
+
+.prod-edit .edit-image-button div:hover{
+    transform: scale(1.055);
+}
+
+.prod-edit .edit-image-button i {
+    color: white;
+    font-size: 16px;
+}
+
+/* ===== INPUTS ===== */
+.prod-edit .edith-input {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edith-split-input{
+    display: inline-flex;
+    gap: 10px;
+}
+
+/* text inputs */
+.prod-edit .edith-input input,
+.prod-edit .edith-input textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: black;
+    outline: none;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+}
+
+/* textarea */
+.prod-edit .edith-input textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* CATEGORY DISPLAY */
+.prod-edit .edith-prod-category {
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: black;
+    font-size: 14px;
+}
+
+/* ===== BUTTONS ===== */
+.prod-edit .save-or-cancel {
+    display: flex;
+    gap: 10px;
+}
+
+.prod-edit .save-or-cancel button {
+    width: 100px;    
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Save button */
+.prod-edit .save-edith {
+    background: transparent;
+    border: 1px green solid;
+    color: black;
+    margin-left: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+}
+
+.prod-edit .save-edith:hover,
+.prod-edit .cancel-edth:hover 
+ {
+    transform: scale(1.145);
+}
+
+/* Cancel button */
+.prod-edit .cancel-edth {
+     background: transparent;
+    border: 1px red solid;
+    color: red;
+    margin-right: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+}
+
+/*Plans*/
+.upgrade-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.356);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* for Safari */
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    z-index: 9999;   
+}
+
+/* CLOSE BUTTON */
+.upgrade-overlay > button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* MODAL CONTAINER */
+.upgrade-modal {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+   
+    width: 90%;
+    max-width: 1000px;
+}
+
+/* PLAN CARDS (shared style) */
+.free-plan,
+.plus-plan,
+.pro-plan {
+    background: black;
+    border-radius: 15px;
+    padding: 20px;
+
+    width: 280px;
+    height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.free-plan:hover,
+.plus-plan:hover,
+.pro-plan:hover {
+    transform: translateY(-5px);
+}
+
+/* HEADER */
+.free-plan header,
+.plus-plan header,
+.pro-plan header {
+    margin-bottom: 10px;
+}
+
+header h4 {
+    margin: 0;
+    font-size: 25px;
+}
+
+header p {
+    margin: 5px 0 0 20px;
+    color: #777;
+    font-size: 17px;
+    font-weight: bolder;
+}
+
+/* BODY */
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 15px;
+   
+    height: 100%;
+    justify-content: center;
+}
+
+/* CHECK ICON */
+.body i {
+    color: green;
+    margin-right: 6px;
+}
+
+/* BUTTON (shared for Plus & Pro) */
+.plus-plan button,
+.pro-plan button {
+    margin-top: auto;
+    padding: 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* PLUS BUTTON */
+.plus-plan button {
+    background: #007bff;
+    color: #fff;
+}
+.free-plan{
+    border: 2px solid  green;
+    transform: scale(1.05);
+}
+.plus-plan{
+    border: 2px solid  #007bff;
+    transform: scale(1.05);
+}
+
+.plus-plan button:hover {
+    background: #0056d2;
+}
+
+/* PRO BUTTON (highlighted) */
+.pro-plan {
+    border: 2px solid #6f42c1;
+    transform: scale(1.05);
+}
+
+.pro-plan button {
+    background: #6f42c1;
+    color: #fff;
+}
+
+.pro-plan button:hover {
+    background: #4b2a91;
+}
+
+/* FREE PLAN (disabled feel) */
+.free-plan {
+    opacity: 0.8;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    
+}
+/*Edith account*/
+.my-profile{
+    height: 100%;
+    align-content: center;
+    justify-items: center;
+    display: none;
+}
+
+.edith-profile{
+    justify-items: center;
+}
+
+.edith-user-icon{
+    background: rgba(255,255,255,0.05);
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.profile-pic{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.profile-pic > img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}    
+
+.profile-pic > input{
+    display: none;
+}
+
+/*profile action*/
+.profile-actions{
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.quick-buttons{
+    display: flex;
+}
+.quick-buttons div{
+    border: none;
+}
+.edit-account-email,
+.edit-account-phone{
+    margin: 10px 0;
+    display: flex;
+    justify-items: center;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.upload-new-profile,
+.edith-old-profile,
+.cance-profile-update{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-weight: bolder;
+    background: transparent;
+    background: rgba(255,255,255,0.05);
+    margin: 10px  7px 0 0 ;
+}
+
+.edit-account-email button,
+.edit-account-phone button{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-weight: bolder;
+    background: transparent;
+    background: rgba(255,255,255,0.05);
+    margin:0 7px 0 0 ;
+}
+
+.edit-account-email .field-buttons,
+.edit-account-phone .field-buttons{
+    display: inline-flex;
+    margin: 0 0 0 10px;
+}
+.upload-new-profile,
+.upload-new-email,
+.upload-new-phone{
+    color: green;
+}
+.edith-old-profile,
+.edith-old-email,
+.edith-old-phone{
+    color: white;
+}
+
+.cance-profile-update,
+.cancel-email-update,
+.cancel-phone-update{
+    color: red;
+}
+
+.account-info{
+    margin-top: 20px;
+}
+
+.account-info p:nth-child(1){
+    color: rgba(255, 255, 255, 0.459);
+   margin: 5px 0;
+   width: 330px;
+   border-radius: 10px;
+   font-weight: bolder;
+   font-size: 30px;
+}
+
+.account-info p:nth-child(2){
+   margin: 5px 0;
+   width: 330px;
+   padding: 0 0 7px 25px;
+   border-radius: 10px;
+   font-weight: bolder;
+   font-size: 13px;
+   color: rgba(255, 255, 255, 0.459);
+}
+
+.display-email,
+.display-phone{
+    background: rgba(255,255,255,0.05);
+   margin: 5px 0;
+   width: 280px;
+   padding: 7px;
+   border-radius: 10px;
+   font-weight: bolder;
+}
+
+/*Email*/
+.new-email-input,
+.new-phone-input{
+   width: 230px;
+   padding: 10px 10px;
+   border-radius: 10px;
+   outline: none;
+   border: none;
+   display: none;
+   background: rgba(255,255,255,0.05);
+   color: white;
+   font-weight: bolder;
+}
+
+.log-out button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bolder;
+    background: rgb(255, 0, 0);
+    color: white;
+    margin-top: 20px;
+}
+
+/* Phone input adjustments */
+.iti{
+    width: 100%;
+}
+.iti__selected-flag{
+    max-width: 90px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 770px) {
+
+     .product-list {
+        grid-template-columns: 1fr; /* 1 card per row */
+        gap: 10px;
+        padding: 5px;
+        margin-top: 55px;
+    }
+
+    .list-card .prod-img {
+        height: 250px;
+    }
+    .image-buttons {
+        bottom: 3px;
+        right: 3px;
+        gap: 6px;
+    }
+
+    .image-buttons .camera,
+    .image-buttons .cancel {
+        width: 30px;
+        height: 30px;
+    }
+ 
+    .inputs textarea{
+    height: 90px;
+}
+
+
+    .prod-edit .edit-image-button {
+        margin-top: -55px;
+    }
+
+    .prod-edit .edit-image-button div {
+        width: 35px;
+        height: 35px;
+    }
+
+    .upgrade-modal {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pro-plan {
+        transform: scale(1); /* prevent overflow on small screens */
+    }
+}
+

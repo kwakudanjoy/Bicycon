@@ -1,0 +1,579 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+/* ================= BODY LAYOUT ================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+background:
+        radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
+        #020617;
+
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+
+
+/*========= loading Overlay ========*/
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.356); /* translucent dark */
+    
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999; /* stays on top of everything */
+}
+
+/* Hide class */
+.hidden {
+    display: none;
+}
+
+/* White pulsing circle */
+.loader-circle {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/*========= header ==========*/
+header {
+    flex-shrink: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+}
+
+  /* Page signature container */
+.page-signature {
+    display: flex;              /* enable flex layout */
+    align-items: center;       /* vertically center icon and text */
+    justify-content: center;    /* horizontally center the whole block (optional) */
+    gap: 10px;
+    margin: auto;               /* space between icon and text */
+}
+
+/* Icon styling */
+.page-signature div {
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+}
+
+.page-signature div i {
+    font-size: 30px;            /* icon size */
+    color: green;
+}
+
+.page-signature p{
+    font-weight: bolder;
+    font-size: 25px;
+    font-family:cursive;
+}
+
+/*account signature*/
+
+.back-signature{
+    display: flex;              /* make the inner div a flex container */
+    align-items: center;        /* vertically center icon inside the div */
+    justify-content: center;    /* horizontally center icon */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;         /* perfectly circular */
+    margin: 4px;
+    border: 1px green solid;
+    transition: 0.3s ease;
+}
+
+.back-signature:hover{
+    box-shadow: 0 0 10px green;
+}
+
+.back-signature div i {
+    font-size: 20px;            /* icon size */
+    color: white;
+}
+
+/*Top Card*/
+
+.top {
+    flex-shrink: 0; /* fixed height, won't shrink */
+    height: 190px;
+    overflow: hidden;
+    position: relative;
+}
+.top > div{
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+}
+
+/*Cards*/
+#card-1{
+    width: 400px;
+    justify-self: center;
+    justify-items: center;
+    text-align: center;
+    border: 1px rgba(255, 255, 255, 0.295) solid;
+    padding: 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.041);
+}
+
+#card-1 h4{
+    color: white;
+    font-size: 20px;
+}
+
+#card-1 p{
+    color: rgba(255, 255, 255, 0.384);
+    font-size: 13px;
+    margin-top: 15px;
+}
+#card-2, #card-4, #card-5 {
+    display: flex;             /* make it a flex container */
+    flex-direction: column;    /* stack children vertically */
+    align-items: center;       /* horizontally center all children */
+    justify-content: center;   /* vertically center if needed */
+    justify-self: center; 
+    width: 390px;
+    border-radius: 20px;
+    padding: 15px 10px;
+    border: 1px rgba(255, 255, 255, 0.295) solid;
+    text-align: center;        /* center text inside p/span */
+    background: rgba(255, 255, 255, 0.041);
+}
+
+#card-3{
+    justify-items: center;
+    width: 390px;
+    justify-self: center;
+    border-radius: 20px;
+    align-items: center;
+    padding: 15px 10px;
+    margin:auto;
+   
+}
+
+
+#card-2 div,
+#card-4 div,
+#card-5 div{
+    display: flex;
+    flex-direction: column;
+    background: #1f2937;
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+    align-items: center;      /* horizontal center */
+    justify-content: center;  /* vertical center */
+    border-radius: 50%;
+    color: white;
+    
+}
+
+#card-2 p,
+#card-3 p,
+#card-4 p{
+    color: white;
+    margin: 5px 15px;
+    font-size: 25px;
+    width: 300px;
+    text-align: center;
+    
+}
+
+#card-2 span,
+#card-4 span,
+#card-5 span {
+    display: block;           /* ensure it’s treated like a block */
+    margin-top: 8px;          /* small spacing under icon */
+    text-align: center;  
+    color: white;     /* center the text */
+}
+
+#card-5 p{
+    color: white;
+    margin-top: 12px;
+    font-size: 16px;
+    width: 300px;
+    text-align: center;
+}
+
+.show {
+    opacity: 1;
+    animation: fadeIn 0.8s ease forwards; /* forwards keeps final state */
+}
+
+.out {
+    opacity: 0;
+    animation: fadeOut 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+/*Main*/
+/* Main container: center content */
+main {
+    flex: 1; /* fill remaining space after header + top */
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* center vertically */
+    padding: 0 10px;
+    position: relative;
+    background-color: transparent;
+    overflow-y: hidden;
+}
+/* Common card styling for sign-in and sign-up */
+.sign-in,
+.sign-up {
+    position: absolute;      /* stack them in the same place */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* perfect center */     
+    padding: 30px 25px;
+    border-radius: 15px;
+    border: 1px rgba(255, 255, 255, 0.295) solid;
+    width: 100%;
+    max-width: 400px;
+    color: white;
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* smooth show/hide */
+    background: rgba(255, 255, 255, 0.041);
+}
+
+/* Hidden by default for sign-up */
+.sign-in,.sign-up, .Complete-account{
+    display: none;
+}
+
+/* Show class to toggle */
+.hidden {
+    display: none;
+}
+
+.show-card {
+    display: block; /* or flex */
+}
+
+/* Sign-in / Sign-up inner styles */
+.sign-in p:first-child,
+.sign-up p:first-child {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.sign-in form div,
+.sign-up form div {
+    margin-bottom: 5px;
+    align-content: center;
+}
+
+.sign-in input,
+.sign-up input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    outline: none;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+}
+
+.sign-in input::placeholder,
+.sign-up input::placeholder {
+    color: #aaa;
+}
+
+.sign-in button,
+.sign-up button {
+    width: 60%;
+    padding: 12px 0;
+    border-radius: 20px;
+    border: none;
+    background: green;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 15px;
+}
+
+
+
+/* "Don't have an account / Already have an account" section */
+.sign-in > div:last-child,
+.sign-up > div:last-child {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.sign-in > div:last-child p,
+.sign-up > div:last-child p {
+    font-size: 14px;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.sign-in > div:last-child button,
+.sign-up > div:last-child button {
+    width: auto;
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid green;
+    color: white;
+   
+}
+
+.sign-in > div:last-child button:hover,
+.sign-up > div:last-child button:hover {
+   box-shadow: 0 0 10px green;
+}
+
+.password-mis-match{
+    border: 1px red solid;
+    box-shadow: 0 0 5px red;
+}
+
+.password-match{
+    border: 1px green solid;
+    box-shadow: 0 0 5px green;
+}
+
+
+/* ================= COMPLETE ACCOUNT ================= */
+.Complete-account{
+    padding: 30px 25px;
+    border-radius: 15px;
+     box-shadow: 0 0 20px rgba(0, 0, 0, 0.63);
+    width: 100%;
+    max-width: 400px;
+    color: white;
+    text-align: center;
+}
+
+.Complete-account p:first-child{
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Profile area */
+.profile{
+    position: relative;       /* container for absolute icons */
+    width: 110px;
+    height: 110px;
+    margin: 20px auto;             /* center profile in parent */
+    display: block;
+}
+
+.profile:nth-child(2){
+    border: none;
+}
+
+/* User icon */
+.user-2{
+    display: none;
+    border: none;
+    width: 110px;
+    height: 110px;
+    background: #1f2937;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    z-index: 1;
+    position: relative;
+}
+
+/* Profile image */
+#profileImg {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: none;           /* hidden initially */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;              /* above .fa-user */
+}
+
+/* Pen icon (bottom-right) */
+.pen-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Cancel icon (bottom-left) */
+.cancel-profile {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: red;
+    display: none;           /* hidden initially */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+}
+
+#fileInput {
+    position: absolute; /* remove from normal flow */
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border: none;
+}
+
+/* Inputs */
+.Complete-account input{
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin: 5px 0;
+}
+
+/* Next button */
+.Complete-account button{
+    width: auto;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 1px solid green;
+    margin-top: 15px;
+}
+
+
+.Complete-account button:hover{
+     box-shadow: 0 0 10px green;  
+}
+
+/* Phone input adjustments */
+.iti{
+    width: 100%;
+}
+.iti__selected-flag{
+    max-width: 70px;
+}
+
+
+/* ---------- MOBILE RESPONSIVE ---------- */
+@media (max-width:770px){
+
+    #card-1,#card-2,#card-3,#card-4,#card-5{
+    width: 350px;
+    }
+
+
+.sign-in,
+    .sign-up {
+        padding: 20px;
+        width: 90%;
+    }
+    .sign-in p:first-child,
+    .sign-up p:first-child {
+        font-size: 24px;
+    }
+
+}

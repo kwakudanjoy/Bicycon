@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="auth.css">
+    <title>My Accound</title>
+</head>
+<body>
+      <div id="loading-overlay" class="hidden">
+        <div class="loader-circle"></div>
+    </div>
+    <header>
+        <div class="back-signature" id="back">
+            <div class="user"><i class="fa-solid fa-arrow-left"></i></div>
+        </div>
+        <div class="page-signature">
+            <div><i class="fa-solid fa-bicycle"></i></div>
+            <p>Bicycon</p>
+        </div>
+    </header>
+    <div class="top">
+        <div id="card-1">
+            <h4>Welcom to Bicycon</h4>
+            <p>Aplatform where you could sell or buy and manage all your product right here without any stress</p>
+        </div>
+        <div id="card-2">
+            <p>Buy</p>
+           <div><i class="fa-solid fa-bag-shopping"></i></div>
+           <span>Buy with some simple taps</span>
+        </div>
+        <div id="card-3">
+            <p>OR</p>
+        </div>
+        <div id="card-4">
+             <p>Sell</p>
+            <div><i class="fa-solid fa-shopping-cart"></i></div>
+            <span>Sell with some simple taps</span>
+        </div>
+        <div id="card-5">
+            <p>Manage</p>
+            <div><i class="fa-solid fa-gear"></i></div>
+            <p>And Manage your products right here on bicycon without any stress</p>
+        </div>
+    </div>
+    <main>
+        <div class="sign-in">
+            <p>sign-in</p>
+            <form action="">
+                <div><input type="text" name="" id="sign-in-id" placeholder="Enter Id" required></div>
+                <div><input type="password" name="" id="sign-in-password" placeholder="Enter Password" required></div>
+                <div><button class="sign-In">Sign in</button></div>
+            </form>
+            <div>
+                <p>Don't have an account</p>
+                <div><button>Sign Up</button></div>
+            </div>
+       </div>
+
+       <div class="sign-up">
+             <p>sign-Up</p>
+            <form action="">
+                <div><input type="text" name="" id="sign-up-name" placeholder="Enter new Name" required></div>
+                <div><input type="password" name="" id="sign-up-password" placeholder="Enter new Password" required></div>
+                <div><input type="text" name="" id="sign-up-confirm-password" placeholder="Confirm Password" required></div>
+                <div><button class="sign-Up">Sign Up</button></div>
+               
+            </form>
+            <div>
+                <p>Aready have an account</p>
+                <div><button>Sign In</button></div>
+            </div>
+       </div>
+       <div class="Complete-account">
+            <p>Complete Account</p>
+            <div class="profile">
+                <div class="cancel-profile"><i class="fa-solid fa-x"></i></div>
+                <div class="user-2"><i class="fa-solid fa-user"></i></div>
+                <img id="profileImg" src="" alt="profile-pic">
+                <div class="pen-icon"><i class="fa-solid fa-pen"></i></div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <form>
+                <input id="phone" type="tel" placeholder="Enter Phone Number">
+                <input type="email" id="e-mail" placeholder="Enter Email">
+                <button class="next">Next</button>
+            </form>
+       </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
+    <script type="module" src="auth.js"></script>
+</body>
+</html>

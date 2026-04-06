@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="main.css">
+    <title>Sign-In / Sign-Up</title>
+</head>
+
+<body>
+    <div id="loading-overlay">
+        <div class="loader-circle"></div>
+    </div>
+    <nav>
+        <header>
+            <div class="back"><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="profile" tabindex="0">
+                <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="pro-pic"><img src="" alt=""></div>
+                <span class="name">Cryptorn</span>
+            </div>
+
+        </header>
+        <div class="nav">
+            <div class="stores" style="display: none;">
+                <i class="fa-solid fa-house"></i>
+                <span>Stores</span>
+            </div>
+            <div class="products">
+                <i class="fa-solid fa-list"></i>
+                <span>Products</span>
+            </div>
+            <div class="orders">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span>Orders</span>
+            </div>
+        </div>
+    </nav>
+    <div class="add-prod-overlay">
+        <form class="add-prod">
+            <h5>Add a product</h5>
+            <!-- PRODUCT PROFILE MOBILE-FRIENDLY -->
+            <div class="prod-profile-wrapper">
+                <div class="prod-profile">
+                    <!-- Product icon -->
+                    <div class="prod-icon"><i class="fa-solid fa-shopping-cart"></i></div>
+                    <!-- Product image -->
+                    <img class="prod-pro-pic" src="" alt="" style="display:none;">
+                </div>
+
+                <!-- Camera / Cancel buttons overlay -->
+                <div class="image-buttons">
+                    <div class="camera"><i class="fa-solid fa-camera"></i></div>
+                    <div class="cancel" style="display:none;"><i class="fa-solid fa-x"></i></div>
+                </div>
+
+                <!-- Hidden file input -->
+                <input type="file" accept="image/*" class="file-input" style="display:none;">
+            </div>
+
+            <!-- INPUTS -->
+            <div class="inputs">
+                <div class="split-input">
+                    <input type="text" placeholder="Product Name" class="prod-name">
+                    <input type="number" placeholder="Price" class="prod-price">
+                </div>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select">
+                        <div class="selected">Select Category</div>
+                        <div class="options">
+                            <!-- Options will be added dynamically with JS -->
+                        </div>
+                    </div>
+                </div>
+                <textarea placeholder="Product Description" class="prod-description"></textarea>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="add-or-cancel-prod">
+                <button class="add-btn" type="button">Add</button>
+                <button class="cancel-btn" type="button">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="edith-prod-overlay">
+        <div class="prod-edit">
+            <img src="" alt="" class="prod-image-update">
+            <!-- Hidden file input -->
+            <input type="file" accept="image/*" class="prod-image-edit-file-input" style="display:none;">
+            <div class="edit-image-button">
+                <div class="select-image"><i class="fa-solid fa-camera"></i></div>
+                <div class="cancel-selected-image"><i class="fa-solid fa-x"></i></div>
+            </div>
+            <div class="edith-input">
+                <div class="edith-split-input">
+                    <input type="text" name="" id="" class="edith-prod-name" placeholder="Enter new name">
+                    <input type="number" name="" id="" class="edith-prod-price" placeholder="Enter new price">
+                </div>
+                <div class="edith-prod-category">
+                    <p>Shoe</p>
+                </div>
+                <textarea name="" id="" class="edith-prod-discription"
+                    placeholder="Enter new product discription"></textarea>
+            </div>
+            <div class="save-or-cancel">
+                <button class="save-edith" type="button">Save</button>
+                <button class="cancel-edth" type="button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="upgrade-overlay">
+        <button><i class="fa-solid fa-x"></i></button>
+        <div class="upgrade-modal">
+            <div class="free-plan">
+                <header>
+                    <h4>Free Plan</h4>
+                    <p>Already in use</p>
+                </header>
+                <div class="body">
+                    <div>Features involved</div>
+                    <div><i class="fa-solid fa-check-square"></i>Products : 50</div>
+                    <div><i class="fa-solid fa-check-square"></i>No adds</div>
+                    <div><i class="fa-solid fa-check-square"></i>No Inventory</div>
+                    <div><i class="fa-solid fa-check-square"></i>Limited Exposure</div>
+                    <div><i class="fa-solid fa-check-square"></i>Basic Analitics</div>
+                </div>
+            </div>
+            <div class="plus-plan">
+                <header>
+                    <h4>Plus Plan</h4>
+                    <p>GHC 200</p>
+                </header>
+                <div class="body">
+                    <div>Features involved</div>
+                    <div><i class="fa-solid fa-check-square"></i>Products : 500</div>
+                    <div><i class="fa-solid fa-check-square"></i>20 Adds</div>
+                    <div><i class="fa-solid fa-check-square"></i>Inventory (Plus)</div>
+                    <div><i class="fa-solid fa-check-square"></i>Google Exposure</div>
+                    <div><i class="fa-solid fa-check-square"></i>Analitics (Plus)</div>
+                </div>
+                <button>Upgrade</button>
+            </div>
+            <div class="pro-plan">
+                <header>
+                    <h4>Pro Plan</h4>
+                    <p>GHC 500</p>
+                </header>
+                <div class="body">
+                    <div>Features involved</div>
+                    <div><i class="fa-solid fa-check-square"></i>Products : Unlimited</div>
+                    <div><i class="fa-solid fa-check-square"></i>50 Adds</div>
+                    <div><i class="fa-solid fa-check-square"></i>Inventory (Pro)</div>
+                    <div><i class="fa-solid fa-check-square"></i>Google Exposure</div>
+                    <div><i class="fa-solid fa-check-square"></i>Analitics (Pro)</div>
+                </div>
+                <button>Upgrade</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="user-section" style="display: none;">
+
+        </div>
+        <div class="product-section">
+            <div class="product-count">
+                <h5>Product Count:</h5>
+                <p>0</p>
+            </div>
+            <div class="no-product-section">
+                <h4>Sorry you have no product yet</h4>
+                <p>Press the plus ( + ) below to add your product
+                    Or Maybe Check your internet connectivity ,
+                    there maybe improper connection</p>
+            </div>
+            <div class="product-list">
+            </div>
+
+            <div class="plus">
+                <div class="plus-btn"><i class="fa-solid fa-plus"></i></div>
+            </div>
+        </div>
+        <div class="my-profile">
+
+            <!-- Profile Top Section -->
+            <div class="edith-profile">
+                <div class="top">
+                    <div class="edith-user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div class="profile-pic">
+                        <img src="" alt="">
+                        <input type="file" accept="image/*" id="profile-file">
+                    </div>
+                    <!-- Profile Actions -->
+                    <div class="profile-actions">
+                        <div class="select-new-profile"><i class="fa-solid fa-camera"></i></div>
+                    </div>
+                </div>
+
+                <!-- Quick Buttons -->
+                <div class="quick-buttons">
+                    <button type="button" class="upload-new-profile"><i class="fa-solid fa-upload"></i></button>
+                    <button type="button" class="edith-old-profile"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="cance-profile-update"><i class="fa-solid fa-x"></i></button>
+                </div>
+            </div>
+
+            <!-- Account Info -->
+            <div class="account-info">
+                <p class="display-account-name">John Doe</p>
+                <p class="display-account-id">ID: 12345</p>
+
+            </div>
+
+            <!-- Editable Email Section -->
+            <div class="edit-account-email">
+                <p class="display-email">email@example.com</p>
+                <input type="email" placeholder="Enter new email" class="new-email-input">
+                <div class="field-buttons">
+                    <button type="button" class="upload-new-email"><i class="fa-solid fa-upload"></i></button>
+                    <button type="button" class="edith-old-email"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="cancel-email-update"><i class="fa-solid fa-x"></i></button>
+                </div>
+            </div>
+
+            <!-- Editable Phone Section -->
+            <div class="edit-account-phone">
+                <p class="display-phone">+1234567890</p>
+                <input type="tex" placeholder="Enter new phone number" class="new-phone-input">
+                <div class="field-buttons">
+                    <button type="button" class="upload-new-phone"><i class="fa-solid fa-upload"></i></button>
+                    <button type="button" class="edith-old-phone"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="cancel-phone-update"><i class="fa-solid fa-x"></i></button>
+                </div>
+            </div>
+            <div class="log-out">
+                <button type="button">Log Out</button>
+            </div>
+        </div>
+        <div class="orders-section">
+        </div>
+    </main>
+    <script type="module" src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-oQtrr7y5Q5zX/N5I8A5iVNRoEqE2o03CnqD+s6Ftb+E=" crossorigin=""></script>
+</body>
+
+</html>
