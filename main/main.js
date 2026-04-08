@@ -60,7 +60,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://05e9-41-204-44-150.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://416e-102-176-94-13.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 
 // ====== DISPLAY FUNCTIONS ======
@@ -101,7 +101,7 @@ function SetProfile() {
     if (User && User.profilePic) {
         UserIcon.style.display = "none";
         Pro_Pic.style.display = "flex";
-        ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
+        //ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
     } else {
         UserIcon.style.display = "flex";
         Pro_Pic.style.display = "none";
@@ -109,7 +109,7 @@ function SetProfile() {
 }
 
 async function Load_Image(Url) {
-    const res = await fetch(`${ipAddress}/profile/${Url}`, {
+    const res = await fetch(`${ipAddress}/profile/${User["profilePic"]}`, {
         headers: {
             "ngrok-skip-browser-warning": "true"
         }
