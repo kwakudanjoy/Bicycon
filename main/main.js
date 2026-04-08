@@ -53,12 +53,15 @@ const New_Phone_Input = document.querySelector(".new-phone-input");
 const Upload_New_Phone = document.querySelector(".upload-new-phone");
 const Edit_Old_Phone = document.querySelector(".edith-old-phone");
 const Cancel_New_Phone_Upload = document.querySelector(".cancel-phone-update");
+const Upgrade_Overlay = document.querySelector(".upgrade-overlay");
+const Upgrade = document.querySelector(".upgrade-btn");
 
 const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://ea88-41-204-44-80.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://05e9-41-204-44-150.ngrok-free.app"; //"http://localhost:8080";
+//const ipAddress = "http://192.168.0.117:8080";
 
 // ====== DISPLAY FUNCTIONS ======
 function showNoProduct() {
@@ -98,8 +101,7 @@ function SetProfile() {
     if (User && User.profilePic) {
         UserIcon.style.display = "none";
         Pro_Pic.style.display = "flex";
-        //ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
-        ProfileImg.src = Load_Image(User["profilePic"]);
+        ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
     } else {
         UserIcon.style.display = "flex";
         Pro_Pic.style.display = "none";
@@ -132,8 +134,13 @@ Back.addEventListener("click", () => {
 
 Products.addEventListener("click", () => {
     //e.preventDefault();
-    ProductSection.style.display = "flex";
-    MyProfile.style.display = "none";
+    if (ProductList.innerHTML === "") {
+        getMyProducts();
+    } else {
+        ProductSection.style.display = "flex";
+        MyProfile.style.display = "none";
+    }
+
 });
 
 // ====== INITIAL LOAD ======
@@ -203,7 +210,7 @@ async function UploadFileWithData(formData) {
 
 // ====== GET MY PRODUCTS ======
 async function getMyProducts() {
-   
+
 
     let User = JSON.parse(localStorage.getItem("user")); // get user data
     //Loading.style.display = "flex";
@@ -216,7 +223,7 @@ async function getMyProducts() {
     };
 
     Loading.style.display = "flex";
-  
+
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
         Loading.style.display = "none";
@@ -920,6 +927,14 @@ LogOut.addEventListener("click", () => {
     } else {
         window.location.href = "/auth/auth.html"
     }
+});
+
+Upgrade.addEventListener("click",()=>{
+    Upgrade_Overlay.style.display = "flex";
+
+    Upgrade_Overlay.querySelector(".cancel-upgrade").addEventListener("click",()=>{
+         Upgrade_Overlay.style.display = "none";
+    });
 });
 
 // ====== NAVIGATION ======

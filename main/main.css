@@ -219,6 +219,7 @@ main {
 /* ===== PRODUCTS SECTION ===== */
 /* center everything */
 .product-section {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -269,11 +270,12 @@ main {
 .no-product-section {
     display: none;
     text-align: center;
+    justify-self: center;
     opacity: 0.8;
 }
 
 /* PLUS CONTAINER */
-.plus {
+.plus , .upgrade {
     position: fixed;
     /* 🔥 key */
     bottom: 20px;
@@ -289,7 +291,7 @@ main {
 }
 
 /* ACTUAL BUTTON */
-.plus-btn {
+.plus-btn , .upgrade-btn {
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -316,6 +318,14 @@ main {
 .plus-btn:hover {
     transform: scale(1.1) rotate(90deg);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.upgrade{
+    transition: 0.3s ease;
+}
+
+.upgrade:hover{
+    transform: scale(1.1);
 }
 
 /* click effect */
@@ -886,7 +896,7 @@ main {
 }
 
 /* CLOSE BUTTON */
-.upgrade-overlay>button {
+.upgrade-overlay > button {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -905,11 +915,31 @@ main {
 .upgrade-modal {
     display: flex;
     gap: 20px;
-    justify-content: center;
+
+    overflow-x: auto;              /* 👈 REQUIRED for scrolling */
+    scroll-snap-type: x mandatory; /* 👈 you already had this */
 
     width: 90%;
     max-width: 1000px;
+    padding: 10px;
 }
+
+.upgrade-modal::-webkit-scrollbar {
+    height: 6px;
+    position: fixed;
+    margin-top: 20px;
+}
+
+.upgrade-modal::-webkit-scrollbar-thumb {
+    background-color: white;
+  
+    border-radius: 10px;
+}
+
+.upgrade-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 
 /* PLAN CARDS (shared style) */
 .free-plan,
@@ -919,7 +949,10 @@ main {
     border-radius: 15px;
     padding: 20px;
 
-    width: 280px;
+    min-width: 280px;        /* 👈 IMPORTANT (not width) */
+    flex: 0 0 auto;          /* 👈 prevents shrinking */
+    scroll-snap-align: center; /* 👈 SNAP HERE */
+
     height: 400px;
 
     display: flex;
@@ -1261,7 +1294,6 @@ header p {
     }
 
     .upgrade-modal {
-        flex-direction: column;
         align-items: center;
     }
 

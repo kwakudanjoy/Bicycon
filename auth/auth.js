@@ -41,7 +41,8 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://ea88-41-204-44-80.ngrok-free.app";
+const ipAddress ="https://05e9-41-204-44-150.ngrok-free.app";
+//const ipAddress = "http://192.168.0.117:8080";
 // ==================== LOCAL STORAGE ====================
 
 const User = JSON.parse(localStorage.getItem("user") || "null");
@@ -182,9 +183,11 @@ signIn.addEventListener("click", async (event) => {
         }else if(Result && Result.status === "!OK"){
             SignInPassword.classList.add("password-mis-match");
             SignId.classList.remove("password-mis-match");
+            Loading.style.display = "none";
         }else if(Result && Result.status === "!USER"){
             SignId.classList.add("password-mis-match");
             SignInPassword.classList.remove("password-mis-match");
+            Loading.style.display = "none";
         }
     } catch (err) {
         alert("Error signing in");

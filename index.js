@@ -6,7 +6,7 @@ const searchIcon = document.querySelector(".search-icon");
 const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
 const Auth = document.getElementById("auth");
- 
+
 const Loading = document.querySelector("#loading-overlay");
 
 //Buying cart
@@ -17,25 +17,26 @@ const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 
-const ipAddress = "https://ea88-41-204-44-80.ngrok-free.app" ; //"http://localhost:8080";
+const ipAddress = "https://05e9-41-204-44-150.ngrok-free.app"; //"http://localhost:8080";
+//const ipAddress = "http://192.168.0.117:8080";
 // Initially hide elements
-const User =JSON.parse(localStorage.getItem("user") || "null");
+const User = JSON.parse(localStorage.getItem("user") || "null");
 
 document.addEventListener("DOMContentLoaded", async () => {
     Loading.style.display = "flex";
     await Insert_Categories();
     Loading.style.display = "none";
     const storedCategories = getLocalCategories();
+    keySearch.firstChild.classList.add("selected");
     await GetProducts(storedCategories[0]);
-   
 });
 
-async function Load_Image (Url){
+async function Load_Image(Url) {
     const res = await fetch(`${ipAddress}/profile/${Url}`, {
-    headers: {
-        "ngrok-skip-browser-warning": "true"
-    }
-});
+        headers: {
+            "ngrok-skip-browser-warning": "true"
+        }
+    });
 
     const blob = await res.blob();
     const imageUrl = URL.createObjectURL(blob);
@@ -44,11 +45,11 @@ async function Load_Image (Url){
 
 
 function CheckUser() {
-    if(User && User.profilePic){
+    if (User && User.profilePic) {
         UserIcon.style.display = "none";
         profile.style.display = "block";
         ProfileImage.src = `${ipAddress}/profile/${User.profilePic}`;
-       // ProfileImage.src = Load_Image(User.profilePic);
+        // ProfileImage.src = Load_Image(User.profilePic);
     } else {
         UserIcon.style.display = "flex";
         profile.style.display = "none";  // use correct variable
@@ -58,7 +59,7 @@ function CheckUser() {
 
 CheckUser();
 
-keySearch.addEventListener("click", (e) => {
+keySearch.addEventListener("click", async (e) => {
     const Key = e.target.closest(".key");
     if (!Key) return;
 
@@ -68,8 +69,9 @@ keySearch.addEventListener("click", (e) => {
 
     Key.classList.add("selected");
     const p = Key.querySelector("p");
+
     Loading.style.display = "flex";
-    GetProducts(p.textContent);
+    await GetProducts(p.textContent);
     Loading.style.display = "none";
 });
 
@@ -79,7 +81,7 @@ let searchOpen = false;
 searchIcon.addEventListener("click", () => {
 
     // FIRST CLICK → open search
-    if(!searchOpen){
+    if (!searchOpen) {
         searchInput.style.display = "block";
         keySearch.style.display = "none";
         searchInput.focus();
@@ -90,11 +92,11 @@ searchIcon.addEventListener("click", () => {
     // SECOND CLICK
     const text = searchInput.value.trim();
 
-    if(text){
+    if (text) {
         console.log("Searching for:", text);
 
         // your search logic here
-    }else{
+    } else {
         // close search
         searchInput.style.display = "none";
         keySearch.style.display = "flex";
@@ -104,11 +106,11 @@ searchIcon.addEventListener("click", () => {
 
 });
 
-Auth.addEventListener("click",()=>{
-   
-    if(User && User.account_completed === "YES"){
+Auth.addEventListener("click", () => {
+
+    if (User && User.account_completed === "YES") {
         window.location.href = "/main/main.html"
-    }else{
+    } else {
         window.location.href = "/auth/auth.html"
     }
 });
@@ -129,7 +131,7 @@ async function Insert_Categories() {
     if (online) {
         // Online → fetch categories from server
         try {
-           
+
             const data = await fetchData({ INSTRUCTION: "GET-CATEGORIES" });
             if (data && data.Product_Categories) {
                 displayCategories(data.Product_Categories, keySearch);
@@ -190,9 +192,9 @@ async function GetProducts(KeyWord1) {
     };
 
     const products = await fetchData(Payload);  // await if Get is async
-    if(Array.isArray(products) || products.length !== 0){
-    
-        Main.innerHTML ="";
+    if (Array.isArray(products) || products.length !== 0) {
+
+        Main.innerHTML = "";
         const fragment = document.createDocumentFragment(); // create fragment
 
         products.forEach(prod => {
@@ -218,10 +220,10 @@ async function GetProducts(KeyWord1) {
                 </div>
             `;
 
-        fragment.appendChild(ProductCard); // add to fragment, not directly to DOM
-    });
+            fragment.appendChild(ProductCard); // add to fragment, not directly to DOM
+        });
 
-    Main.appendChild(fragment); // append all cards at once
+        Main.appendChild(fragment); // append all cards at once
     }
 }
 
@@ -238,16 +240,16 @@ Main.addEventListener("click", async e => {
         // ✅ Get product image URL
         const productImage = productCard.querySelector(".prod-img").src;
         const Retailer_Profile_Pic = productCard.querySelector(".retailer_profile_pic").src;
-    
+
         let Payload = {
-            INSTRUCTION : "GET-RETAILER-EMAIL & PHONE",
-            RetailerID : retailerID
+            INSTRUCTION: "GET-RETAILER-EMAIL & PHONE",
+            RetailerID: retailerID
         }
 
-        try{
+        try {
             Loading.style.display = "flex";
             let Result = await fetchData(Payload);
-            if(Result){
+            if (Result) {
                 Loading.style.display = "none";
 
                 // populate your cart overlay
@@ -267,33 +269,33 @@ Main.addEventListener("click", async e => {
                 // optionally reset quantity to 1
                 Cart_Overlay.querySelector(".qty-number").textContent = "1";
             }
-        }catch(err){
+        } catch (err) {
             alert("sorry Error cooured");
             Loading.style.display = "none";
         }
-       
+
         //alert(retailerID);
 
-    }else if(e.target.closest(".retailer")){
+    } else if (e.target.closest(".retailer")) {
 
     }
 
 });
 
 // cart execution
-Cart_close.addEventListener("click",()=>{
+Cart_close.addEventListener("click", () => {
     Cart_Overlay.style.display = "none";
 });
 
-Cart_Order_Minus.addEventListener("click",()=>{
-   let Orderquantity = parseInt(Cart_Order_Quantity.textContent.trim());
-    if(Orderquantity > 1){
-        Orderquantity -- ;
-        Cart_Order_Quantity.textContent = Orderquantity; 
+Cart_Order_Minus.addEventListener("click", () => {
+    let Orderquantity = parseInt(Cart_Order_Quantity.textContent.trim());
+    if (Orderquantity > 1) {
+        Orderquantity--;
+        Cart_Order_Quantity.textContent = Orderquantity;
     }
 });
 
-Cart_Order_Add.addEventListener("click",()=>{
+Cart_Order_Add.addEventListener("click", () => {
     //alert("click");
     let Orderquantity = parseInt(Cart_Order_Quantity.textContent.trim());
     Orderquantity++;
