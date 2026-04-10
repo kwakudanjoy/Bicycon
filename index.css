@@ -16,16 +16,43 @@ body {
     flex-direction: column;
 
     min-height: 100vh;
-    background:
+    /*background:
         radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 60%),
-        #020617;
-
+        #020617;*/
+    background: transparent;
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
 
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: url("/image/background.jpg") no-repeat center center/cover;
+
+    filter: blur(10px);
+    z-index: -1;
+}
+
+/* 🔥 Overlay */
+.bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.4);
+    /* adjust transparency */
+}
+
 /*========= loading Overlay ========*/
-#loading-overlay {
+#loading-overlay,
+.account-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -45,6 +72,9 @@ body {
     z-index: 9999;
 }
 
+.account-overlay {
+    flex-direction: column;
+}
 
 /* Hide class */
 .hidden {
@@ -138,7 +168,7 @@ header {
     align-items: center;
     justify-content: center;
     margin: 4px;
-    border: 1px green solid;
+    border: 1px white solid;
     border-radius: 50%;
 }
 
@@ -206,7 +236,7 @@ nav {
 }
 
 .key-search::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 255, 0, 0.336);
+    background: rgba(255, 255, 255, 0.1);
     /* orange thumb */
     border-radius: 10px;
 }
@@ -217,13 +247,13 @@ nav {
 }
 
 .selected {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     color: white !important;
 
 }
 
 .key {
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 /* Increase scrollbar height on hover */
@@ -322,7 +352,7 @@ nav {
     height: 40px;
     margin: 5px;
     border: none;
-    background: rgba(0, 0, 0, 0.103);
+    background: black;
     border-radius: 50%;
     color: red;
     font-size: 22px;
@@ -334,7 +364,6 @@ nav {
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
-
 }
 
 .cart-product__image {
@@ -348,6 +377,12 @@ nav {
     font-weight: bold;
     font-size: 20px;
     color: black;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .cart-product__price {
@@ -459,7 +494,8 @@ nav {
 
 
 /* ---------- GRID LAYOUT ---------- */
-main {
+main,
+.view-products {
     flex: 1 1 auto;
     /* take remaining space */
     overflow-y: auto;
@@ -482,29 +518,39 @@ main::-webkit-scrollbar-thumb {
 }
 
 /* ---------- PRODUCT CARD ---------- */
-.product-card {
-    background: black;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    width: 100%;
-    /* fill the grid cell */
-    max-width: 400px;
-    /* optional max-width */
+.product-card{
+    /*border: 1px solid rgba(255, 255, 255, 0.137);*/
+    /*background: rgba(255, 255, 255, 0.397);*/
+    background: rgba(0, 0, 0, 0.699);
+    width: 100%;/* fill the grid cell */
+    
     display: flex;
     flex-direction: column;
     transition: 0.3s ease;
     border-radius: 10px;
-    height: 400px;
+    height: 500px;
+}
+
+.a-product{
+    background: rgba(0, 0, 0, 0.699);
+    width: 100%;/* fill the grid cell */
+    
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+    border-radius: 10px;
+    height: 500px;
 }
 
 /* Hover effect */
 .product-card:hover {
-    border: 1px rgba(255, 255, 255, 0.329) solid;
+    border: 1px rgba(255, 255, 255, 0.349) solid;
 }
 
 /* ---------- IMAGE ---------- */
 .product-image {
     width: 100%;
-    height: 200px;
+    height: 300px;
     overflow: hidden;
 }
 
@@ -512,7 +558,7 @@ main::-webkit-scrollbar-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px 12px 0 0;
 }
 
 /* ---------- PRODUCT INFO ---------- */
@@ -586,6 +632,12 @@ main::-webkit-scrollbar-thumb {
     margin: 0;
     color: white;
     padding-left: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-price {
@@ -593,6 +645,12 @@ main::-webkit-scrollbar-thumb {
     margin: 0;
     font-size: 15px;
     padding-left: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-description {
@@ -633,6 +691,180 @@ main::-webkit-scrollbar-thumb {
     transform: scale(1.22);
 }
 
+.my-account {
+    display: flex;
+    align-items: center;
+}
+
+.my-account>.top {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.158);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    border-radius: 50%;
+    margin-right: 20px;
+    color: white;
+}
+
+.account-user {
+    display: none;
+    width: 20px;
+    height: 80px;
+}
+
+.account-pro-pic{
+    display: none;
+    width: 80px;
+    height: 80px;
+}
+.cancel-product-view {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 40px;
+    height: 40px;
+
+    background: rgba(0, 0, 0, 0.8); /* black background */
+    color: red;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    cursor: pointer;
+
+    font-size: 18px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.cancel-product-view:hover {
+    background: red;
+    color: white;
+    transform: scale(1.1);
+}
+
+.my-account-name {
+    color: white;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.my-account-id {
+    color: rgba(255, 255, 255, 0.534);
+    margin-left: 20px;
+    font-weight: bolder;
+}
+
+.my-account-email {
+    color: rgba(255, 255, 255, 0.534);
+    font-weight: bolder;
+}
+
+.my-account-phone {
+    color: rgba(255, 255, 255, 0.534);
+    font-weight: bolder;
+}
+
+.view-products{
+    width: 100%;
+}
+
+/* Hover effect */
+.a-product:hover {
+   border: 1px white solid;
+}
+
+.a-product{
+     background: rgba(0, 0, 0, 0.699);
+     transition: 0.3s ease;
+     border-radius: 10px;
+     height: 470px;
+}
+
+/* Product image */
+.a-product img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Product name */
+.view-prod-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+    color: white;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+/* Price */
+.view-prod-price {
+    font-size: 16px;
+    color: green;
+    margin-bottom: 5px;
+    padding-left: 15px;
+    font-weight: bolder;
+}
+
+/* Description */
+.view-prod-description {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    width: 300px;
+    display: -webkit-box;
+    /* flex container for truncation */
+    -webkit-line-clamp: 2;
+    /* limit to 2 lines (change to 3 if you want) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* hide extra text */
+    text-overflow: ellipsis;
+    /* adds the ... at the end */
+    margin: auto;
+    height: 34px;
+    padding: 2px 0;
+}
+
+/* Order button */
+.order {
+  
+    bottom: 15px;
+    right: 15px;
+
+    width: 40px;
+    height: 40px;
+
+    background: #00ffcc;
+    color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    cursor: pointer;
+
+    transition: 0.3s;
+    margin: 20px 5px 5px auto;
+}
+
+/* Hover effect for button */
+.order:hover {
+    transform: scale(1.1);
+}
+
 @media (max-width:770px) {
     main {
         grid-template-columns: 1fr;
@@ -645,7 +877,7 @@ main::-webkit-scrollbar-thumb {
         max-height: none;
         /* allow flexible height */
         border-radius: 0;
-        border:none !important;
+        border: none !important;
     }
 
 
@@ -671,6 +903,10 @@ main::-webkit-scrollbar-thumb {
     .key:hover {
         background: green;
         align-self: center;
+    }
+
+    .view-products{
+        padding: none;
     }
 
 }

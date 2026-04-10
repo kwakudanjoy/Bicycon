@@ -60,7 +60,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://416e-102-176-94-13.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://571d-41-204-44-165.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 
 // ====== DISPLAY FUNCTIONS ======
@@ -101,7 +101,7 @@ function SetProfile() {
     if (User && User.profilePic) {
         UserIcon.style.display = "none";
         Pro_Pic.style.display = "flex";
-        //ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
+        ProfileImg.src = `${ipAddress}/profile/${User["profilePic"]}`;
     } else {
         UserIcon.style.display = "flex";
         Pro_Pic.style.display = "none";
@@ -109,6 +109,7 @@ function SetProfile() {
 }
 
 async function Load_Image(Url) {
+    
     const res = await fetch(`${ipAddress}/profile/${User["profilePic"]}`, {
         headers: {
             "ngrok-skip-browser-warning": "true"
@@ -226,6 +227,7 @@ async function getMyProducts() {
 
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
+        alert(JSON.stringify(productList));
         Loading.style.display = "none";
 
         //Loading.style.display = "flex";
@@ -761,59 +763,14 @@ Upload_New_Image.addEventListener("click", async () => {
 
 
 Cancel_New_Profile_Update.addEventListener("click", () => {
-    let User = JSON.parse(localStorage.getItem("user"));
-    /*
 
-   if(NewImage_Input.value === ""){
-       Display_Profile_Image.src = "";
-       NewImage_Input.value ="";
-       Upload_New_Image.style.display = "none";
-       PickNew_Image_Container.style.display = "none";
-       Cancel_New_Profile_Update.style.display = "none";
-       Edith_OldPro_file_Image.style.display = "block"; 
-       Display_Profile_Contanner.style.display = "none";
-       Edit_User_Icon.style.display = "flex";
+    PickNew_Image_Container.style.display = "none";
+    Cancel_New_Profile_Update.style.display = "none";
+    Edith_OldPro_file_Image.style.display = "block";
 
-   }
+});
 
-   if(User && !User["profilePic"] && NewImage_Input === ""){
-
-       
-       Display_Profile_Image.src = `${ipAddress}/profile/${User["profilePic"]}`;
-       NewImage_Input.value ="";
-       Upload_New_Image.style.display = "none";
-       PickNew_Image_Container.style.display = "none";
-       Cancel_New_Profile_Update.style.display = "none";
-       Edith_OldPro_file_Image.style.display = "block"; 
-       Display_Profile_Contanner.style.display = "block";
-       Edit_User_Icon.style.display = "none";
-
-   }else if(User && )
-
-   else{
-
-       NewImage_Input.value ="";
-       Upload_New_Image.style.display = "none";
-       PickNew_Image_Container.style.display = "none";
-       Cancel_New_Profile_Update.style.display = "none";
-       Edith_OldPro_file_Image.style.display = "block"; 
-       Display_Profile_Contanner.style.display = "none";
-       Edit_User_Icon.style.display = "flex";
-
-   }*/
-
-    if (User && User["profilePic"] && NewImage_Input === "") {
-        // delete image from database
-
-        let Payload = {
-            INSTRUCTION: "DELETE-PROFILE",
-            UserID: User["User-ID"]
-        }
-
-
-    } else if (User && NewImage_Input === "") {
-        // cancel new upload
-    }
+Cancel_New_Profile_Update.addEventListener("dbclick",()=>{
 
 });
 
