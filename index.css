@@ -28,7 +28,8 @@ body {
     width: 100%;
     height: 100%;
    
-    background: url("/image/background.jpg") no-repeat center center/cover;
+    /*background: url("/image/background.jpg") no-repeat center center/cover;*/
+   
     filter: blur(10px);
     z-index: -1;
 }
@@ -42,7 +43,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.822);
+    background: white;
     /* adjust transparency */
 }
 
@@ -73,6 +74,7 @@ body {
     display: none;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    background: white;
 }
 
 /* Hide class */
@@ -112,7 +114,7 @@ body {
 /*========= header ==========*/
 header {
     display: flex;
-    color: white;
+    color: black;
     justify-content: space-between;
     padding: 0 5px;
     height: 60px;
@@ -220,7 +222,7 @@ nav {
     /* hide vertical scrollbar if not needed */
     scrollbar-width: thin;
     /* Firefox */
-    scrollbar-color: rgba(0, 255, 0, 0.336) transparent;
+    scrollbar-color: rgba(black) transparent;
     /* Firefox */
     background: transparent;
     -webkit-tap-highlight-color: transparent;
@@ -244,13 +246,13 @@ nav {
 }
 
 .selected {
-    background: rgba(255, 255, 255, 0.1);
     color: white !important;
+    background: black;
 
 }
 
 .key {
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* Increase scrollbar height on hover */
@@ -269,7 +271,7 @@ nav {
 }
 
 .key-search div {
-    color: white;
+    color: black;
     padding: 5px 10px;
     font-weight: bolder;
 }
@@ -277,8 +279,9 @@ nav {
 .search-bar {
     display: flex;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid black;
     border-radius: 20px;
+    box-shadow: 0 0 3px black;
 }
 
 .search-input {
@@ -289,7 +292,7 @@ nav {
     padding: 10px 5px 10px 15px;
     width: 560px;
     background: transparent;
-    color: white;
+    color: black;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     font-weight: bolder;
@@ -297,8 +300,8 @@ nav {
 
 .search-icon {
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: black;
+    border: 1px solid black;
     width: 35px;
     height: 35px;
     color: white;
@@ -529,28 +532,27 @@ main::-webkit-scrollbar-thumb {
 
 /* ---------- PRODUCT CARD ---------- */
 .product-card{
-   
-    background: burlywood ;
+    background: white ;
     width: 100%;/* fill the grid cell */
-    
+    box-shadow: 0 0 5px black;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease;
-    border-radius: 15px;
+    border-radius: 20px;
     height: 500px;
 }
 
 
 .a-product{
-    background: burlywood;
+    background:white;
     width: 100%;
     display: flex;
     flex-direction: column;
     transition: 0.3s ease;
-    border-radius: 10px;
+    border-radius: 20px;
     height: 470px;
     padding-bottom: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.466);
+    box-shadow: 0 0 3px black;
 }
 
 /* ---------- IMAGE ---------- */
@@ -564,7 +566,7 @@ main::-webkit-scrollbar-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px 12px 0 0;
+    border-radius: 20px;
 }
 
 /* ---------- PRODUCT INFO ---------- */
@@ -741,7 +743,7 @@ main::-webkit-scrollbar-thumb {
     font-size: 45px;
     border-radius: 50%;
     margin-right: 20px;
-    color: white;
+    color: black;
 }
 
 .account-user {
@@ -767,7 +769,7 @@ main::-webkit-scrollbar-thumb {
     width: 40px;
     height: 40px;
 
-    background: rgba(0, 0, 0, 0.8); /* black background */
+    background: black; /* black background */
     color: red;
 
     display: flex;
@@ -779,7 +781,7 @@ main::-webkit-scrollbar-thumb {
 
     font-size: 18px;
 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 3px black;;
     transition: all 0.3s ease;
 }
 
@@ -791,19 +793,20 @@ main::-webkit-scrollbar-thumb {
 }
 
 .my-account-name {
-    color: white;
+    color: black;
     font-weight: bolder;
     font-size: 25px;
 }
 
 .my-account-id {
-    color: rgba(255, 255, 255, 0.534);
+    color: black;
     margin-left: 20px;
-    font-size: 13px;
+    font-size: 13px; 
+    font-weight: bolder;
 }
 
 .my-account-email {
-    color: rgba(255, 255, 255, 0.534);
+    color: black;
     font-weight: bolder;
 }
 
@@ -820,11 +823,14 @@ main::-webkit-scrollbar-thumb {
     background: green;
     margin-left:20px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
 .my-account-phone {
-    color: rgba(255, 255, 255, 0.534);
+    color: black;
     font-weight: bolder;
 }
 
@@ -833,7 +839,7 @@ main::-webkit-scrollbar-thumb {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    border-radius: 12px 12px 0 0;
+    border-radius: 20px;
     margin-bottom: 10px;
 }
 

@@ -60,7 +60,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://ee47-2a09-bac1-5e40-1e8-00-6b-7d.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 //const ipAddress = "http://localhost:8080";
 

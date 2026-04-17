@@ -17,7 +17,7 @@ const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 
-const ipAddress = "https://ee47-2a09-bac1-5e40-1e8-00-6b-7d.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 //const ipAddress = "http://localhost:8080";
 // Initially hide elements
