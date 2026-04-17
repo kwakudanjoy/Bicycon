@@ -60,8 +60,9 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://571d-41-204-44-165.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "https://ee47-2a09-bac1-5e40-1e8-00-6b-7d.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress = "http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
 function showNoProduct() {
@@ -227,7 +228,7 @@ async function getMyProducts() {
 
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
-        alert(JSON.stringify(productList));
+       
         Loading.style.display = "none";
 
         //Loading.style.display = "flex";
@@ -253,6 +254,7 @@ async function getMyProducts() {
                 <div class="edith-prod"><i class="fa-solid fa-pen"></i>Edit</div>
                 <div class="delete-prod"><i class="fa-solid fa-x"></i>Delete</div>
             </div>
+            <p class="posted-at">posted ${prod.postedAt}</p>
         `;
         fragment.appendChild(card);
         count++;
@@ -659,7 +661,7 @@ ProductList.addEventListener("click", async (e) => {
 });
 
 Profile.addEventListener("click", () => {
-
+   
     let User = JSON.parse(localStorage.getItem("user"));
 
     if (User) {
@@ -673,16 +675,15 @@ Profile.addEventListener("click", () => {
         Cancel_New_Email_Upload.style.display = "none";
         Cancel_New_Phone_Upload.style.display = "none";
         document.querySelector(".iti").style.display = "none";
-
-
+      
         Display_Account_Name.textContent = User["User-Name"];
         Display_Account_Id.textContent = User["User-ID"];
         Display_Old_Email.textContent = User["Email"];
         Display_Old_Phone.textContent = User["Phone"];
 
-
+        
         if (User.profilePic) {
-
+ 
             Edit_User_Icon.style.display = "none";
             Display_Profile_Image.src = `${ipAddress}/profile/${User["profilePic"]}`;
             Display_Profile_Image.style.display = "block";
@@ -767,7 +768,7 @@ Cancel_New_Profile_Update.addEventListener("click", () => {
     PickNew_Image_Container.style.display = "none";
     Cancel_New_Profile_Update.style.display = "none";
     Edith_OldPro_file_Image.style.display = "block";
-
+    Upload_New_Image.style.display = "none";
 });
 
 Cancel_New_Profile_Update.addEventListener("dbclick",()=>{
@@ -866,6 +867,29 @@ Edit_Old_Phone.addEventListener("click", () => {
 
 });
 
+Upload_New_Phone.addEventListener("click", async ()=>{
+
+   let User = JSON.parse(localStorage.getItem("user"));
+   let New_Phone = New_Phone_Input.value.trim();
+  
+   if(User){
+    let Payload = {
+        INSTRUCTION : "UPDATE-MY-PHONE",
+        UserID : User["User-ID"],
+        new_Phone : New_Phone
+    }
+
+    Loading.style.display = "flex";
+    let Result = await fetchData(Payload);
+    if(Result && Result.status === "OK"){
+        User.Phone = Result["New_Phone"];
+        localStorage.setItem("user", JSON.stringify(User));
+        Cancel_New_Phone_Upload.click();
+        Loading.style.display = "none";
+    }
+   }
+});
+
 Cancel_New_Phone_Upload.addEventListener("click", () => {
     Display_Old_Phone.style.display = "block";
     New_Phone_Input.style.display = "none";
@@ -901,6 +925,7 @@ document.querySelectorAll('.nav > div').forEach(item => {
         item.classList.add('active');
     });
 });
+
 
 const iti = window.intlTelInput(New_Phone_Input, {
     initialCountry: "auto",

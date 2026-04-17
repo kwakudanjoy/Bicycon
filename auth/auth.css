@@ -371,7 +371,7 @@ main {
     border: 1px rgba(255, 255, 255, 0.295) solid;
     width: 100%;
     max-width: 400px;
-    color: white;
+    color: black;
     text-align: center;
     transition: opacity 0.5s ease, transform 0.5s ease;
     /* smooth show/hide */
@@ -415,11 +415,12 @@ main {
     width: 100%;
     padding: 10px 15px;
     border-radius: 10px;
-    border: 1px solid #555;
+    border: none;
     outline: none;
-    background: #1f2937;
-    color: white;
+    background: white;
+    color: black;
     font-size: 14px;
+    font-weight: bolder;
 }
 
 .sign-in input::placeholder,
@@ -464,15 +465,15 @@ main {
     width: auto;
     padding: 8px 20px;
     border-radius: 20px;
-    background: transparent;
-    border: 1px solid green;
+    background: black;
+    border: 1px solid white;
     color: white;
-
+    transition: transform 0.3s ease;
 }
 
 .sign-in>div:last-child button:hover,
 .sign-up>div:last-child button:hover {
-    box-shadow: 0 0 10px green;
+    transform: scale(1.056);
 }
 
 .password-mis-match {

@@ -41,8 +41,9 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://571d-41-204-44-165.ngrok-free.app";
+const ipAddress ="https://ee47-2a09-bac1-5e40-1e8-00-6b-7d.ngrok-free.app";
 //const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress = "http://localhost:8080";
 // ==================== LOCAL STORAGE ====================
 
 const User = JSON.parse(localStorage.getItem("user") || "null");
@@ -167,7 +168,7 @@ signIn.addEventListener("click", async (event) => {
         const Result = await fetchData(Payload);
       
         if (Result && Result.status === "OK") {
-            alert(JSON.stringify(Result));
+    
             Loading.style.display = "none";
             delete Result.status;
             localStorage.setItem("user", JSON.stringify(Result));

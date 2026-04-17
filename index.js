@@ -17,8 +17,9 @@ const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 
-const ipAddress = "https://571d-41-204-44-165.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = https://ee47-2a09-bac1-5e40-1e8-00-6b-7d.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress = "http://localhost:8080";
 // Initially hide elements
 const User = JSON.parse(localStorage.getItem("user") || "null");
 
@@ -212,11 +213,18 @@ async function GetProducts(KeyWord1) {
                             <span class="name">${prod.RetailerName}</span>
                             <span class="retailerID">${prod.RetailerID}</span>
                         </div>
+                        <div class="view-page">
+                            Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
                     </div>
                     <h4 class="product-name">${prod.Name}</h4>
                     <h3 class="product-price">GHC : ${prod.Price}</h3>
                     <p class="product-description">${prod.Description}</p>
-                    <button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                    <div class="prouduct-cart-bottom">
+                       <p class="posted-at">posted ${prod.postedAt}</p>
+                       <button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                    </div>
+                    
                 </div>
             `;
 
@@ -276,7 +284,7 @@ Main.addEventListener("click", async e => {
 
         //alert(retailerID);
 
-    } else if (e.target.closest(".retailer")) {
+    } else if (e.target.closest(".view-page")) {
         const productCard = e.target.closest(".product-card");
         const AccountOverlay = document.querySelector(".account-overlay");
 
@@ -297,9 +305,9 @@ Main.addEventListener("click", async e => {
 
             let Account_Info = Result["Account_Info"];
             let Account_Products = Result["Account_Products"];
-            alert(JSON.stringify(Account_Products));
+
             if (Array.isArray(Account_Products) && Account_Products.length !== 0) {
- 
+
                 AccountOverlay.querySelector(".view-products").innerHTML = "";
 
                 const fragment = document.createDocumentFragment();
@@ -311,21 +319,27 @@ Main.addEventListener("click", async e => {
                     ProductCard.innerHTML = `
                     <img src="${ipAddress}/products/${product.Url}" alt="">
                     <p class="view-prod-name">${product.name}</p>
-                    <p class="view-prod-price">${product.price}</p>
+                    <p class="view-prod-price">GHC : ${product.price}</p>
                     <p class="view-prod-description">${product.description}</p>
+                    <div class="prouduct-cart-bottom">
+                       <p class="posted-at">Posted ${product.postedAt}</p>
+                       <div class="order"><i class="fa-solid fa-shopping-cart"></i></div>
+                    </div>
                 `;
 
                     fragment.appendChild(ProductCard);
                 });
 
-               
+
 
                 AccountOverlay.querySelector(".view-products").appendChild(fragment);
 
                 if (Account_Info && Account_Info.ProfilePic) {
-                    AccountOverlay.querySelector(".account-pro-pic").style.display = "block";
-                    AccountOverlay.querySelector(".account-pro-pic img").src =
+                    AccountOverlay.querySelector(".account-pro-pic").style.display = "flex";
+                    AccountOverlay.querySelector(".account-pro-pic>img").style.display = "flex";
+                    AccountOverlay.querySelector(".account-pro-pic>img").src =
                         `${ipAddress}/profile/${Account_Info.ProfilePic}`;
+
 
                     AccountOverlay.querySelector(".account-user").style.display = "none";
                 }
@@ -336,16 +350,13 @@ Main.addEventListener("click", async e => {
                 AccountOverlay.querySelector(".my-account-phone").textContent = Account_Info.Phone;
 
                 AccountOverlay.style.display = "flex";
-            }else{
-                alert("not an arry");
             }
         }
+
+        AccountOverlay.querySelector(".cancel-product-view").addEventListener("click", () => {
+            AccountOverlay.style.display = "none";
+        })
     }
-
-    AccountOvelay.querySelector(".cancel-product-view").addEventListener("click", () => {
-        AccountOvelay.style.display = "none";
-    });
-
 });
 
 // cart execution

@@ -16,9 +16,6 @@ body {
     flex-direction: column;
 
     min-height: 100vh;
-    /*background:
-        radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 60%),
-        #020617;*/
     background: transparent;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -30,9 +27,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-
+   
     background: url("/image/background.jpg") no-repeat center center/cover;
-
     filter: blur(10px);
     z-index: -1;
 }
@@ -46,7 +42,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.822);
     /* adjust transparency */
 }
 
@@ -74,6 +70,9 @@ body {
 
 .account-overlay {
     flex-direction: column;
+    display: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 /* Hide class */
@@ -171,8 +170,6 @@ header {
     border: 1px white solid;
     border-radius: 50%;
 }
-
-
 
 .account-signature:hover {
     box-shadow: 0 0 10px green;
@@ -502,9 +499,22 @@ main,
     /* enable vertical scrolling */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2px;
+    gap: 5px;
     padding: 10px;
     background: transparent;
+}
+
+.view-products{
+    width: 100%;
+}
+/* Scrollbar styling */
+.view-products::-webkit-scrollbar {
+    width: 6px;
+}
+
+.view-products::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
 }
 
 /* Scrollbar styling */
@@ -519,32 +529,28 @@ main::-webkit-scrollbar-thumb {
 
 /* ---------- PRODUCT CARD ---------- */
 .product-card{
-    /*border: 1px solid rgba(255, 255, 255, 0.137);*/
-    /*background: rgba(255, 255, 255, 0.397);*/
-    background: rgba(0, 0, 0, 0.699);
+   
+    background: burlywood ;
     width: 100%;/* fill the grid cell */
     
     display: flex;
     flex-direction: column;
-    transition: 0.3s ease;
-    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border-radius: 15px;
     height: 500px;
 }
+
 
 .a-product{
-    background: rgba(0, 0, 0, 0.699);
-    width: 100%;/* fill the grid cell */
-    
+    background: burlywood;
+    width: 100%;
     display: flex;
     flex-direction: column;
     transition: 0.3s ease;
     border-radius: 10px;
-    height: 500px;
-}
-
-/* Hover effect */
-.product-card:hover {
-    border: 1px rgba(255, 255, 255, 0.349) solid;
+    height: 470px;
+    padding-bottom: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.466);
 }
 
 /* ---------- IMAGE ---------- */
@@ -573,14 +579,10 @@ main::-webkit-scrollbar-thumb {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: white;
+    color: black;
     padding: 5px;
     cursor: pointer;
     transition: 0.3s ease;
-}
-
-.retailer:hover {
-    background: rgba(255, 255, 255, 0.089);
 }
 
 .retailer img {
@@ -588,6 +590,22 @@ main::-webkit-scrollbar-thumb {
     height: 40px;
     border-radius: 50%;
     background: #ddd;
+}
+
+.view-page {
+    font-size: 10px;
+    background: black; /* Subtle green tint */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Prevents text wrapping */
+    margin-left: auto; /* Pushes it to the far right of the retailer div */
+    height: 25px;
+    align-content: center;
 }
 
 /* User detail block */
@@ -605,7 +623,7 @@ main::-webkit-scrollbar-thumb {
 .user-detail .name {
     font-weight: bold;
     font-size: 14px;
-    color: white;
+    color: black;
     white-space: nowrap;
     /* prevent breaking if too long */
     overflow: hidden;
@@ -628,9 +646,9 @@ main::-webkit-scrollbar-thumb {
 
 /* Product text */
 .product-name {
-    font-size: 18px;
+    font-size: 15px;
     margin: 0;
-    color: white;
+    color:black;
     padding-left: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -655,7 +673,7 @@ main::-webkit-scrollbar-thumb {
 
 .product-description {
     font-size: 13px;
-    color: #555;
+    color: black;
     margin: 0;
     width: 300px;
     display: -webkit-box;
@@ -668,13 +686,28 @@ main::-webkit-scrollbar-thumb {
     text-overflow: ellipsis;
     /* adds the ... at the end */
     margin: auto;
-    height: 34px;
+    height: 40px;
     padding: 2px 0;
 }
 
-.cart {
+.prouduct-cart-bottom{
+    display: inline-flex;
+    align-items: center;
+}
+
+.posted-at{
     color: white;
-    background: rgba(255, 255, 255, 0.158);
+    font-size: 12px;
+    background: black;
+    height: max-content;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.cart , .order {
+    color: white;
+    background: black;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -685,15 +718,17 @@ main::-webkit-scrollbar-thumb {
     cursor: pointer;
     transition: 0.3s ease;
     border: none;
+    font-size: 20px;
 }
 
-.cart:hover {
+.cart:hover , .order:hover {
     transform: scale(1.22);
 }
 
 .my-account {
     display: flex;
     align-items: center;
+    padding-bottom: 5px;
 }
 
 .my-account>.top {
@@ -710,16 +745,20 @@ main::-webkit-scrollbar-thumb {
 }
 
 .account-user {
-    display: none;
-    width: 20px;
-    height: 80px;
-}
-
-.account-pro-pic{
-    display: none;
     width: 80px;
     height: 80px;
+    display: none;
+    align-items: center;
+    justify-content: center;
 }
+
+.account-pro-pic , .account-pro-pic>img{
+    display: flex;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
 .cancel-product-view {
     position: absolute;
     top: 20px;
@@ -760,7 +799,7 @@ main::-webkit-scrollbar-thumb {
 .my-account-id {
     color: rgba(255, 255, 255, 0.534);
     margin-left: 20px;
-    font-weight: bolder;
+    font-size: 13px;
 }
 
 .my-account-email {
@@ -768,25 +807,25 @@ main::-webkit-scrollbar-thumb {
     font-weight: bolder;
 }
 
+.to-bottom{
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+    color: white;
+}
+
+.to-bottom i{
+    width: 40px;
+    height: 40px;
+    background: green;
+    margin-left:20px;
+    border-radius: 50%;
+
+}
+
 .my-account-phone {
     color: rgba(255, 255, 255, 0.534);
     font-weight: bolder;
-}
-
-.view-products{
-    width: 100%;
-}
-
-/* Hover effect */
-.a-product:hover {
-   border: 1px white solid;
-}
-
-.a-product{
-     background: rgba(0, 0, 0, 0.699);
-     transition: 0.3s ease;
-     border-radius: 10px;
-     height: 470px;
 }
 
 /* Product image */
@@ -794,23 +833,22 @@ main::-webkit-scrollbar-thumb {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px 12px 0 0;
     margin-bottom: 10px;
 }
 
 /* Product name */
 .view-prod-name {
-    font-size: 18px;
     font-weight: bold;
     margin: 5px 0;
-    color: white;
-    font-size: 20px;
+    color: black;
+    font-size: 15px;
     padding-left: 10px;
 }
 
 /* Price */
 .view-prod-price {
-    font-size: 16px;
+    font-size: 15px;
     color: green;
     margin-bottom: 5px;
     padding-left: 15px;
@@ -820,7 +858,7 @@ main::-webkit-scrollbar-thumb {
 /* Description */
 .view-prod-description {
     font-size: 13px;
-    color: #555;
+    color: black;
     margin: 0;
     width: 300px;
     display: -webkit-box;
@@ -833,37 +871,10 @@ main::-webkit-scrollbar-thumb {
     text-overflow: ellipsis;
     /* adds the ... at the end */
     margin: auto;
-    height: 34px;
+    height: 40px;
     padding: 2px 0;
 }
 
-/* Order button */
-.order {
-  
-    bottom: 15px;
-    right: 15px;
-
-    width: 40px;
-    height: 40px;
-
-    background: #00ffcc;
-    color: black;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 50%;
-    cursor: pointer;
-
-    transition: 0.3s;
-    margin: 20px 5px 5px auto;
-}
-
-/* Hover effect for button */
-.order:hover {
-    transform: scale(1.1);
-}
 
 @media (max-width:770px) {
     main {
@@ -882,7 +893,6 @@ main::-webkit-scrollbar-thumb {
 
 
     .product-image img {
-
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
@@ -906,7 +916,18 @@ main::-webkit-scrollbar-thumb {
     }
 
     .view-products{
-        padding: none;
+        grid-template-columns: 1fr;
+        padding: 0 ;
+        gap: 0;
+    }
+
+    .a-product , .a-product img{
+        border-radius: 0;
+    }
+
+    .a-product:hover{
+            border: none;
+             transform: scale(1);
     }
 
 }

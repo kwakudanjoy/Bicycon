@@ -47,7 +47,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.658);
+    background: rgba(0, 0, 0, 0.822);
     /* adjust transparency */
 }
 
@@ -635,7 +635,7 @@ main {
 /* ===== PRODUCT CARD ===== */
 .list-card {
     gap: 3px;
-   background: rgba(0, 0, 0, 0.699);
+    background: white;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     display: flex;
@@ -663,7 +663,7 @@ main {
 .list-card .pord-name {
     font-size: 16px;
     font-weight: bold;
-    color: white;
+    color:black;
     margin-left: 5px;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -676,7 +676,7 @@ main {
 /* PRODUCT ID */
 .list-card .prod-id {
     font-size: 12px;
-    color: #aaa;
+    color: black;
     margin-left: 9px;
     word-break: break-all;
 }
@@ -685,7 +685,7 @@ main {
 .list-card .prod-price {
     font-size: 14px;
     font-weight: 500;
-    color: #22c55e;
+    color: green;
     margin-left: 20px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -698,7 +698,7 @@ main {
 /* PRODUCT DESCRIPTION */
 .list-card .final-prod-description {
     font-size: 13px;
-    color: #ddd;
+    color: black;
     margin: 0 10px;
     padding: 2px 0;
     display: -webkit-box;
@@ -707,37 +707,94 @@ main {
     word-break: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 34px;
+    height: 40px;
     width: 300px;
 
     /* handles long strings */
 }
 
 
-/* EDIT BUTTON */
+/* ACTION BUTTON CONTAINER */
 .edith-delete-prod {
     display: flex;
-    width: 100%;
     justify-content: center;
-    gap: 15px;
-    margin: 10px;
+    gap: 12px;
+    margin: 12px 0;
 }
 
+/* BASE BUTTON STYLE */
 .edith-delete-prod div {
     display: flex;
-    padding: 5px 10px;
-    gap: 5px;
     align-items: center;
-    border-radius: 20px;
+    gap: 6px;
+
+    padding: 8px 14px;
+    border-radius: 999px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    user-select: none;
 }
 
-
+/* EDIT BUTTON */
 .edith-prod {
-    border: 1px green solid;
+    border: 1px solid #2ecc71;
+    color: #2ecc71;
+    background: rgba(46, 204, 113, 0.08);
 }
 
+.edith-prod i {
+    color: #2ecc71;
+}
+
+/* HOVER EDIT */
+.edith-prod:hover {
+    background: #2ecc71;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(46, 204, 113, 0.25);
+}
+
+.edith-prod:hover i {
+    color: white;
+}
+
+/* DELETE BUTTON */
 .delete-prod {
-    border: 1px red solid;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.08);
+}
+
+.delete-prod i {
+    color: #e74c3c;
+}
+
+/* HOVER DELETE */
+.delete-prod:hover {
+    background: #e74c3c;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(231, 76, 60, 0.25);
+}
+
+.delete-prod:hover i {
+    color: white;
+}
+
+.posted-at{
+    color: white;
+    font-size: 12px;
+    background: rgb(128, 128, 128);
+    height: max-content;
+    padding: 5px 10px;
+    border-radius: 20px;
+    width: max-content;
+    margin: 0 auto 10px auto;
 }
 
 /* ===== EDIT PRODUCT CONTAINER ===== */
@@ -1095,6 +1152,7 @@ header p {
     opacity: 0.8;
 }
 
+
 /*Edith account*/
 .my-profile {
     height: 100%;
@@ -1142,11 +1200,12 @@ header p {
 .profile-actions {
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    color: green;
 }
 
 .quick-buttons {
@@ -1174,9 +1233,9 @@ header p {
     border-radius: 50%;
     border: none;
     font-weight: bolder;
-    background: transparent;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255, 255, 255) !important;
     margin: 10px 7px 0 0;
+    color: black;
 }
 
 .edit-account-email button,
@@ -1200,19 +1259,22 @@ header p {
 .upload-new-profile,
 .upload-new-email,
 .upload-new-phone {
-    color: green;
+    color: white;
+    background: green !important;
 }
 
 .edith-old-profile,
 .edith-old-email,
 .edith-old-phone {
-    color: white;
+    color:green;
+    background: white !important;
 }
 
 .cance-profile-update,
 .cancel-email-update,
 .cancel-phone-update {
-    color: red;
+    color: white;
+    background: red !important;
 }
 
 .account-info {
@@ -1220,7 +1282,7 @@ header p {
 }
 
 .account-info p:nth-child(1) {
-    color: rgba(255, 255, 255, 0.459);
+    color: rgb(255, 255, 255);
     margin: 5px 0;
     width: 330px;
     border-radius: 10px;
@@ -1240,12 +1302,13 @@ header p {
 
 .display-email,
 .display-phone {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255, 255, 255);
     margin: 5px 0;
     width: 280px;
     padding: 7px;
     border-radius: 10px;
     font-weight: bolder;
+    color: black
 }
 
 /*Email*/
@@ -1257,19 +1320,80 @@ header p {
     outline: none;
     border: none;
     display: none;
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
+    background: rgb(255, 255, 255);
+    color: black;
     font-weight: bolder;
 }
 
-.log-out button {
-    padding: 10px 20px;
+.delete-account {
+    width: 100%;
+    max-width: 420px;
+    margin: 20px auto;
+    padding: 20px;  
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* HEADER */
+.delete-account header p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e74c3c;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.delete-account header span {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.4;
+}
+
+/* INPUT */
+.delete-account input {
+    padding: 12px 14px;
     border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.delete-account input:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
+
+/* BUTTON */
+.delete-account button , .log-out button {
+    padding: 12px;
     border: none;
-    font-weight: bolder;
-    background: rgb(255, 0, 0);
+    border-radius: 10px;
+
+    background: #e74c3c;
     color: white;
-    margin-top: 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+/* HOVER EFFECT */
+.delete-account button:hover , .log-out button:hover{
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(231, 76, 60, 0.3);
+}
+
+/* ACTIVE CLICK */
+.delete-account button:active {
+    transform: scale(0.98);
 }
 
 /* Phone input adjustments */
