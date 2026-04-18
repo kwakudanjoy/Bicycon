@@ -929,6 +929,7 @@ main::-webkit-scrollbar-thumb {
 
     .a-product , .a-product img{
         border-radius: 0;
+        box-shadow: 0;
     }
 
     .a-product:hover{
