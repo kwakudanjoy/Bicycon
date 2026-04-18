@@ -895,12 +895,12 @@ main::-webkit-scrollbar-thumb {
         /* allow flexible height */
         border-radius: 0;
         border: none !important;
+        box-shadow: none;
     }
 
 
     .product-image img {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+        border-radius: none;
     }
 
 
