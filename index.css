@@ -900,7 +900,7 @@ main::-webkit-scrollbar-thumb {
 
 
     .product-image img {
-        border-radius: none;
+        border-radius: 0;
     }
 
 
