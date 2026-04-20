@@ -115,6 +115,7 @@ nav {
     gap: 10px;
 
     padding: 10px 15px;
+    background: white;
 
 }
 
@@ -328,11 +329,12 @@ main {
     transition: 0.3s ease;
 
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    background: black;
 }
 
 /* icon */
 .plus-btn i , .upgrade i{
-    color: black;
+    color: white;
     font-size: 24px;
 }
 
@@ -1155,6 +1157,7 @@ header p {
     align-content: center;
     justify-items: center;
     display: none;
+    padding: 20px;
 }
 
 .edith-profile {
@@ -1631,23 +1634,6 @@ header p {
  color: red;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 600px) {
-  .order-cart {
-    padding: 14px;
-  }
-
-  .order-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .order-cart-actions {
-    justify-content: center;
-
-  }
-}
-
 /* Phone input adjustments */
 .iti {
     width: 100%;
@@ -1711,4 +1697,18 @@ header p {
         transform: scale(1);
         /* prevent overflow on small screens */
     }
+
+     .order-cart {
+    padding: 14px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-cart-actions {
+    justify-content: center;
+
+  }
 }
