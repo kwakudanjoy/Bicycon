@@ -62,7 +62,7 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://harbor-anyway-stud-tue.trycloudflare.com"; //"http://localhost:8080";
+const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 //const ipAddress = "http://localhost:8080";
 

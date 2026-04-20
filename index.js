@@ -17,7 +17,7 @@ const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 
-const ipAddress = "https://harbor-anyway-stud-tue.trycloudflare.com"; //"http://localhost:8080";
+const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
 //const ipAddress = "http://localhost:8080";
 // Initially hide elements
