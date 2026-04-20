@@ -26,6 +26,10 @@
 
         </header>
         <div class="nav">
+            <div class="home">
+                <i class="fa-solid fa-house" style="display: none;"></i>
+                <span>Stores</span>
+            </div>
             <div class="stores" style="display: none;">
                 <i class="fa-solid fa-house"></i>
                 <span>Stores</span>
@@ -163,9 +167,7 @@
     </div>
 
     <main>
-        <div class="user-section" style="display: none;">
-
-        </div>
+        
         <div class="product-section">
             <div class="product-count">
                 <h5>Product Count:</h5>
@@ -179,7 +181,6 @@
             </div>
             <div class="product-list">
             </div>
-
             <div class="plus">
                 <div class="plus-btn"><i class="fa-solid fa-plus"></i></div>
             </div>
@@ -228,7 +229,7 @@
             <!-- Editable Phone Section -->
             <div class="edit-account-phone">
                 <p class="display-phone">+1234567890</p>
-                <input type="tex" placeholder="Enter new phone number" class="new-phone-input">
+                <input type="tel" placeholder="Enter new phone number" class="new-phone-input">
                 <div class="field-buttons">
                     <button type="button" class="upload-new-phone"><i class="fa-solid fa-upload"></i></button>
                     <button type="button" class="edith-old-phone"><i class="fa-solid fa-pen"></i></button>
@@ -255,13 +256,14 @@
                 <div class="upgrade-btn"><i class="fa-solid fa-upload"></i></div>
             </div>
         </div>
-        <div class="orders-section">
+        <div class="no-order-section">
+            <p> ! Sorry U have no orders yet</p>
+        </div>
+        <div class="order-section">
         </div>
     </main>
-    <script type="module" src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-oQtrr7y5Q5zX/N5I8A5iVNRoEqE2o03CnqD+s6Ftb+E=" crossorigin=""></script>
+    <script type="module" src="main.js"></script>
 </body>
 
 </html>

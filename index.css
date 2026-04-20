@@ -27,9 +27,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-   
+
     /*background: url("/image/background.jpg") no-repeat center center/cover;*/
-   
+
     filter: blur(10px);
     z-index: -1;
 }
@@ -49,7 +49,8 @@ body {
 
 /*========= loading Overlay ========*/
 #loading-overlay,
-.account-overlay {
+.account-overlay,
+.payment-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -68,6 +69,11 @@ body {
 
     z-index: 9999;
 }
+
+.payment-overlay {
+    flex-direction: column;
+}
+
 
 .account-overlay {
     flex-direction: column;
@@ -169,13 +175,10 @@ header {
     align-items: center;
     justify-content: center;
     margin: 4px;
-    border: 1px white solid;
+    border: 1px black solid;
     border-radius: 50%;
 }
 
-.account-signature:hover {
-    box-shadow: 0 0 10px green;
-}
 
 .user {
     display: flex;
@@ -183,7 +186,7 @@ header {
     height: 35px;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: black;
 }
 
 .profile {
@@ -249,6 +252,12 @@ nav {
     color: white !important;
     background: black;
 
+}
+
+.key:hover {
+    background: rgba(0, 0, 0, 0.678);
+    align-self: center;
+    color: white;
 }
 
 .key {
@@ -492,6 +501,105 @@ nav {
     }
 }
 
+.cancel-purchase {
+    background: black;
+    color: white;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    justify-self: end;
+    transition: 0.3s ease;
+}
+
+.cancel-purchase:hover {
+    background: red;
+    transform: scale(1.33);
+}
+
+.pay-portal {
+    background: #ffffff;
+    padding: 25px 30px;
+    width: 90%;
+    max-width: 400px;
+
+
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.pay-portal h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #000;
+}
+
+.pay-portal p {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.customer-number-input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+
+    font-size: 14px;
+}
+
+.customer-number-input:focus {
+    border-color: #000;
+}
+
+.pay-portal button {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    /* black button */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-top: 15px;
+}
+
+.pay-portal button:hover {
+    background: #222;
+}
+
+.pay-portal button:active {
+    transform: scale(0.98);
+}
+
+.pay-portal {
+    animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
 /* ---------- GRID LAYOUT ---------- */
 main,
@@ -507,16 +615,17 @@ main,
     background: transparent;
 }
 
-.view-products{
+.view-products {
     width: 100%;
 }
+
 /* Scrollbar styling */
 .view-products::-webkit-scrollbar {
     width: 6px;
 }
 
 .view-products::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: black;
     border-radius: 10px;
 }
 
@@ -531,9 +640,10 @@ main::-webkit-scrollbar-thumb {
 }
 
 /* ---------- PRODUCT CARD ---------- */
-.product-card{
-    background: white ;
-    width: 100%;/* fill the grid cell */
+.product-card {
+    background: white;
+    width: 100%;
+    /* fill the grid cell */
     box-shadow: 0 0 5px black;
     display: flex;
     flex-direction: column;
@@ -543,8 +653,8 @@ main::-webkit-scrollbar-thumb {
 }
 
 
-.a-product{
-    background:white;
+.a-product {
+    background: white;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -596,7 +706,8 @@ main::-webkit-scrollbar-thumb {
 
 .view-page {
     font-size: 10px;
-    background: black; /* Subtle green tint */
+    background: black;
+    /* Subtle green tint */
     color: white;
     padding: 4px 8px;
     border-radius: 20px;
@@ -604,8 +715,10 @@ main::-webkit-scrollbar-thumb {
     font-weight: bold;
     text-transform: uppercase;
     transition: all 0.2s ease;
-    white-space: nowrap; /* Prevents text wrapping */
-    margin-left: auto; /* Pushes it to the far right of the retailer div */
+    white-space: nowrap;
+    /* Prevents text wrapping */
+    margin-left: auto;
+    /* Pushes it to the far right of the retailer div */
     height: 25px;
     align-content: center;
 }
@@ -650,7 +763,7 @@ main::-webkit-scrollbar-thumb {
 .product-name {
     font-size: 15px;
     margin: 0;
-    color:black;
+    color: black;
     padding-left: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -692,12 +805,12 @@ main::-webkit-scrollbar-thumb {
     padding: 2px 0;
 }
 
-.prouduct-cart-bottom{
+.prouduct-cart-bottom {
     display: inline-flex;
     align-items: center;
 }
 
-.posted-at{
+.posted-at {
     color: white;
     font-size: 12px;
     background: black;
@@ -707,7 +820,8 @@ main::-webkit-scrollbar-thumb {
     border-radius: 20px;
 }
 
-.cart , .order {
+.cart,
+.order {
     color: white;
     background: black;
     width: 40px;
@@ -723,7 +837,8 @@ main::-webkit-scrollbar-thumb {
     font-size: 20px;
 }
 
-.cart:hover , .order:hover {
+.cart:hover,
+.order:hover {
     transform: scale(1.22);
 }
 
@@ -754,7 +869,8 @@ main::-webkit-scrollbar-thumb {
     justify-content: center;
 }
 
-.account-pro-pic , .account-pro-pic>img{
+.account-pro-pic,
+.account-pro-pic>img {
     display: flex;
     width: 90px;
     height: 90px;
@@ -769,7 +885,8 @@ main::-webkit-scrollbar-thumb {
     width: 40px;
     height: 40px;
 
-    background: black; /* black background */
+    background: black;
+    /* black background */
     color: red;
 
     display: flex;
@@ -781,7 +898,8 @@ main::-webkit-scrollbar-thumb {
 
     font-size: 18px;
 
-    box-shadow: 0 0 3px black;;
+    box-shadow: 0 0 3px black;
+    ;
     transition: all 0.3s ease;
 }
 
@@ -801,7 +919,7 @@ main::-webkit-scrollbar-thumb {
 .my-account-id {
     color: black;
     margin-left: 20px;
-    font-size: 13px; 
+    font-size: 13px;
     font-weight: bolder;
 }
 
@@ -810,18 +928,18 @@ main::-webkit-scrollbar-thumb {
     font-weight: bolder;
 }
 
-.to-bottom{
+.to-bottom {
     display: inline-flex;
     align-items: center;
     padding: 5px;
     color: white;
 }
 
-.to-bottom i{
+.to-bottom i {
     width: 40px;
     height: 40px;
     background: green;
-    margin-left:20px;
+    margin-left: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -881,6 +999,13 @@ main::-webkit-scrollbar-thumb {
     padding: 2px 0;
 }
 
+.iti {
+    width: 100%;
+}
+
+.iti__selected-flag {
+    max-width: 90px;
+}
 
 @media (max-width:770px) {
     main {
@@ -917,24 +1042,26 @@ main::-webkit-scrollbar-thumb {
     }
 
     .key:hover {
-        background: green;
+        background: black;
         align-self: center;
+        color: white;
     }
 
-    .view-products{
+    .view-products {
         grid-template-columns: 1fr;
-        padding: 0 ;
+        padding: 0;
         gap: 0;
     }
 
-    .a-product , .a-product img{
+    .a-product,
+    .a-product img {
         border-radius: 0;
         box-shadow: 0;
     }
 
-    .a-product:hover{
-            border: none;
-             transform: scale(1);
+    .a-product:hover {
+        border: none;
+        transform: scale(1);
     }
 
 }

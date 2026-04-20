@@ -17,13 +17,15 @@ const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 
-const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
+//const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
 //const ipAddress = "http://192.168.0.117:8080";
-//const ipAddress = "http://localhost:8080";
+const ipAddress = "http://localhost:8080";
 // Initially hide elements
 const User = JSON.parse(localStorage.getItem("user") || "null");
+let iti = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
+     
     Loading.style.display = "flex";
     await Insert_Categories();
     Loading.style.display = "none";
@@ -186,7 +188,7 @@ function getLocalCategories() {
 }
 
 async function GetProducts(KeyWord1) {
-
+   
     const Payload = {
         INSTRUCTION: "GET-PRODUCT",
         KeySearch: KeyWord1
@@ -194,37 +196,38 @@ async function GetProducts(KeyWord1) {
 
     const products = await fetchData(Payload);  // await if Get is async
     if (Array.isArray(products) || products.length !== 0) {
-
         Main.innerHTML = "";
         const fragment = document.createDocumentFragment(); // create fragment
 
         products.forEach(prod => {
             const ProductCard = document.createElement("div");
             ProductCard.className = "product-card";
-
             ProductCard.innerHTML = `
-                <div class="product-image">
-                    <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
-                </div>
-                <div class="product-info">
-                    <div class="retailer">
-                        <img src="${ipAddress}/profile/${prod.profilePic}"alt="Retailer Logo" class="retailer_profile_pic">
-                        <div class="user-detail">
-                            <span class="name">${prod.RetailerName}</span>
-                            <span class="retailerID">${prod.RetailerID}</span>
+                <div class="product-card" data-product-id="${prod.prodid}">
+                    <div class="product-image">
+                        <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="retailer">
+                            <img src="${ipAddress}/profile/${prod.profilePic}" alt="Retailer Logo" class="retailer_profile_pic">
+                            <div class="user-detail">
+                                <span class="name">${prod.RetailerName}</span>
+                                <span class="retailerID">${prod.RetailerID}</span>
+                            </div>
+                            <div class="view-page">
+                                Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </div>
                         </div>
-                        <div class="view-page">
-                            Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <h4 class="product-name">${prod.Name}</h4>
+                        <h3 class="product-price">GHC : ${prod.Price}</h3>
+                        <p class="product-description">${prod.Description}</p>
+                        <div class="prouduct-cart-bottom">
+                            <p class="posted-at">posted ${prod.postedAt}</p>
+                            <button class="cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
                         </div>
                     </div>
-                    <h4 class="product-name">${prod.Name}</h4>
-                    <h3 class="product-price">GHC : ${prod.Price}</h3>
-                    <p class="product-description">${prod.Description}</p>
-                    <div class="prouduct-cart-bottom">
-                       <p class="posted-at">posted ${prod.postedAt}</p>
-                       <button class="cart"><i class="fa-solid fa-cart-shopping"></i></button>
-                    </div>
-                    
                 </div>
             `;
 
@@ -276,6 +279,71 @@ Main.addEventListener("click", async e => {
 
                 // optionally reset quantity to 1
                 Cart_Overlay.querySelector(".qty-number").textContent = "1";
+
+                Cart_Overlay.querySelector(".cart-buy-btn").onclick = () => {
+                    let ProductID = productCard.dataset.productId;
+                    let quantity = parseInt(Cart_Overlay.querySelector(".qty-number").textContent);
+
+                    const Purchase_Overlay = document.querySelector(".payment-overlay");
+                    const Customer_Numer_Input = Purchase_Overlay.querySelector(".customer-number-input");
+                    const Purchase_Btn = Purchase_Overlay.querySelector(".purchase-btn");
+                    const Cancel_Purchase = Purchase_Overlay.querySelector(".cancel-purchase");
+                    Purchase_Overlay.querySelector(".customer-number-input").value = null;
+
+                    Cart_Overlay.style.display = "none";
+                    Purchase_Overlay.style.display = "flex";
+
+
+                    Cancel_Purchase.onclick = () => {
+                        Cart_Overlay.style.display = "flex";
+                        Purchase_Overlay.style.display = "none";
+                    };
+
+                    if (!iti) {
+                        
+                        iti = window.intlTelInput(document.querySelector(".customer-number-input"), {
+                            initialCountry: "auto",
+                            geoIpLookup: function (callback) {
+                                fetch("https://ipapi.co/json")
+                                    .then(res => res.json())
+                                    .then(data => callback(data.country_code))
+                                    .catch(() => callback("us"));
+                            },
+
+                            separateDialCode: true,
+                            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+                        });
+                    }
+
+                    Purchase_Btn.onclick = async () => {
+                       
+                        if (!iti.isValidNumber()) {
+                            alert("Please enter a valid phone number");
+                            return;
+                        }
+                        let Phone = iti.getNumber();
+                        let newProductPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""));
+                     
+                        let Payload = {
+                            INSTRUCTION: "PLACE-ORDER",
+                            ProductId: ProductID,
+                            Quantity: quantity,
+                            CustomerPhone: Phone,
+                            ProductName : productName,
+                            ProductPrice : newProductPrice
+                        }
+
+                        
+
+                        Loading.style.display = "flex";
+                        let Result = await fetchData(Payload);
+                        if(Result && Result.status === "OK"){
+                            Loading.style.display = "none";
+                            Purchase_Overlay.style.display = "none";
+                        }
+                        // handle purchase
+                    };
+                };
             }
         } catch (err) {
             alert("sorry Error cooured");
@@ -350,6 +418,11 @@ Main.addEventListener("click", async e => {
                 AccountOverlay.querySelector(".my-account-phone").textContent = Account_Info.Phone;
 
                 AccountOverlay.style.display = "flex";
+
+                AccountOverlay.querySelector(".to-bottom > .fa-phone").addEventListener("click",()=>{
+                    let Phone = Account_Info.Phone;
+                    window.location.href = `tel:${Phone}`;
+                });
             }
         }
 

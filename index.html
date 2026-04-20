@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/css/intlTelInput.css">
     <link rel="stylesheet" href="index.css">
     <title>Home</title>
 </head>
@@ -46,18 +47,15 @@
                 <img src="/image/photo-1555617766-c94804975da3.avif" alt="Product Image" class="cart-product__image">
 
                 <div class="cart-product__details">
-                    <p class="cart-product__name">Iphone 12pro</p>
-                    <p class="cart-product__price">GHC 50</p>
-                    <p class="cart-product__description">
-                        KDSKDJKDSJDKSDJKDSJDKS,;SDPWWEWE;WOPWO';LD;SKODOJWEWEHUWHJHHYSDYGSDBSHDSDGS
-                    </p>
+                    <p class="cart-product__name"></p>
+                    <p class="cart-product__price"></p>
+                    <p class="cart-product__description"></p>
                 </div>
 
             </div>
 
             <!-- RETAILER INFO -->
             <div class="cart-retailer">
-
                 <img src="/image/photo-1555617766-c94804975da3.avif" alt="Retailer Image" class="cart-retailer__image">
 
                 <div class="cart-retailer__info">
@@ -65,12 +63,10 @@
                     <p class="cart-retailer__email">kwakudanjoy12@gmail.com</p>
                     <p class="cart-retailer__phone">0203544784</p>
                 </div>
-
             </div>
 
             <!-- ORDER CONTROLS -->
             <div class="cart-actions">
-
                 <div class="cart-quantity">
                     <button class="qty-btn minus">−</button>
                     <span class="qty-number">1</span>
@@ -80,17 +76,37 @@
                 <button class="cart-buy-btn">
                     <i class="fa-solid fa-shopping-cart"></i> Buy
                 </button>
-
             </div>
 
             <!-- CUSTOMER INFO -->
             <div class="cart-customer">
                 <!-- future inputs -->
             </div>
-
         </div>
-
     </div>
+    <div class="payment-overlay">
+        
+        <div class="pay-portal">
+            <div class="cancel-purchase"><i class="fa-solid fa-x"></i></div>
+            <h4>Complete Your Order</h4>
+
+            <p>
+                You’re almost done! 🚀
+                Payment is currently arranged directly with the retailer.
+            </p>
+
+            <p>
+                After placing your order, the retailer will contact you to confirm:
+                <br>• Payment method (on delivery or upfront)
+                <br>• Delivery or pickup details
+            </p>
+
+            <p>Please enter your phone number below to proceed:</p>
+            <input type="tel" placeholder="Enter your phone number" class="customer-number-input">
+            <button type="button" class="purchase-btn">Place Order</button>
+        </div>
+    </div>
+
     <div class="account-overlay">
         <div class="cancel-product-view"><i class="fa-solid fa-x"></i></div>
         <div class="my-account">
@@ -117,6 +133,7 @@
 
         <!-- Repeat product-card as needed -->
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>
     <script type="module" src="index.js"></script>
 </body>
 

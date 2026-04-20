@@ -55,13 +55,15 @@ const Edit_Old_Phone = document.querySelector(".edith-old-phone");
 const Cancel_New_Phone_Upload = document.querySelector(".cancel-phone-update");
 const Upgrade_Overlay = document.querySelector(".upgrade-overlay");
 const Upgrade = document.querySelector(".upgrade-btn");
+const PlacedOrdersList = document.querySelector(".order-section");
+const NoOrderSection = document.getElementById(".no-order-section");
 
 const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
-//const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress = "https://c542-2a09-bac5-50ed-3032-00-4cd-1c.ngrok-free.app"; //"http://localhost:8080";
+const ipAddress = "http://192.168.0.117:8080";
 //const ipAddress = "http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
@@ -109,8 +111,18 @@ function SetProfile() {
     }
 }
 
+function showOrders() {
+    ProductSection.style.display = "none";
+    MyProfile.style.display = "none";
+    PlacedOrdersList.style.display = "grid";
+}
+
+function showNoOrder() {
+
+}
+
 async function Load_Image(Url) {
-    
+
     const res = await fetch(`${ipAddress}/profile/${User["profilePic"]}`, {
         headers: {
             "ngrok-skip-browser-warning": "true"
@@ -141,8 +153,20 @@ Products.addEventListener("click", () => {
     } else {
         ProductSection.style.display = "flex";
         MyProfile.style.display = "none";
+        PlacedOrdersList.style.display = "none";
     }
 
+});
+
+Orders.addEventListener("click", () => {
+    if (PlacedOrdersList.children.length === 0) {
+        getPlacedOrders();
+    } else {
+        ProductSection.style.display = "none";
+        MyProfile.style.display = "none";
+        PlacedOrdersList.style.display = "grid";
+        NoOrderSection.style.display = "none";
+    }
 });
 
 // ====== INITIAL LOAD ======
@@ -213,7 +237,6 @@ async function UploadFileWithData(formData) {
 // ====== GET MY PRODUCTS ======
 async function getMyProducts() {
 
-
     let User = JSON.parse(localStorage.getItem("user")); // get user data
     //Loading.style.display = "flex";
     if (!User["User-ID"]) return showNoProduct();
@@ -228,7 +251,7 @@ async function getMyProducts() {
 
     const productList = await fetchData(payload);
     if (Array.isArray(productList) && productList.length !== 0) {
-       
+
         Loading.style.display = "none";
 
         //Loading.style.display = "flex";
@@ -264,6 +287,162 @@ async function getMyProducts() {
     ProductCount.textContent = count;
     showProducts();
 }
+async function getPlacedOrders() {
+    let User = JSON.parse(localStorage.getItem("user"));
+
+    if (!User["User-ID"]) return showNoProduct();
+
+    let payload = {
+        INSTRUCTION: "GET-MY-ORDERS",
+        User_id: User["User-ID"]
+    };
+
+    Loading.style.display = "flex";
+    const OrderList = await fetchData(payload);
+
+    if (!Array.isArray(OrderList) || OrderList.length === 0) {
+        Loading.style.display = "none";
+        ProductSection.style.display = "none";
+        MyProfile.style.display = "none";
+        PlacedOrdersList.style.display = "none";
+        NoOrderSection.style.display = "block";
+        return;
+    }
+
+    Loading.style.display = "none";
+
+    PlacedOrdersList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    OrderList.forEach(ord => {
+
+        let status = (ord["status"] || "").toLowerCase().trim(); // ✅ FIXED + SAFE
+
+        const card = document.createElement("div");
+        card.classList.add("order-cart");
+
+        card.innerHTML = `
+            <div class="order-cart-top">
+                <div class="order-header">
+                    <span class="order-index">#${ord.index}</span>
+                    <span class="order-id">Order #${ord.orderId}</span>
+                    <span class="order-date">${ord.date}</span>
+                    <span class="order-time">${ord.time}</span>
+                </div>
+
+                <div class="product-info">
+                    <h4 class="product-name">${ord.productName}</h4>
+                    <span class="product-id">Product id: #${ord.productId}</span>
+                </div>
+
+                <div class="customer-phone">
+                    <span class="phone">${ord.customerPhone}</span>
+                    <div class="phone-icon"><i class="fa-solid fa-phone"></i></div>
+                </div>
+
+                <div class="order-details">
+                    <div class="detail">
+                        <span>Quantity</span>
+                        <strong class="order-quantity">${ord.quantity}</strong>
+                    </div>
+
+                    <div class="detail">
+                        <span>Price</span>
+                        <strong class="amount-per-product">GHC: ${ord.amountPerProduct}</strong>
+                    </div>
+
+                    <div class="detail total">
+                        <span>Total</span>
+                        <strong class="total-amount">GHC: ${ord.totalAmount}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-cart-actions">
+                <button type="button" class="accept-btn">Accept</button>
+                <button type="button" class="reject-btn">Reject</button>
+            </div>
+
+            <div class="order-cart-status">
+                <span class="status accepted">Accepted</span>
+                <span class="status rejected">Rejected</span>
+            </div>
+        `;
+
+        // 🔥 APPLY STATUS LOGIC HERE
+        const actions = card.querySelector(".order-cart-actions");
+        const statusBox = card.querySelector(".order-cart-status");
+        const accepted = card.querySelector(".status.accepted");
+        const rejected = card.querySelector(".status.rejected");
+
+        // reset
+        actions.style.display = "none";
+        statusBox.style.display = "none";
+        accepted.style.display = "none";
+        rejected.style.display = "none";
+
+        if (!status) {
+            // pending
+            actions.style.display = "flex";
+        } else if (status === "accepted") {
+            statusBox.style.display = "block";
+            accepted.style.display = "inline-block";
+        } else if (status === "rejected") {
+            statusBox.style.display = "block";
+            rejected.style.display = "inline-block";
+        }
+
+        // 👉 append AFTER logic
+        fragment.appendChild(card);
+    });
+
+    PlacedOrdersList.appendChild(fragment);
+    showOrders();
+}
+
+PlacedOrdersList.addEventListener("click", async (e) => {
+    const Item = e.target.closest(".order-cart");
+
+
+    let raw = Item.querySelector(".order-id").textContent;
+    let orderId = raw.replace("Order #", "").trim();
+
+    if (!Item) return;
+    if (e.target.closest(".accept-btn")) {
+        let Payload = {
+            INSTRUCTION: "SET-ORDER-STATUS",
+            OrderID: orderId,
+            status: "accepted"
+        }
+
+        Loading.style.display = "flex";
+        let Result = await fetchData(Payload);
+        alert(JSON.stringify(Result));
+        if (Result && Result.status === "OK") {
+            Loading.style.display = "none";
+            getPlacedOrders();
+        }
+
+    } else if (e.target.closest(".reject-btn")) {
+        let Payload = {
+            INSTRUCTION: "SET-ORDER-STATUS",
+            OrderID: orderId,
+            status: "rejected"
+        }
+
+        Loading.style.display = "flex";
+        let Result = await fetchData(Payload);
+        if (Result && Result.status === "OK") {
+            Loading.style.display = "none";
+            getPlacedOrders();
+        }
+    } else if (e.target.closest(".phone-icon")) {
+        
+        const phone = Item.querySelector(".phone").textContent.trim();
+
+        window.location.href = `tel:${phone}`;
+    }
+});
 
 async function Insert_Categories() {
     const selectWrapper = document.querySelector(".custom-select");
@@ -469,6 +648,7 @@ AddNewProd.addEventListener("click", async (e) => {
         Loading.style.display = "none";
     }
 });
+
 CancelNewProd.addEventListener("click", (e) => {
     e.preventDefault();
     AddProduct.style.display = "none";
@@ -661,7 +841,7 @@ ProductList.addEventListener("click", async (e) => {
 });
 
 Profile.addEventListener("click", () => {
-   
+
     let User = JSON.parse(localStorage.getItem("user"));
 
     if (User) {
@@ -675,15 +855,15 @@ Profile.addEventListener("click", () => {
         Cancel_New_Email_Upload.style.display = "none";
         Cancel_New_Phone_Upload.style.display = "none";
         document.querySelector(".iti").style.display = "none";
-      
+
         Display_Account_Name.textContent = User["User-Name"];
         Display_Account_Id.textContent = User["User-ID"];
         Display_Old_Email.textContent = User["Email"];
         Display_Old_Phone.textContent = User["Phone"];
 
-        
+
         if (User.profilePic) {
- 
+
             Edit_User_Icon.style.display = "none";
             Display_Profile_Image.src = `${ipAddress}/profile/${User["profilePic"]}`;
             Display_Profile_Image.style.display = "block";
@@ -771,7 +951,7 @@ Cancel_New_Profile_Update.addEventListener("click", () => {
     Upload_New_Image.style.display = "none";
 });
 
-Cancel_New_Profile_Update.addEventListener("dbclick",()=>{
+Cancel_New_Profile_Update.addEventListener("dbclick", () => {
 
 });
 
@@ -828,15 +1008,8 @@ Upload_New_Email.addEventListener("click", async () => {
             User.Email = Result["Email"];
             localStorage.setItem("user", JSON.stringify(User));
             Loading.style.display = "none";
-
-            // displaying new iMAGE
-            Display_Old_Email.style.display = "block";
             Display_Old_Email.textContent = Result["Email"];
-            New_Email_Input.style.display = "none";
-            New_Email_Input.value = "";
-            Upload_New_Email.style.display = "none";
-            Cancel_New_Email_Upload.style.display = "none"
-            Edit_Old_Email.style.display = "block";
+            Cancel_New_Email_Upload.click();
         }
     } catch {
         Loading.style.display = "none";
@@ -855,6 +1028,49 @@ Cancel_New_Email_Upload.addEventListener("click", () => {
     Edit_Old_Email.style.display = "block";
 });
 
+
+
+const iti = window.intlTelInput(New_Phone_Input, {
+    initialCountry: "auto",
+    geoIpLookup: function (callback) {
+        fetch("https://ipapi.co/json")
+            .then(res => res.json())
+            .then(data => callback(data.country_code))
+            .catch(() => callback("us"));
+    },
+    separateDialCode: true,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+});
+
+
+Upload_New_Phone.addEventListener("click", async () => {
+
+    let User = JSON.parse(localStorage.getItem("user"));
+
+    let New_Phone = iti.getNumber();
+
+    alert(New_Phone);
+    if (User) {
+        let Payload = {
+            INSTRUCTION: "UPDATE-MY-PHONE",
+            UserID: User["User-ID"],
+            new_Phone: New_Phone
+        }
+
+        Loading.style.display = "flex";
+        let Result = await fetchData(Payload);
+        if (Result && Result.status === "OK") {
+            User.Phone = Result["New_Phone"];
+            localStorage.setItem("user", JSON.stringify(User));
+            Loading.style.display = "none";
+            Display_Old_Phone.textContent = Result["New_Phone"];
+            Cancel_New_Phone_Upload.click();
+        }
+    }
+});
+
+
+
 Edit_Old_Phone.addEventListener("click", () => {
     Display_Old_Phone.style.display = "none";
     New_Phone_Input.style.display = "block";
@@ -865,29 +1081,6 @@ Edit_Old_Phone.addEventListener("click", () => {
     Cancel_New_Phone_Upload.style = "block";
     Edit_Old_Phone.style.display = "none";
 
-});
-
-Upload_New_Phone.addEventListener("click", async ()=>{
-
-   let User = JSON.parse(localStorage.getItem("user"));
-   let New_Phone = New_Phone_Input.value.trim();
-  
-   if(User){
-    let Payload = {
-        INSTRUCTION : "UPDATE-MY-PHONE",
-        UserID : User["User-ID"],
-        new_Phone : New_Phone
-    }
-
-    Loading.style.display = "flex";
-    let Result = await fetchData(Payload);
-    if(Result && Result.status === "OK"){
-        User.Phone = Result["New_Phone"];
-        localStorage.setItem("user", JSON.stringify(User));
-        Cancel_New_Phone_Upload.click();
-        Loading.style.display = "none";
-    }
-   }
 });
 
 Cancel_New_Phone_Upload.addEventListener("click", () => {
@@ -910,11 +1103,11 @@ LogOut.addEventListener("click", () => {
     }
 });
 
-Upgrade.addEventListener("click",()=>{
+Upgrade.addEventListener("click", () => {
     Upgrade_Overlay.style.display = "flex";
 
-    Upgrade_Overlay.querySelector(".cancel-upgrade").addEventListener("click",()=>{
-         Upgrade_Overlay.style.display = "none";
+    Upgrade_Overlay.querySelector(".cancel-upgrade").addEventListener("click", () => {
+        Upgrade_Overlay.style.display = "none";
     });
 });
 
@@ -925,18 +1118,4 @@ document.querySelectorAll('.nav > div').forEach(item => {
         item.classList.add('active');
     });
 });
-
-
-const iti = window.intlTelInput(New_Phone_Input, {
-    initialCountry: "auto",
-    geoIpLookup: function (callback) {
-        fetch("https://ipapi.co/json")
-            .then(res => res.json())
-            .then(data => callback(data.country_code))
-            .catch(() => callback("us"));
-    },
-    separateDialCode: true,
-    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
-});
-
 
