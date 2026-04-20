@@ -73,12 +73,14 @@ function showNoProduct() {
     ProductList.style.display = "none";
     ProductCount.textContent = "0";
     Products.classList.add("active");
+     Profile.classList.remove("active-profile");
 }
 
 function showProducts() {
     NoProduct.style.display = "none";
     ProductList.style.display = "grid";
     Products.classList.add("active");
+  
     Plus.style.display = "flex";
     MyProfile.style.display = "none";
 }
@@ -96,7 +98,7 @@ function showAddProduct() {
 function showMyProfile() {
     ProductSection.style.display = "none";
     MyProfile.style.display = "block";
-    Products.classList.remove("active");
+    Profile.classList.add("active-profile");
 }
 
 function SetProfile() {
@@ -147,6 +149,7 @@ Back.addEventListener("click", () => {
 });
 
 Products.addEventListener("click", () => {
+    Profile.classList.remove("active-profile");
     //e.preventDefault();
     if (ProductList.innerHTML === "") {
         getMyProducts();
@@ -159,6 +162,7 @@ Products.addEventListener("click", () => {
 });
 
 Orders.addEventListener("click", () => {
+    Profile.classList.remove("active-profile");
     if (PlacedOrdersList.children.length === 0) {
         getPlacedOrders();
     } else {
@@ -860,8 +864,7 @@ Profile.addEventListener("click", () => {
         Display_Account_Id.textContent = User["User-ID"];
         Display_Old_Email.textContent = User["Email"];
         Display_Old_Phone.textContent = User["Phone"];
-
-
+       
         if (User.profilePic) {
 
             Edit_User_Icon.style.display = "none";
