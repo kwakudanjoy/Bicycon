@@ -868,13 +868,14 @@ Profile.addEventListener("click", () => {
             Display_Profile_Image.src = `${ipAddress}/profile/${User["profilePic"]}`;
             Display_Profile_Image.style.display = "block";
             Display_Profile_Contanner.style.display = "flex";
+            PlacedOrdersList.style.display = "none";
 
         } else {
 
             UserIcon.style.display = "flex";
             Display_Profile_Image.style.display = "none";
             Display_Profile_Image.style.display = "none";
-
+            PlacedOrdersList.style.display = "none";
         }
 
         showMyProfile(); // showing my profile
