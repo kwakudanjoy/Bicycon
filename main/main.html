@@ -163,17 +163,25 @@
     </div>
 
     <main>
-        
         <div class="product-section">
             <div class="product-count">
                 <h5>Product Count:</h5>
                 <p>0</p>
             </div>
             <div class="no-product-section">
-                <h4>Sorry you have no product yet</h4>
-                <p>Press the plus ( + ) below to add your product
-                    Or Maybe Check your internet connectivity ,
-                    there maybe improper connection</p>
+                <div class="no-product-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <h4>Sorry, you have no products yet</h4>
+                <p>
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Press the <b>+</b> button below to add your first product.
+                </p>
+                <p>
+                    <i class="fa-solid fa-wifi"></i>
+                    Or check your internet connection — there may be a connectivity issue.
+                </p>
+
             </div>
             <div class="product-list">
             </div>
@@ -182,7 +190,6 @@
             </div>
         </div>
         <div class="my-profile">
-
             <!-- Profile Top Section -->
             <div class="edith-profile">
                 <div class="top">
@@ -252,8 +259,28 @@
                 <div class="upgrade-btn"><i class="fa-solid fa-upload"></i></div>
             </div>
         </div>
-        <div class="no-order-section">
-            <p> ! Sorry U have no orders yet</p>
+        <div class="no-found-products">
+            <div class="icon-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3>No Orders found</h3>
+            <p>Please be noted that no Orders hass been placed yet , Thank you.
+            </p>
+
+            <!-- Action buttons help the user stay on the site -->
+            <div class="empty-actions">
+                <button type="button" class="btn-browse" onclick="window.location.reload()">Refresh Page</button>
+            </div>
+        </div>
+        <div class="no-internet">
+            <div class="icon-container">
+                <i class="fas fa-wifi"></i>
+            </div>
+            <h3>Connection Lost</h3>
+            <p>Something went wrong. Please check your internet connection and try again.</p>
+            <button type="button" class="btn-refresh" onclick="window.location.reload()">
+                Refresh Page
+            </button>
         </div>
         <div class="order-section">
         </div>

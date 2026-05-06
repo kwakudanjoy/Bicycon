@@ -471,6 +471,14 @@ nav {
     font-weight: bold;
 }
 
+.total-amount{
+    background: black;
+    color: white;
+    padding: 10px 15px;
+    width: max-content;
+    border-radius: 8px;
+}
+
 /* BUY BUTTON */
 .cart-buy-btn {
     background: #000;
@@ -525,14 +533,12 @@ nav {
     padding: 25px 30px;
     width: 90%;
     max-width: 400px;
-
-
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
+    position: relative;
+    z-index: 10000;
 }
 
 .pay-portal h4 {
@@ -614,6 +620,98 @@ main,
     padding: 10px;
     background: transparent;
 }
+
+/*======= CSS for no internet connect ========*/
+.no-internet {
+    display: none;
+    /*display: flex;*/
+    flex-direction: column;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    color: #555;
+   
+}
+
+.icon-container i {
+    font-size: 4rem;
+    color: red; /* A soft red for errors */
+    margin-bottom: 20px;
+}
+
+.btn-refresh {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-refresh:hover {
+    transform: scale(1.05);
+}
+
+/*=======Closing css for no internet fount=======*/
+/*======opening for no products found ======*/
+.no-found-products {
+    display: none;
+    /*display: flex;*/
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.no-found-products .icon-container i {
+    font-size: 3.5rem;
+    color: black; /* Soft grey */
+    margin-bottom: 20px;
+}
+
+.no-found-products h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.no-found-products p {
+    color: #718096;
+    margin-bottom: 25px;
+}
+
+.empty-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-browse {
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-browse {
+    background-color: green;
+    color: white;
+}
+
+.btn-browse:hover {
+    background-color: #357abd;
+}
+
+/*Closing for no products found*/
 
 .view-products {
     width: 100%;
@@ -1005,6 +1103,10 @@ main::-webkit-scrollbar-thumb {
 
 .iti__selected-flag {
     max-width: 90px;
+}
+
+.iti__search-input {
+   border-radius: 20px;
 }
 
 @media (max-width:770px) {

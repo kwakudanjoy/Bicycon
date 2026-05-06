@@ -296,13 +296,38 @@ main {
 
 /* no product text */
 .no-product-section {
-    display: none;
     text-align: center;
-    justify-self: center;
-    opacity: 0.8;
-    color: black;
+    padding: 40px 20px;
+    color: #555;
+    max-width: 400px;
+    margin: auto;
 }
 
+.no-product-icon {
+    font-size: 60px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+.no-product-section h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.no-product-section p {
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.no-product-section i {
+    color: black;
+}
+/*==== closing of no product section =====*/
 /* PLUS CONTAINER */
 .plus,
 .upgrade {
@@ -609,6 +634,101 @@ main {
     background: #fff;
     color: red;
 }
+
+
+/*======= CSS for no internet connect ========*/
+.no-internet {
+    display: none;
+    /*display: flex;*/
+    flex-direction: column;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    color: #555;
+    height: 100%;
+   
+}
+
+.icon-container i {
+    font-size: 4rem;
+    color: red; /* A soft red for errors */
+    margin-bottom: 20px;
+}
+
+.btn-refresh {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-refresh:hover {
+    transform: scale(1.05);
+}
+
+/*=======Closing css for no internet fount=======*/
+/*======opening for no products found ======*/
+.no-found-products {
+    display: none;
+    /*display: flex;*/
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 500px;
+    height: 100%;
+}
+
+.no-found-products .icon-container i {
+    font-size: 3.5rem;
+    color: black; /* Soft grey */
+    margin-bottom: 20px;
+}
+
+.no-found-products h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.no-found-products p {
+    color: #718096;
+    margin-bottom: 25px;
+}
+
+.empty-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-browse {
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-browse {
+    background-color: green;
+    color: white;
+}
+
+.btn-browse:hover {
+    background-color: #357abd;
+}
+
+/*Closing for no products found*/
 
 /* ===== PRODUCT LIST (GRID CONTAINER) ===== */
 .product-list {
@@ -1439,7 +1559,6 @@ header p {
     scrollbar-gutter: stable;
     display: none;
     width: 100%;
-    height: 85.5vh;
 }
 
 /* ================= ORDER CARD ================= */
@@ -1447,8 +1566,7 @@ header p {
     background: #ffffff;
     border-radius: 16px;
     padding: 18px;
-    margin-bottom: 16px;
-
+   
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.329);
     border: 1px solid #eee;
 
@@ -1659,6 +1777,14 @@ header p {
     max-width: 90px;
 }
 
+.iti__country-list {
+  color: black;
+}
+.iti__search-input {
+   border-radius: 20px;
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 770px) {
 
@@ -1682,6 +1808,7 @@ header p {
     .list-card {
         border-radius: 0;
         border: none !important;
+        box-shadow: none;
     }
 
     .list-card .prod-img {
@@ -1723,11 +1850,7 @@ header p {
         transform: scale(1);
         /* prevent overflow on small screens */
     }
-
-    .order-section {
-        gap: 1px;
-    }
-
+    
     .order-cart {
         padding: 14px;
 

@@ -59,9 +59,9 @@
                 <img src="/image/photo-1555617766-c94804975da3.avif" alt="Retailer Image" class="cart-retailer__image">
 
                 <div class="cart-retailer__info">
-                    <p class="cart-retailer__name">Cryptorn</p>
-                    <p class="cart-retailer__email">kwakudanjoy12@gmail.com</p>
-                    <p class="cart-retailer__phone">0203544784</p>
+                    <p class="cart-retailer__name"></p>
+                    <p class="cart-retailer__email"></p>
+                    <p class="cart-retailer__phone"></p>
                 </div>
             </div>
 
@@ -72,6 +72,8 @@
                     <span class="qty-number">1</span>
                     <button class="qty-btn plus">+</button>
                 </div>
+
+                <p class="total-amount"></p>
 
                 <button class="cart-buy-btn">
                     <i class="fa-solid fa-shopping-cart"></i> Buy
@@ -85,7 +87,7 @@
         </div>
     </div>
     <div class="payment-overlay">
-        
+
         <div class="pay-portal">
             <div class="cancel-purchase"><i class="fa-solid fa-x"></i></div>
             <h4>Complete Your Order</h4>
@@ -128,9 +130,30 @@
 
         </div>
     </div>
+    <div class="no-found-products">
+        <div class="icon-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <h3>No products found</h3>
+        <p>We couldn't find what you're looking for. Try checking your spelling or using more general keywords.</p>
+
+        <!-- Action buttons help the user stay on the site -->
+        <div class="empty-actions">
+            <button type="button" class="btn-browse" onclick="window.location.reload()">Refresh Page</button>
+        </div>
+    </div>
+    <div class="no-internet">
+        <div class="icon-container">
+            <i class="fas fa-wifi"></i>
+        </div>
+        <h3>Connection Lost</h3>
+        <p>Something went wrong. Please check your internet connection and try again.</p>
+        <button type="button" class="btn-refresh" onclick="window.location.reload()">
+            Refresh Page
+        </button>
+    </div>
+
     <main class="main">
-
-
         <!-- Repeat product-card as needed -->
     </main>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/intlTelInput.min.js"></script>

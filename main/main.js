@@ -56,33 +56,30 @@ const Cancel_New_Phone_Upload = document.querySelector(".cancel-phone-update");
 const Upgrade_Overlay = document.querySelector(".upgrade-overlay");
 const Upgrade = document.querySelector(".upgrade-btn");
 const PlacedOrdersList = document.querySelector(".order-section");
-const NoOrderSection = document.getElementById(".no-order-section");
+
+const NoInternet = document.querySelector(".no-internet");
+const NoFoundOrders = document.querySelector(".no-found-products");
+
 
 const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
-//const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
-function showNoProduct() {
-    NoProduct.style.display = "block";
-    MyProfile.style.display = "none";
-    ProductList.style.display = "none";
-    ProductCount.textContent = "0";
-    Products.classList.add("active");
-     Profile.classList.remove("active-profile");
-}
 
 function showProducts() {
     NoProduct.style.display = "none";
     ProductList.style.display = "grid";
     Products.classList.add("active");
-  
     Plus.style.display = "flex";
     MyProfile.style.display = "none";
+    NoFoundOrders.style.display = "none";
+    NoInternet.style.display = "none";
+
 }
 
 function showAddProduct() {
@@ -99,6 +96,10 @@ function showMyProfile() {
     ProductSection.style.display = "none";
     MyProfile.style.display = "block";
     Profile.classList.add("active-profile");
+    Products.classList.remove("active");
+    Orders.classList.remove("active");
+    NoFoundOrders.style.display = "none";
+    NoInternet.style.display = "none";
 }
 
 function SetProfile() {
@@ -117,11 +118,10 @@ function showOrders() {
     ProductSection.style.display = "none";
     MyProfile.style.display = "none";
     PlacedOrdersList.style.display = "grid";
+    NoFoundOrders.style.display = "none";
+    NoInternet.style.display = "none";
 }
 
-function showNoOrder() {
-
-}
 
 async function Load_Image(Url) {
 
@@ -157,6 +157,8 @@ Products.addEventListener("click", () => {
         ProductSection.style.display = "flex";
         MyProfile.style.display = "none";
         PlacedOrdersList.style.display = "none";
+        NoFoundOrders.style.display = "none";
+        NoInternet.style.display = "none";
     }
 
 });
@@ -254,14 +256,13 @@ async function getMyProducts() {
     Loading.style.display = "flex";
 
     const productList = await fetchData(payload);
-    if (Array.isArray(productList) && productList.length !== 0) {
+    if (Array.isArray(productList) && productList.length > 0) {
 
         Loading.style.display = "none";
 
         //Loading.style.display = "flex";
     } else {
         Loading.style.display = "none";
-        return showNoProduct();
     }
 
     ProductList.innerHTML = "";
@@ -292,9 +293,9 @@ async function getMyProducts() {
     showProducts();
 }
 async function getPlacedOrders() {
-    let User = JSON.parse(localStorage.getItem("user"));
 
-    if (!User["User-ID"]) return showNoProduct();
+    let User = JSON.parse(localStorage.getItem("user"));
+    if (!User || !User["User-ID"]) return showNoProduct();
 
     let payload = {
         INSTRUCTION: "GET-MY-ORDERS",
@@ -302,31 +303,47 @@ async function getPlacedOrders() {
     };
 
     Loading.style.display = "flex";
-    const OrderList = await fetchData(payload);
 
-    if (!Array.isArray(OrderList) || OrderList.length === 0) {
+    let OrderList = [];
+
+    try {
+        OrderList = await fetchData(payload);
+
         Loading.style.display = "none";
-        ProductSection.style.display = "none";
-        MyProfile.style.display = "none";
-        PlacedOrdersList.style.display = "none";
-        NoOrderSection.style.display = "block";
+
+        // ❌ No data case
+        if (!Array.isArray(OrderList) || OrderList.length === 0) {
+            ProductSection.style.display = "none";
+            MyProfile.style.display = "none";
+            PlacedOrdersList.style.display = "none";
+            NoFoundOrders.style.display = "flex";
+            return;
+        }
+
+    } catch (error) {
+        alert(error);
+        console.error("Network error:", error);
+
+        Loading.style.display = "none";
+        NoInternet.style.display = "flex";
         return;
     }
 
-    Loading.style.display = "none";
-
+    // ✅ ONLY runs if data is valid
     PlacedOrdersList.innerHTML = "";
+
     const fragment = document.createDocumentFragment();
 
     OrderList.forEach(ord => {
 
-        let status = (ord["status"] || "").toLowerCase().trim(); // ✅ FIXED + SAFE
+        let status = (ord.status || "").toLowerCase().trim();
 
         const card = document.createElement("div");
         card.classList.add("order-cart");
 
         card.innerHTML = `
             <div class="order-cart-top">
+
                 <div class="order-header">
                     <span class="order-index">#${ord.index}</span>
                     <span class="order-id">Order #${ord.orderId}</span>
@@ -347,19 +364,20 @@ async function getPlacedOrders() {
                 <div class="order-details">
                     <div class="detail">
                         <span>Quantity</span>
-                        <strong class="order-quantity">${ord.quantity}</strong>
+                        <strong>${ord.quantity}</strong>
                     </div>
 
                     <div class="detail">
                         <span>Price</span>
-                        <strong class="amount-per-product">GHC: ${ord.amountPerProduct}</strong>
+                        <strong>GHC: ${ord.amountPerProduct}</strong>
                     </div>
 
                     <div class="detail total">
                         <span>Total</span>
-                        <strong class="total-amount">GHC: ${ord.totalAmount}</strong>
+                        <strong>GHC: ${ord.totalAmount}</strong>
                     </div>
                 </div>
+
             </div>
 
             <div class="order-cart-actions">
@@ -373,20 +391,17 @@ async function getPlacedOrders() {
             </div>
         `;
 
-        // 🔥 APPLY STATUS LOGIC HERE
         const actions = card.querySelector(".order-cart-actions");
         const statusBox = card.querySelector(".order-cart-status");
         const accepted = card.querySelector(".status.accepted");
         const rejected = card.querySelector(".status.rejected");
 
-        // reset
         actions.style.display = "none";
         statusBox.style.display = "none";
         accepted.style.display = "none";
         rejected.style.display = "none";
 
         if (!status) {
-            // pending
             actions.style.display = "flex";
         } else if (status === "accepted") {
             statusBox.style.display = "block";
@@ -396,11 +411,11 @@ async function getPlacedOrders() {
             rejected.style.display = "inline-block";
         }
 
-        // 👉 append AFTER logic
         fragment.appendChild(card);
     });
 
     PlacedOrdersList.appendChild(fragment);
+
     showOrders();
 }
 
@@ -421,7 +436,6 @@ PlacedOrdersList.addEventListener("click", async (e) => {
 
         Loading.style.display = "flex";
         let Result = await fetchData(Payload);
-        alert(JSON.stringify(Result));
         if (Result && Result.status === "OK") {
             Loading.style.display = "none";
             getPlacedOrders();
@@ -441,7 +455,7 @@ PlacedOrdersList.addEventListener("click", async (e) => {
             getPlacedOrders();
         }
     } else if (e.target.closest(".phone-icon")) {
-        
+
         const phone = Item.querySelector(".phone").textContent.trim();
 
         window.location.href = `tel:${phone}`;
@@ -864,7 +878,7 @@ Profile.addEventListener("click", () => {
         Display_Account_Id.textContent = User["User-ID"];
         Display_Old_Email.textContent = User["Email"];
         Display_Old_Phone.textContent = User["Phone"];
-       
+
         if (User.profilePic) {
 
             Edit_User_Icon.style.display = "none";
@@ -1034,16 +1048,20 @@ Cancel_New_Email_Upload.addEventListener("click", () => {
 
 
 
+
+
 const iti = window.intlTelInput(New_Phone_Input, {
     initialCountry: "auto",
     geoIpLookup: function (callback) {
-        fetch("https://ipapi.co/json")
+        fetch("https://ipapi.co")
             .then(res => res.json())
             .then(data => callback(data.country_code))
             .catch(() => callback("us"));
     },
     separateDialCode: true,
-    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+    // Add this line to fix the mobile positioning bug
+    useFullscreenPopup: false,
+    utilsScript: "https://jsdelivr.net"
 });
 
 

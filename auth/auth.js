@@ -41,8 +41,8 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://generic-sbjct-fancy-laugh.trycloudflare.com";
-//const ipAddress = "http://192.168.0.117:8080";
+//const ipAddress ="https://generic-sbjct-fancy-laugh.trycloudflare.com";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // ==================== LOCAL STORAGE ====================
 

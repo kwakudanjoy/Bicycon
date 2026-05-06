@@ -9,6 +9,9 @@ const Auth = document.getElementById("auth");
 
 const Loading = document.querySelector("#loading-overlay");
 
+const NoFoundProduct = document.querySelector(".no-found-products");
+const NoInternet = document.querySelector(".no-internet");
+
 //Buying cart
 const Cart_Overlay = document.querySelector(".cart-overlay"); // whole cart
 const Cart_close = Cart_Overlay.querySelector(".cart-close-btn");
@@ -16,16 +19,20 @@ const Cart_Order_Minus = Cart_Overlay.querySelector(".minus");
 const Cart_Order_Quantity = Cart_Overlay.querySelector(".qty-number");
 const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
+const Car_Total_Amount = Cart_Overlay.querySelector(".total-amount");
+let unitPrice = 0; // store this when item loads
 
-const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
-//const ipAddress = "http://192.168.0.117:8080";
+
+const input = document.querySelector(".customer-number-input");
+
+//const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // Initially hide elements
 const User = JSON.parse(localStorage.getItem("user") || "null");
-let iti = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
-     
+
     Loading.style.display = "flex";
     await Insert_Categories();
     Loading.style.display = "none";
@@ -83,7 +90,6 @@ let searchOpen = false;
 
 searchIcon.addEventListener("click", () => {
 
-    // FIRST CLICK → open search
     if (!searchOpen) {
         searchInput.style.display = "block";
         keySearch.style.display = "none";
@@ -92,21 +98,26 @@ searchIcon.addEventListener("click", () => {
         return;
     }
 
-    // SECOND CLICK
-    const text = searchInput.value.trim();
+    let input = searchInput.value.trim();
 
-    if (text) {
-        console.log("Searching for:", text);
-
-        // your search logic here
+    if (input !== "") {
+        MakeSearch(input); // run search
     } else {
-        // close search
         searchInput.style.display = "none";
         keySearch.style.display = "flex";
         searchInput.value = "";
         searchOpen = false;
     }
+});
 
+searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        let input = searchInput.value.trim();
+
+        if (input !== "") {
+            MakeSearch(input);
+        }
+    }
 });
 
 Auth.addEventListener("click", () => {
@@ -117,6 +128,74 @@ Auth.addEventListener("click", () => {
         window.location.href = "/auth/auth.html"
     }
 });
+
+// search algorithm
+async function MakeSearch(Input) {
+    let Payload = {
+        INSTRUCTION: "SEARCH",
+        input: Input
+    }
+
+
+    Loading.style.display = "flex";
+    const products = await fetchData(Payload);
+
+    NoFoundProduct.style.display = "none";
+    NoInternet.style.display = "none";
+    Main.style.display = "none";
+
+    if (Array.isArray(products) && products.length > 0) {
+        Loading.style.display = "none";
+        // SUCCESS: We have products
+        Main.innerHTML = "";
+        Main.style.display = "grid";
+        const fragment = document.createDocumentFragment();
+
+        products.forEach(prod => {
+            const ProductCard = document.createElement("div");
+            ProductCard.className = "product-card";
+            ProductCard.dataset.productId = prod.prodID;
+            // Note: Removed the redundant nested div.product-card inside the innerHTML
+            ProductCard.innerHTML = `
+            <div class="product-image">
+                <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
+            </div>
+            <div class="product-info">
+                <div class="retailer">
+                    <img src="${ipAddress}/profile/${prod.profilePic}" alt="Logo" class="retailer_profile_pic">
+                    <div class="user-detail">
+                        <span class="name">${prod.RetailerName}</span>
+                        <span class="retailerID">${prod.RetailerID}</span>
+                    </div>
+                    <div class="view-page">
+                        Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </div>
+                </div>
+                <h4 class="product-name">${prod.Name}</h4>
+                <h3 class="product-price">GHC : ${prod.Price}</h3>
+                <p class="product-description">${prod.Description}</p>
+                <div class="prouduct-cart-bottom">
+                    <p class="posted-at">posted ${prod.postedAt}</p>
+                    <button class="cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+                </div>
+            </div>`;
+            fragment.appendChild(ProductCard);
+        });
+
+        Main.appendChild(fragment);
+
+    } else if (Array.isArray(products) && products.length === 0) {
+        // EMPTY: It is an array, but nothing is in it
+        NoFoundProduct.style.display = "flex";
+        Loading.style.display = "none";
+    } else {
+        // ERROR: products is null, undefined, or a network error occurred
+        NoInternet.style.display = "flex";
+        Loading.style.display = "none";
+    }
+}
 
 async function Insert_Categories() {
     const keySearch = document.querySelector(".key-search");
@@ -188,53 +267,66 @@ function getLocalCategories() {
 }
 
 async function GetProducts(KeyWord1) {
-   
+
     const Payload = {
         INSTRUCTION: "GET-PRODUCT",
         KeySearch: KeyWord1
     };
 
     const products = await fetchData(Payload);  // await if Get is async
-    if (Array.isArray(products) || products.length !== 0) {
+    // 1. First, hide all states to "reset" the view
+    NoFoundProduct.style.display = "none";
+    NoInternet.style.display = "none";
+    Main.style.display = "none";
+
+    if (Array.isArray(products) && products.length > 0) {
+        // SUCCESS: We have products
         Main.innerHTML = "";
-        const fragment = document.createDocumentFragment(); // create fragment
+        Main.style.display = "grid";
+        const fragment = document.createDocumentFragment();
 
         products.forEach(prod => {
             const ProductCard = document.createElement("div");
             ProductCard.className = "product-card";
+            ProductCard.dataset.productId = prod.prodID;
+            // Note: Removed the redundant nested div.product-card inside the innerHTML
             ProductCard.innerHTML = `
-                <div class="product-card" data-product-id="${prod.prodid}">
-                    <div class="product-image">
-                        <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
+            <div class="product-image">
+                <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
+            </div>
+            <div class="product-info">
+                <div class="retailer">
+                    <img src="${ipAddress}/profile/${prod.profilePic}" alt="Logo" class="retailer_profile_pic">
+                    <div class="user-detail">
+                        <span class="name">${prod.RetailerName}</span>
+                        <span class="retailerID">${prod.RetailerID}</span>
                     </div>
-                    <div class="product-info">
-                        <div class="retailer">
-                            <img src="${ipAddress}/profile/${prod.profilePic}" alt="Retailer Logo" class="retailer_profile_pic">
-                            <div class="user-detail">
-                                <span class="name">${prod.RetailerName}</span>
-                                <span class="retailerID">${prod.RetailerID}</span>
-                            </div>
-                            <div class="view-page">
-                                Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </div>
-                        </div>
-                        <h4 class="product-name">${prod.Name}</h4>
-                        <h3 class="product-price">GHC : ${prod.Price}</h3>
-                        <p class="product-description">${prod.Description}</p>
-                        <div class="prouduct-cart-bottom">
-                            <p class="posted-at">posted ${prod.postedAt}</p>
-                            <button class="cart">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </button>
-                        </div>
+                    <div class="view-page">
+                        Visit Store <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </div>
                 </div>
-            `;
-
-            fragment.appendChild(ProductCard); // add to fragment, not directly to DOM
+                <h4 class="product-name">${prod.Name}</h4>
+                <h3 class="product-price">GHC : ${prod.Price}</h3>
+                <p class="product-description">${prod.Description}</p>
+                <div class="prouduct-cart-bottom">
+                    <p class="posted-at">posted ${prod.postedAt}</p>
+                    <button class="cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+                </div>
+            </div>`;
+            fragment.appendChild(ProductCard);
         });
 
-        Main.appendChild(fragment); // append all cards at once
+        Main.appendChild(fragment);
+
+    } else if (Array.isArray(products) && products.length === 0) {
+        // EMPTY: It is an array, but nothing is in it
+        NoFoundProduct.style.display = "flex";
+
+    } else {
+        // ERROR: products is null, undefined, or a network error occurred
+        NoInternet.style.display = "flex";
     }
 }
 
@@ -252,9 +344,12 @@ Main.addEventListener("click", async e => {
         const productImage = productCard.querySelector(".prod-img").src;
         const Retailer_Profile_Pic = productCard.querySelector(".retailer_profile_pic").src;
 
+        let ProductID = productCard.dataset.productId;
+
         let Payload = {
             INSTRUCTION: "GET-RETAILER-EMAIL & PHONE",
-            RetailerID: retailerID
+            RetailerID: retailerID,
+            productId: ProductID
         }
 
         try {
@@ -279,14 +374,18 @@ Main.addEventListener("click", async e => {
 
                 // optionally reset quantity to 1
                 Cart_Overlay.querySelector(".qty-number").textContent = "1";
+                Car_Total_Amount.textContent = productPrice;
+                unitPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""))
 
                 Cart_Overlay.querySelector(".cart-buy-btn").onclick = () => {
-                    let ProductID = productCard.dataset.productId;
+
                     let quantity = parseInt(Cart_Overlay.querySelector(".qty-number").textContent);
 
                     const Purchase_Overlay = document.querySelector(".payment-overlay");
                     const Customer_Numer_Input = Purchase_Overlay.querySelector(".customer-number-input");
+
                     const Purchase_Btn = Purchase_Overlay.querySelector(".purchase-btn");
+
                     const Cancel_Purchase = Purchase_Overlay.querySelector(".cancel-purchase");
                     Purchase_Overlay.querySelector(".customer-number-input").value = null;
 
@@ -299,50 +398,34 @@ Main.addEventListener("click", async e => {
                         Purchase_Overlay.style.display = "none";
                     };
 
-                    if (!iti) {
-                        
-                        iti = window.intlTelInput(document.querySelector(".customer-number-input"), {
-                            initialCountry: "auto",
-                            geoIpLookup: function (callback) {
-                                fetch("https://ipapi.co/json")
-                                    .then(res => res.json())
-                                    .then(data => callback(data.country_code))
-                                    .catch(() => callback("us"));
-                            },
-
-                            separateDialCode: true,
-                            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
-                        });
-                    }
-
-                    Purchase_Btn.onclick = async () => {
-                       
+                    Purchase_Btn.addEventListener("click", async () => {
                         if (!iti.isValidNumber()) {
                             alert("Please enter a valid phone number");
+                            alert(iti.getNumber());
                             return;
                         }
+
                         let Phone = iti.getNumber();
                         let newProductPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""));
-                     
                         let Payload = {
                             INSTRUCTION: "PLACE-ORDER",
                             ProductId: ProductID,
                             Quantity: quantity,
                             CustomerPhone: Phone,
-                            ProductName : productName,
-                            ProductPrice : newProductPrice
+                            ProductName: productName,
+                            ProductPrice: newProductPrice
                         }
 
-                        
+
 
                         Loading.style.display = "flex";
                         let Result = await fetchData(Payload);
-                        if(Result && Result.status === "OK"){
+                        if (Result && Result.status === "OK") {
                             Loading.style.display = "none";
                             Purchase_Overlay.style.display = "none";
                         }
                         // handle purchase
-                    };
+                    });
                 };
             }
         } catch (err) {
@@ -375,7 +458,6 @@ Main.addEventListener("click", async e => {
             let Account_Products = Result["Account_Products"];
 
             if (Array.isArray(Account_Products) && Account_Products.length !== 0) {
-
                 AccountOverlay.querySelector(".view-products").innerHTML = "";
 
                 const fragment = document.createDocumentFragment();
@@ -383,6 +465,7 @@ Main.addEventListener("click", async e => {
                 Account_Products.forEach(product => {
                     const ProductCard = document.createElement("div");
                     ProductCard.className = "a-product";
+                    ProductCard.dataset.productId = product.Id;
 
                     ProductCard.innerHTML = `
                     <img src="${ipAddress}/products/${product.Url}" alt="">
@@ -419,9 +502,117 @@ Main.addEventListener("click", async e => {
 
                 AccountOverlay.style.display = "flex";
 
-                AccountOverlay.querySelector(".to-bottom > .fa-phone").addEventListener("click",()=>{
+                AccountOverlay.querySelector(".to-bottom > .fa-phone").addEventListener("click", () => {
                     let Phone = Account_Info.Phone;
                     window.location.href = `tel:${Phone}`;
+                });
+
+                AccountOverlay.querySelector(".view-products").addEventListener("click", async e => {
+                    if (e.target.closest(".order")) {
+
+                        const productCard = e.target.closest(".a-product");
+                        
+                        if (!productCard) {
+                            console.warn("Product card not found");
+                            return;
+                        }
+
+                        // 🔥 SAFE EXTRACTION
+                        const productName = productCard.querySelector(".view-prod-name")?.textContent || "";
+                        const productPrice = productCard.querySelector(".view-prod-price")?.textContent || "0";
+                        const productDescription = productCard.querySelector(".view-prod-description")?.textContent || "";
+                        const productImage = productCard.querySelector(".a-product > img")?.src || "";
+                       
+                        
+                        const ProductID = productCard.dataset.productId;
+
+                        if (!ProductID) {
+                            console.warn("Missing product ID");
+                            return;
+                        }
+                        
+                        // 🔥 Populate UI safely
+                        Cart_Overlay.querySelector(".cart-retailer__image").src =
+                            `${ipAddress}/profile/${Account_Info.ProfilePic}`;
+                              
+                        Cart_Overlay.querySelector(".cart-product__image").src = productImage;
+                        Cart_Overlay.querySelector(".cart-product__name").textContent = productName;
+                        Cart_Overlay.querySelector(".cart-product__price").textContent = productPrice;
+                        Cart_Overlay.querySelector(".cart-product__description").textContent = productDescription;
+                      
+                        Cart_Overlay.querySelector(".cart-retailer__name").textContent = Retailer_Name;
+                        Cart_Overlay.querySelector(".cart-retailer__email").textContent = Account_Info.Email;
+                        Cart_Overlay.querySelector(".cart-retailer__phone").textContent = Account_Info.Phone;
+                        Cart_Overlay.style.zIndex = "10000";
+                        Cart_Overlay.style.display = "flex";
+                        console.log(Cart_Overlay);
+                       
+                        // 🔥 Reset values
+                        Cart_Overlay.querySelector(".qty-number").textContent = "1";
+                        
+                        unitPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""));
+                        
+                        Car_Total_Amount.textContent = productPrice;
+
+                        const Purchase_Overlay = document.querySelector(".payment-overlay");
+                        const Purchase_Btn = Purchase_Overlay.querySelector(".purchase-btn");
+                        const Cancel_Purchase = Purchase_Overlay.querySelector(".cancel-purchase");
+
+                        // 🔥 REMOVE OLD EVENT (VERY IMPORTANT)
+                        Purchase_Btn.onclick = null;
+
+                        Cart_Overlay.querySelector(".cart-buy-btn").onclick = () => {
+
+                            let quantity = parseInt(
+                                Cart_Overlay.querySelector(".qty-number").textContent
+                            ) || 1;
+
+                            Purchase_Overlay.style.display = "flex";
+                            Purchase_Overlay.style.zIndex = "10000";
+                            Cart_Overlay.style.display = "none";
+
+                            Cancel_Purchase.onclick = () => {
+                                Cart_Overlay.style.display = "flex";
+                                Purchase_Overlay.style.display = "none";
+                            };
+
+                            Purchase_Btn.onclick = async () => {
+
+                                if (!iti.isValidNumber()) {
+                                    alert("Please enter a valid phone number");
+                                    return;
+                                }
+
+                                let Phone = iti.getNumber();
+
+                                let Payload = {
+                                    INSTRUCTION: "PLACE-ORDER",
+                                    ProductId: ProductID,
+                                    Quantity: quantity,
+                                    CustomerPhone: Phone,
+                                    ProductName: productName,
+                                    ProductPrice: unitPrice
+                                };
+
+                                try {
+                                    Loading.style.display = "flex";
+
+                                    let Result = await fetchData(Payload);
+
+                                    Loading.style.display = "none";
+
+                                    if (Result && Result.status === "OK") {
+                                        Purchase_Overlay.style.display = "none";
+                                    }
+
+                                } catch (err) {
+                                    Loading.style.display = "none";
+                                    alert("Network error");
+                                    console.error(err);
+                                }
+                            };
+                        };
+                    }
                 });
             }
         }
@@ -442,14 +633,17 @@ Cart_Order_Minus.addEventListener("click", () => {
     if (Orderquantity > 1) {
         Orderquantity--;
         Cart_Order_Quantity.textContent = Orderquantity;
+        let total = unitPrice * Orderquantity;
+        Car_Total_Amount.textContent = "GHC : " + total;
     }
 });
 
 Cart_Order_Add.addEventListener("click", () => {
-    //alert("click");
     let Orderquantity = parseInt(Cart_Order_Quantity.textContent.trim());
     Orderquantity++;
     Cart_Order_Quantity.textContent = Orderquantity;
+    let total = unitPrice * Orderquantity;
+    Car_Total_Amount.textContent = "GHC : " + total;
 });
 
 // ====== FETCH HELPERS ======
@@ -474,3 +668,17 @@ async function fetchData(payload) {
         return null;
     }
 }
+
+const iti = window.intlTelInput(input, {
+    initialCountry: "auto",
+    geoIpLookup: function (callback) {
+        fetch("https://ipapi.co/json")
+            .then(res => res.json())
+            .then(data => callback(data.country_code))
+            .catch(() => callback("us"));
+    },
+    separateDialCode: true,
+    useFullscreenPopup: false,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+});
+
