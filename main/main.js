@@ -65,8 +65,8 @@ const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-//const ipAddress = "https://generic-sbjct-fancy-laugh.trycloudflare.com"; //"http://localhost:8080";
-const ipAddress = "http://10.66.103.228:8080";
+const ipAddress = "https://7066-41-204-44-232.ngrok-free.app"; //"http://localhost:8080";
+//const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
