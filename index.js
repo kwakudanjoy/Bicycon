@@ -11,6 +11,7 @@ const Loading = document.querySelector("#loading-overlay");
 
 const NoFoundProduct = document.querySelector(".no-found-products");
 const NoInternet = document.querySelector(".no-internet");
+const OrderSuccess = document.querySelector(".success-overlay");
 
 //Buying cart
 const Cart_Overlay = document.querySelector(".cart-overlay"); // whole cart
@@ -21,12 +22,12 @@ const Cart_Order_Add = Cart_Overlay.querySelector(".plus");
 const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 const Car_Total_Amount = Cart_Overlay.querySelector(".total-amount");
 let unitPrice = 0; // store this when item loads
-
+let counryCode = null;
 
 const input = document.querySelector(".customer-number-input");
 
-const ipAddress = "https://7066-41-204-44-232.ngrok-free.app"; //"http://localhost:8080";
-//const ipAddress = "http://10.66.103.228:8080";
+//const ipAddress = "https://bicycon-server.onrender.com";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // Initially hide elements
 const User = JSON.parse(localStorage.getItem("user") || "null");
@@ -124,6 +125,7 @@ Auth.addEventListener("click", () => {
 
     if (User && User.account_completed === "YES") {
         window.location.href = "/main/main.html"
+        window.history.clear();
     } else {
         window.location.href = "/auth/auth.html"
     }
@@ -156,13 +158,17 @@ async function MakeSearch(Input) {
             ProductCard.className = "product-card";
             ProductCard.dataset.productId = prod.prodID;
             // Note: Removed the redundant nested div.product-card inside the innerHTML
+            alert(prod.profilePic);
             ProductCard.innerHTML = `
             <div class="product-image">
                 <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
             </div>
             <div class="product-info">
                 <div class="retailer">
-                    <img src="${ipAddress}/profile/${prod.profilePic}" alt="Logo" class="retailer_profile_pic">
+                    <img src="${ipAddress}/profile/${prod.profilePic}" 
+                        alt="logo" 
+                        class="retailer_profile_pic"
+                        onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';">
                     <div class="user-detail">
                         <span class="name">${prod.RetailerName}</span>
                         <span class="retailerID">${prod.RetailerID}</span>
@@ -172,7 +178,7 @@ async function MakeSearch(Input) {
                     </div>
                 </div>
                 <h4 class="product-name">${prod.Name}</h4>
-                <h3 class="product-price">GHC : ${prod.Price}</h3>
+                <h3 class="product-price">${prod.currencyCode} : ${prod.Price}</h3>
                 <p class="product-description">${prod.Description}</p>
                 <div class="prouduct-cart-bottom">
                     <p class="posted-at">posted ${prod.postedAt}</p>
@@ -296,7 +302,10 @@ async function GetProducts(KeyWord1) {
             </div>
             <div class="product-info">
                 <div class="retailer">
-                    <img src="${ipAddress}/profile/${prod.profilePic}" alt="Logo" class="retailer_profile_pic">
+                    <img src="${ipAddress}/profile/${prod.profilePic}" 
+                        alt="logo" 
+                        class="retailer_profile_pic"
+                        onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';">
                     <div class="user-detail">
                         <span class="name">${prod.RetailerName}</span>
                         <span class="retailerID">${prod.RetailerID}</span>
@@ -306,7 +315,7 @@ async function GetProducts(KeyWord1) {
                     </div>
                 </div>
                 <h4 class="product-name">${prod.Name}</h4>
-                <h3 class="product-price">GHC : ${prod.Price}</h3>
+                <h3 class="product-price">${prod.currencyCode} : ${prod.Price}</h3>
                 <p class="product-description">${prod.Description}</p>
                 <div class="prouduct-cart-bottom">
                     <p class="posted-at">posted ${prod.postedAt}</p>
@@ -375,7 +384,8 @@ Main.addEventListener("click", async e => {
                 // optionally reset quantity to 1
                 Cart_Overlay.querySelector(".qty-number").textContent = "1";
                 Car_Total_Amount.textContent = productPrice;
-                unitPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""))
+                unitPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""));
+                counryCode = productPrice.split(":")[0].trim();
 
                 Cart_Overlay.querySelector(".cart-buy-btn").onclick = () => {
 
@@ -398,10 +408,10 @@ Main.addEventListener("click", async e => {
                         Purchase_Overlay.style.display = "none";
                     };
 
+
                     Purchase_Btn.addEventListener("click", async () => {
                         if (!iti.isValidNumber()) {
                             alert("Please enter a valid phone number");
-                            alert(iti.getNumber());
                             return;
                         }
 
@@ -423,6 +433,8 @@ Main.addEventListener("click", async e => {
                         if (Result && Result.status === "OK") {
                             Loading.style.display = "none";
                             Purchase_Overlay.style.display = "none";
+                            OrderSuccess.style.display = "flex";
+                            OrderSuccess.querySelector("#display-order-id").textContent = "#" + Result["orderID"];
                         }
                         // handle purchase
                     });
@@ -470,7 +482,7 @@ Main.addEventListener("click", async e => {
                     ProductCard.innerHTML = `
                     <img src="${ipAddress}/products/${product.Url}" alt="">
                     <p class="view-prod-name">${product.name}</p>
-                    <p class="view-prod-price">GHC : ${product.price}</p>
+                    <p class="view-prod-price">${product.currencyCode}: ${product.price}</p>
                     <p class="view-prod-description">${product.description}</p>
                     <div class="prouduct-cart-bottom">
                        <p class="posted-at">Posted ${product.postedAt}</p>
@@ -484,15 +496,16 @@ Main.addEventListener("click", async e => {
 
 
                 AccountOverlay.querySelector(".view-products").appendChild(fragment);
-
+                AccountOverlay.querySelector(".account-pro-pic").style.display = "flex";
                 if (Account_Info && Account_Info.ProfilePic) {
-                    AccountOverlay.querySelector(".account-pro-pic").style.display = "flex";
+
                     AccountOverlay.querySelector(".account-pro-pic>img").style.display = "flex";
                     AccountOverlay.querySelector(".account-pro-pic>img").src =
                         `${ipAddress}/profile/${Account_Info.ProfilePic}`;
-
-
                     AccountOverlay.querySelector(".account-user").style.display = "none";
+                } else {
+                    AccountOverlay.querySelector(".account-pro-pic>img").style.display = "none";
+                    AccountOverlay.querySelector(".account-user").style.display = "flex";
                 }
 
                 AccountOverlay.querySelector(".my-account-name").textContent = Retailer_Name;
@@ -511,7 +524,7 @@ Main.addEventListener("click", async e => {
                     if (e.target.closest(".order")) {
 
                         const productCard = e.target.closest(".a-product");
-                        
+
                         if (!productCard) {
                             console.warn("Product card not found");
                             return;
@@ -522,36 +535,43 @@ Main.addEventListener("click", async e => {
                         const productPrice = productCard.querySelector(".view-prod-price")?.textContent || "0";
                         const productDescription = productCard.querySelector(".view-prod-description")?.textContent || "";
                         const productImage = productCard.querySelector(".a-product > img")?.src || "";
-                       
-                        
+
+
                         const ProductID = productCard.dataset.productId;
 
                         if (!ProductID) {
                             console.warn("Missing product ID");
                             return;
                         }
-                        
+
                         // 🔥 Populate UI safely
-                        Cart_Overlay.querySelector(".cart-retailer__image").src =
-                            `${ipAddress}/profile/${Account_Info.ProfilePic}`;
-                              
+                        const profileImg = Cart_Overlay.querySelector(".cart-retailer__image");
+                        const profilePicData = Account_Info.ProfilePic;
+
+                        // Check if profilePic is valid and not the string "null"
+                        if (profilePicData && profilePicData !== "null" && profilePicData !== "undefined") {
+                            profileImg.src = `${ipAddress}/profile/${profilePicData}`;
+                        } else {
+                            // If no data, go straight to the fallback icon
+                            profileImg.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                        }
                         Cart_Overlay.querySelector(".cart-product__image").src = productImage;
                         Cart_Overlay.querySelector(".cart-product__name").textContent = productName;
                         Cart_Overlay.querySelector(".cart-product__price").textContent = productPrice;
                         Cart_Overlay.querySelector(".cart-product__description").textContent = productDescription;
-                      
+
                         Cart_Overlay.querySelector(".cart-retailer__name").textContent = Retailer_Name;
                         Cart_Overlay.querySelector(".cart-retailer__email").textContent = Account_Info.Email;
                         Cart_Overlay.querySelector(".cart-retailer__phone").textContent = Account_Info.Phone;
                         Cart_Overlay.style.zIndex = "10000";
                         Cart_Overlay.style.display = "flex";
-                        console.log(Cart_Overlay);
-                       
+
                         // 🔥 Reset values
                         Cart_Overlay.querySelector(".qty-number").textContent = "1";
-                        
+
                         unitPrice = parseFloat(productPrice.replace(/[^\d.]/g, ""));
-                        
+                        counryCode = productPrice.split(":")[0].trim();
+
                         Car_Total_Amount.textContent = productPrice;
 
                         const Purchase_Overlay = document.querySelector(".payment-overlay");
@@ -603,6 +623,9 @@ Main.addEventListener("click", async e => {
 
                                     if (Result && Result.status === "OK") {
                                         Purchase_Overlay.style.display = "none";
+                                        OrderSuccess.style.display = "flex";
+                                        OrderSuccess.style.zIndex = "10000";
+                                        OrderSuccess.querySelector("#display-order-id").textContent = "#" + Result["orderID"];
                                     }
 
                                 } catch (err) {
@@ -623,6 +646,10 @@ Main.addEventListener("click", async e => {
     }
 });
 
+OrderSuccess.querySelector(".success-close-btn").addEventListener("click", () => {
+    OrderSuccess.style.display = "none";
+});
+
 // cart execution
 Cart_close.addEventListener("click", () => {
     Cart_Overlay.style.display = "none";
@@ -634,7 +661,7 @@ Cart_Order_Minus.addEventListener("click", () => {
         Orderquantity--;
         Cart_Order_Quantity.textContent = Orderquantity;
         let total = unitPrice * Orderquantity;
-        Car_Total_Amount.textContent = "GHC : " + total;
+        Car_Total_Amount.textContent = `${counryCode} : ${total}`;
     }
 });
 
@@ -643,7 +670,7 @@ Cart_Order_Add.addEventListener("click", () => {
     Orderquantity++;
     Cart_Order_Quantity.textContent = Orderquantity;
     let total = unitPrice * Orderquantity;
-    Car_Total_Amount.textContent = "GHC : " + total;
+    Car_Total_Amount.textContent = `${counryCode} : ${total}`;
 });
 
 // ====== FETCH HELPERS ======

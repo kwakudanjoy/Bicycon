@@ -500,7 +500,7 @@ main {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.63);
     width: 100%;
     max-width: 400px;
-    color: white;
+    color: black;
     text-align: center;
 }
 
@@ -602,16 +602,31 @@ main {
 }
 
 /* Inputs */
+
 .Complete-account input {
     width: 100%;
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #555;
-    background: #1f2937;
+    background: black;
     color: white;
     font-size: 14px;
     margin-bottom: 15px;
     margin: 5px 0;
+}
+
+.countryName{
+    width: 40%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background:black;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin: 5px 0;
+    height: 40px;
+    justify-self: center;
 }
 
 /* Next button */
@@ -621,12 +636,12 @@ main {
     border-radius: 20px;
     border: none;
     background: transparent;
-    color: white;
+    color: black;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease;
-    border: 1px solid green;
+    background: green;
     margin-top: 15px;
 }
 

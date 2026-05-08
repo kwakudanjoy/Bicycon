@@ -29,7 +29,9 @@ const EmailInput = document.querySelector("#e-mail");
 const signIn = document.querySelector(".sign-In");
 const signUp = document.querySelector(".sign-Up");
 const Next = document.querySelector(".next");
- 
+let CountryData = null;
+let iti = null;
+let countryIsoCode = null;
 const Loading = document.querySelector("#loading-overlay");
 
 
@@ -41,8 +43,8 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://7066-41-204-44-232.ngrok-free.app";
-//const ipAddress = "http://10.66.103.228:8080";
+//const ipAddress ="https://bicycon-server.onrender.com";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // ==================== LOCAL STORAGE ====================
 
@@ -54,18 +56,18 @@ function CheckUser() {
     } else if (User.account_completed === "NO") {
         CompleteAccount.classList.add("show-card");
     } else {
-        
+
     }
 }
 
 CheckUser();
 
 // ==================== BACK BUTTON ====================
-Back.addEventListener("click", () =>{
-    if(!window.history.back()){
+Back.addEventListener("click", () => {
+    if (!window.history.back()) {
         location.href = "/index.html";
         window.history.clear();
-    }else{
+    } else {
         window.history.back();
         window.history.clear();
     }
@@ -100,7 +102,7 @@ showSequence();
 toSignUpBtn.addEventListener('click', (e) => {
     e.preventDefault();
     signUpForm.style.display = "block";
-    signInForm.style.display = "none"; 
+    signInForm.style.display = "none";
 });
 
 toSignInBtn.addEventListener('click', (e) => {
@@ -136,7 +138,7 @@ cancel.addEventListener("click", () => {
 });
 
 // ==================== PHONE INPUT ====================
-const iti = window.intlTelInput(phoneInput, {
+iti = window.intlTelInput(phoneInput, {
     initialCountry: "auto",
     geoIpLookup: function (callback) {
         fetch("https://ipapi.co/json")
@@ -145,7 +147,19 @@ const iti = window.intlTelInput(phoneInput, {
             .catch(() => callback("us"));
     },
     separateDialCode: true,
+    useFullscreenPopup: false,
     utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.5/build/js/utils.js"
+
+
+});
+
+phoneInput.addEventListener("countrychange", () => {
+
+    if (iti) {
+        CountryData = iti.getSelectedCountryData();
+        countryIsoCode = CountryData.iso2;
+        document.querySelector(".countryName").textContent = CountryData.name;
+    }
 });
 
 // ==================== SIGN-IN ====================
@@ -153,7 +167,7 @@ signIn.addEventListener("click", async (event) => {
     event.preventDefault();
     const Id = SignId.value;
     const Password = SignInPassword.value;
-    
+
     if (!Id || !Password) return alert("Please enter ID and Password");
 
     const Payload = {
@@ -166,14 +180,13 @@ signIn.addEventListener("click", async (event) => {
 
         Loading.style.display = "flex";
         const Result = await fetchData(Payload);
-      
+
         if (Result && Result.status === "OK") {
-    
             Loading.style.display = "none";
             delete Result.status;
             localStorage.setItem("user", JSON.stringify(Result));
-            
-           //User = Result;
+
+            //User = Result;
 
             if (Result.account_completed === "NO") {
                 //signInForm.classList.remove("show-card");
@@ -181,17 +194,22 @@ signIn.addEventListener("click", async (event) => {
                 CompleteAccount.style.display = "block";
             } else {
                 window.location.href = "/main/main.html";
+                if (window.history.back()) {
+                    window.history.clear();
+                }
+
             }
-        }else if(Result && Result.status === "!OK"){
+        } else if (Result && Result.status === "!OK") {
             SignInPassword.classList.add("password-mis-match");
             SignId.classList.remove("password-mis-match");
             Loading.style.display = "none";
-        }else if(Result && Result.status === "!USER"){
+        } else if (Result && Result.status === "!USER") {
             SignId.classList.add("password-mis-match");
             SignInPassword.classList.remove("password-mis-match");
             Loading.style.display = "none";
         }
     } catch (err) {
+        alert(err);
         alert("Error signing in");
         Loading.style.display = "none";
     }
@@ -214,12 +232,12 @@ signUp.addEventListener("click", async (event) => {
     }
 
     const Payload = { INSTRUCTION: "SIGN-UP", Name, Password };
-    
+
 
     try {
         Loading.style.display = "flex";
         const Result = await fetchData(Payload);
-    
+
         if (Result) {
             Loading.style.display = "none";
             localStorage.setItem("user", JSON.stringify(Result));
@@ -278,7 +296,9 @@ Next.addEventListener("click", async (event) => {
         UserId: UserId,
         Email: Email,
         Phone: Phone,
-        CountryCode: CountryData.dialCode  // send only the dial code
+        CountryCode: CountryData.dialCode,  // send only the dial code
+        countrisocode: countryIsoCode,
+        countryName: document.querySelector(".countryName").textContent
     };
 
     try {
@@ -286,48 +306,53 @@ Next.addEventListener("click", async (event) => {
         Loading.style.display = "flex";
         const Result = await fetchData(Payload);
         Loading.style.display = "none";
-    
-    if (Result && Result.status === "OK") {
+
+        if (Result && Result.status === "OK") {
 
             let User = JSON.parse(localStorage.getItem("user"));
             User.account_completed = "YES";
             User.Email = Result["Email"];
             User.Phone = Result["Phone"];
+            User.CountryisoCode = Result["countrisocode"];
+            User.CountryName = Result["countryName"];
             localStorage.setItem("user", JSON.stringify(User));
 
-        if (fileInput.files.length > 0) {
+            if (fileInput.files.length > 0) {
 
-            let Payload ={
-                INSTRUCTION : "UPLOAD-PROFILE",
-                User_Id : User["User-ID"]
-            }
-
-            const file = fileInput.files[0];
-
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("Data", JSON.stringify(Payload));
-           
-            try {
-                
-                Loading.style.display = "flex";
-                const uploadResult = await UploadFileWithData(formData);
-
-            if (uploadResult && uploadResult["status"] === "OK") {
-                    Loading.style.display = "none";
-                    let User = JSON.parse(localStorage.getItem("user"));
-                    User.profilePic = uploadResult["Url"];
-                    localStorage.setItem("user", JSON.stringify(User));
-                    window.location.href = "/main/main.html";
+                let Payload = {
+                    INSTRUCTION: "UPLOAD-PROFILE",
+                    User_Id: User["User-ID"]
                 }
 
-            } catch (err) {
-                alert("Upload failed");
+                const file = fileInput.files[0];
+
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("Data", JSON.stringify(Payload));
+
+                try {
+
+                    Loading.style.display = "flex";
+                    const uploadResult = await UploadFileWithData(formData);
+
+                    if (uploadResult && uploadResult["status"] === "OK") {
+                        Loading.style.display = "none";
+                        let User = JSON.parse(localStorage.getItem("user"));
+                        User.profilePic = uploadResult["Url"];
+                        localStorage.setItem("user", JSON.stringify(User));
+                        window.location.href = "/main/main.html";
+                        if (window.history.back()) {
+                            window.history.clear();
+                        }
+                    }
+
+                } catch (err) {
+                    alert("Upload failed");
+                }
+            } else {
+                window.location.href = "/main/main.html";
             }
-        }else{
-           window.location.href = "/main/main.html";  
-        }         
-    }
+        }
 
     } catch (err) {
         alert("Error completing account");

@@ -57,22 +57,25 @@ const Upgrade_Overlay = document.querySelector(".upgrade-overlay");
 const Upgrade = document.querySelector(".upgrade-btn");
 const PlacedOrdersList = document.querySelector(".order-section");
 
+const copyIcon = document.querySelector(".copy-icon");
+const copyLink = document.querySelector(".copy-link");
+
 const NoInternet = document.querySelector(".no-internet");
 const NoFoundOrders = document.querySelector(".no-found-products");
-
 
 const LogOut = document.querySelector(".log-out > button");
 
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://7066-41-204-44-232.ngrok-free.app"; //"http://localhost:8080";
-//const ipAddress = "http://10.66.103.228:8080";
+//const ipAddress = "https://bicycon-server.onrender.com"; //"http://localhost:8080";
+const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
 // ====== DISPLAY FUNCTIONS ======
 
 function showProducts() {
     NoProduct.style.display = "none";
+    ProductSection.style.display = "flex";
     ProductList.style.display = "grid";
     Products.classList.add("active");
     Plus.style.display = "flex";
@@ -142,25 +145,34 @@ Back.addEventListener("click", () => {
     if (!window.history.back()) {
         location.href = "/index.html";
         window.history.clear();
-    } else {
-        window.history.back();
-        window.history.clear();
     }
 });
 
-Products.addEventListener("click", () => {
-    Profile.classList.remove("active-profile");
-    //e.preventDefault();
-    if (ProductList.innerHTML === "") {
-        getMyProducts();
-    } else {
-        ProductSection.style.display = "flex";
-        MyProfile.style.display = "none";
-        PlacedOrdersList.style.display = "none";
-        NoFoundOrders.style.display = "none";
-        NoInternet.style.display = "none";
-    }
+window.addEventListener('popstate', function(event) {
+    if (!window.history.back()) {
+        location.href = "/index.html";
+        window.history.clear();
+    } 
+});
 
+Products.addEventListener("click", async (e) => {
+    Profile.classList.remove("active-profile");
+    
+    // Check if the list is empty OR contains the 'no product' message
+    const isEmpty = ProductList.children.length === 0;
+    const hasNoProductMessage = ProductList.querySelector(".no-product-section");
+
+    if (isEmpty || hasNoProductMessage) {
+        // This ensures data is fetched if the list is blank
+        await getMyProducts(); 
+    } 
+    
+    // Always show the section regardless of whether we just fetched or not
+    ProductSection.style.display = "flex";
+    MyProfile.style.display = "none";
+    PlacedOrdersList.style.display = "none";
+    NoFoundOrders.style.display = "none";
+    NoInternet.style.display = "none";
 });
 
 Orders.addEventListener("click", () => {
@@ -242,7 +254,6 @@ async function UploadFileWithData(formData) {
 
 // ====== GET MY PRODUCTS ======
 async function getMyProducts() {
-
     let User = JSON.parse(localStorage.getItem("user")); // get user data
     //Loading.style.display = "flex";
     if (!User["User-ID"]) return showNoProduct();
@@ -260,23 +271,18 @@ async function getMyProducts() {
 
         Loading.style.display = "none";
 
-        //Loading.style.display = "flex";
-    } else {
-        Loading.style.display = "none";
-    }
+        ProductList.innerHTML = "";
+        let count = 0;
+        const fragment = document.createDocumentFragment();
 
-    ProductList.innerHTML = "";
-    let count = 0;
-    const fragment = document.createDocumentFragment();
-
-    productList.forEach(prod => {
-        const card = document.createElement("div");
-        card.classList.add("list-card");
-        card.innerHTML = `
+        productList.forEach(prod => {
+            const card = document.createElement("div");
+            card.classList.add("list-card");
+            card.innerHTML = `
             <img src="${ipAddress}/products/${prod.Url}" alt="image" class="prod-img">
             <p class="pord-name">${prod.name}</p>
             <p class="prod-id">${prod.Id}</p>
-            <p class="prod-price">GHC: ${prod.price}</p>
+            <p class="prod-price">${prod.currencyCode}: ${prod.price}</p>
             <p class="final-prod-description">${prod.description}</p>
             <div class="edith-delete-prod">
                 <div class="edith-prod"><i class="fa-solid fa-pen"></i>Edit</div>
@@ -284,14 +290,21 @@ async function getMyProducts() {
             </div>
             <p class="posted-at">posted ${prod.postedAt}</p>
         `;
-        fragment.appendChild(card);
-        count++;
-    });
+            fragment.appendChild(card);
+            count++;
+        });
 
-    ProductList.appendChild(fragment);
-    ProductCount.textContent = count;
-    showProducts();
+
+        ProductList.appendChild(fragment);
+        ProductCount.textContent = count;
+        showProducts();
+
+        //Loading.style.display = "flex";
+    } else {
+        Loading.style.display = "none";
+    }
 }
+
 async function getPlacedOrders() {
 
     let User = JSON.parse(localStorage.getItem("user"));
@@ -303,29 +316,22 @@ async function getPlacedOrders() {
     };
 
     Loading.style.display = "flex";
+    let OrderList = await fetchData(payload);
+    Loading.style.display = "none";
 
-    let OrderList = [];
-
-    try {
-        OrderList = await fetchData(payload);
-
-        Loading.style.display = "none";
-
-        // ❌ No data case
-        if (!Array.isArray(OrderList) || OrderList.length === 0) {
-            ProductSection.style.display = "none";
-            MyProfile.style.display = "none";
-            PlacedOrdersList.style.display = "none";
-            NoFoundOrders.style.display = "flex";
-            return;
-        }
-
-    } catch (error) {
-        alert(error);
-        console.error("Network error:", error);
-
-        Loading.style.display = "none";
+    // ❌ No data case
+    if (!Array.isArray(OrderList)) {
+        ProductSection.style.display = "none";
+        MyProfile.style.display = "none";
+        PlacedOrdersList.style.display = "none";
         NoInternet.style.display = "flex";
+        return;
+
+    } else if (Array.isArray(OrderList) && OrderList.length === 0) {
+        ProductSection.style.display = "none";
+        MyProfile.style.display = "none";
+        PlacedOrdersList.style.display = "none";
+        NoFoundOrders.style.display = "flex";
         return;
     }
 
@@ -462,19 +468,19 @@ PlacedOrdersList.addEventListener("click", async (e) => {
     }
 });
 
-async function Insert_Categories() {
+async function Insert_Categories () {
     const selectWrapper = document.querySelector(".custom-select");
     const selected = selectWrapper.querySelector(".selected");
     const optionsContainer = selectWrapper.querySelector(".options");
 
     const storedCategories = getLocalCategories();
-
+   
     let online = true;
 
     // Check internet connection
     try {
         const pingResponse = await Get({ INSTRUCTION: "PING" });
-        Get
+        alert(JSON.stringify(pingResponse));
         if (!pingResponse || pingResponse.status !== "OK") online = false;
     } catch {
         online = false;
@@ -551,6 +557,7 @@ async function Insert_Categories() {
 
 // Save categories to localStorage
 function saveLocalCategories(categories) {
+    alert(JSON.stringify(categories));
     try {
         localStorage.setItem("Product-Categories", JSON.stringify(categories));
     } catch (err) {
@@ -853,15 +860,26 @@ ProductList.addEventListener("click", async (e) => {
         if (Result && Result.status === "OK") {
             getMyProducts();
         }
-
     }
 
 });
 
-Profile.addEventListener("click", () => {
+Profile.addEventListener("click", async () => {
+    let currencyCode  = null;
 
     let User = JSON.parse(localStorage.getItem("user"));
+      
+    let Payload = {
+        INSTRUCTION : "GET-COUNTRY-CURRENCY-CODE",
+        countryISO : User["CountryisoCode"]
+    }
 
+   let Result = await fetchData(Payload);
+  
+   if (Result){
+     currencyCode = Result["currencyCode"];
+   }
+  
     if (User) {
         //showing nessary items for fist star
 
@@ -873,9 +891,14 @@ Profile.addEventListener("click", () => {
         Cancel_New_Email_Upload.style.display = "none";
         Cancel_New_Phone_Upload.style.display = "none";
         document.querySelector(".iti").style.display = "none";
-
+       
         Display_Account_Name.textContent = User["User-Name"];
         Display_Account_Id.textContent = User["User-ID"];
+        document.querySelector(".account-country-info > img").src = `https://flagcdn.com/w320/${User["CountryisoCode"]}.png`;
+        document.querySelector(".country-name").textContent = `Country: ${User["CountryName"]}`
+        document.querySelector(".country-currency").textContent = `Currency: ${currencyCode}`
+        document.querySelector(".copy-link").textContent = `${ipAddress}/retailer/${User["User-ID"]}`;
+        document.querySelector(".copy-container > a").href = `${ipAddress}/retailer/${User["User-ID"]}`;
         Display_Old_Email.textContent = User["Email"];
         Display_Old_Phone.textContent = User["Phone"];
 
@@ -962,16 +985,39 @@ Upload_New_Image.addEventListener("click", async () => {
 
 
 Cancel_New_Profile_Update.addEventListener("click", () => {
-
+    
     PickNew_Image_Container.style.display = "none";
     Cancel_New_Profile_Update.style.display = "none";
     Edith_OldPro_file_Image.style.display = "block";
     Upload_New_Image.style.display = "none";
-});
-
-Cancel_New_Profile_Update.addEventListener("dbclick", () => {
 
 });
+
+copyIcon.onclick = () => {
+    // 1. Get the URL from the href attribute
+    const urlToCopy = copyLink.href;
+
+    // 2. Check if the link isn't empty
+    if (urlToCopy && urlToCopy !== window.location.href + "#") {
+        navigator.clipboard.writeText(urlToCopy).then(() => {
+            
+            // --- Visual Feedback ---
+            // Change the icon to a checkmark briefly
+            copyIcon.classList.replace("fa-copy", "fa-check");
+            copyIcon.style.color = "#28a745"; // Green
+
+            setTimeout(() => {
+                copyIcon.classList.replace("fa-check", "fa-copy");
+                copyIcon.style.color = ""; // Reset color
+            }, 2000);
+            
+        }).catch(err => {
+            console.error("Failed to copy!", err);
+        });
+    } else {
+        console.warn("Nothing to copy yet!");
+    }
+};
 
 PickNew_Image.addEventListener("click", () => {
     NewImage_Input.click();

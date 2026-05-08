@@ -182,7 +182,8 @@ nav .name {
 }
 
 .user-icon {
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    background: white;
 }
 
 .user-icon i {
@@ -197,6 +198,8 @@ nav .name {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 }
 
 /* ===== MENU ROW ===== */
@@ -261,7 +264,7 @@ main {
 /* ===== PRODUCT COUNT TOP ===== */
 .product-count {
     position: absolute;
-    top: 105px;
+    top: 110px;
     left: 15px;
     right: 15px;
 
@@ -471,6 +474,7 @@ main {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;;
 }
 
 /* IMAGE BUTTONS */
@@ -1350,6 +1354,45 @@ header p {
     border: none;
 }
 
+
+.copy-container {
+    display: flex;         
+    align-items: center;   
+    gap: 10px;            
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: fit-content;    
+}
+
+.copy-link {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.copy-link:hover{
+    color: #4b2a91;
+    text-decoration: underline;
+}
+
+.copy-icon {
+    display: flex;
+    cursor: pointer;       
+    color: white;
+    transition: color 0.2s;
+    background: black;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.copy-icon:hover {
+    color: #333;           
+}
+
 .edit-account-email,
 .edit-account-phone {
     margin: 10px 0;
@@ -1370,6 +1413,29 @@ header p {
     background: black !important;
     margin: 10px 7px 0 0;
     color: black;
+}
+
+/*====== COUNTRY INFO CSS ========*/
+.account-country-info{
+    display: flex;
+    background: black;
+    padding: 5px;
+    margin: 5px;
+    align-items: center;
+    width: 35%;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+
+.account-country-info > img{
+    width: 40px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.account-country-info > p{
+    font-size: 14px;
+    font-weight: bolder;
 }
 
 .edit-account-email button,
@@ -1869,5 +1935,16 @@ header p {
     .order-cart-actions {
         justify-content: center;
 
+    }
+    .account-country-info{
+        width: 310px;
+    }
+
+    .copy-container{
+        width: 350px;
+    }
+
+    .copy-container .copy-link{
+        font-size: 12px;
     }
 }

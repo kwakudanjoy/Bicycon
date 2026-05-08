@@ -37,7 +37,6 @@
     </nav>
     <div class="cart-overlay">
         <div class="cart-modal">
-
             <!-- CLOSE BUTTON (optional but useful) -->
             <button class="cart-close-btn">&times;</button>
 
@@ -56,15 +55,16 @@
 
             <!-- RETAILER INFO -->
             <div class="cart-retailer">
-                <img src="/image/photo-1555617766-c94804975da3.avif" alt="Retailer Image" class="cart-retailer__image">
+                <img src="" alt="logo" class="cart-retailer__image"
+                    onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';">
 
                 <div class="cart-retailer__info">
                     <p class="cart-retailer__name"></p>
                     <p class="cart-retailer__email"></p>
                     <p class="cart-retailer__phone"></p>
                 </div>
-            </div>
 
+            </div>
             <!-- ORDER CONTROLS -->
             <div class="cart-actions">
                 <div class="cart-quantity">
@@ -108,13 +108,30 @@
             <button type="button" class="purchase-btn">Place Order</button>
         </div>
     </div>
-
+    <div class="success-overlay">
+        <div id="success-screen" class="success-container">
+            <div class="success-content">
+                <div class="success-circle">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h2 class="success-title">Order Placed!</h2>
+                <p class="success-text">
+                    Your order has been sent to the retailer.
+                    <br>
+                    <strong>Order ID: <span id="display-order-id">#0000</span></strong>
+                </p>
+                <button type="button" class="success-close-btn">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="account-overlay">
         <div class="cancel-product-view"><i class="fa-solid fa-x"></i></div>
         <div class="my-account">
             <div class="top">
                 <div class="account-user"><i class="fa-solid fa-user"></i></div>
-                <div class="account-pro-pic"><img src="/image/background.jpg" alt=""></div>
+                <div class="account-pro-pic"><img src="" alt=""></div>
             </div>
             <div class="my-account-info">
                 <p class="my-account-name"></p>
