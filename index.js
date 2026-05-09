@@ -5,7 +5,7 @@ const searchInput = document.querySelector(".search-input");
 const searchIcon = document.querySelector(".search-icon");
 const keySearch = document.querySelector(".key-search");
 const Main = document.querySelector(".main");
-const Auth = document.getElementById("auth");
+const Auth = document.querySelector("#auth");
 
 const Loading = document.querySelector("#loading-overlay");
 
@@ -23,6 +23,10 @@ const Cart_Buy_Order = Cart_Overlay.querySelector(".cart-buy-btn");
 const Car_Total_Amount = Cart_Overlay.querySelector(".total-amount");
 let unitPrice = 0; // store this when item loads
 let counryCode = null;
+const toast = document.querySelector(".toast");
+const toastIcon = document.querySelector(".toast-icon > i");
+const toastHeader = document.querySelector(".toast-content > h4");
+const toastText = document.querySelector(".toast-text");
 
 const input = document.querySelector(".customer-number-input");
 
@@ -33,7 +37,7 @@ const ipAddress = "http://10.66.103.228:8080";
 const User = JSON.parse(localStorage.getItem("user") || "null");
 
 document.addEventListener("DOMContentLoaded", async () => {
-
+    toast.classList.add("hide");
     Loading.style.display = "flex";
     await Insert_Categories();
     Loading.style.display = "none";
@@ -41,6 +45,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     keySearch.firstChild.classList.add("selected");
     await GetProducts(storedCategories[0]);
 });
+
+function showToast(icon, header, text, iconColor) {
+    toastIcon.className = "toast-icon"; // safe reset
+    toastIcon.className = "";
+    icon.split(" ").forEach(cls => {
+        toastIcon.classList.add(cls);
+    });
+
+    toastIcon.style.color = iconColor;
+    toastHeader.textContent = header;
+    toastText.textContent = text;
+    toast.classList.remove("hide");
+
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        toast.classList.add("hide");
+    }, 3000);
+}
 
 async function Load_Image(Url) {
     const res = await fetch(`${ipAddress}/profile/${Url}`, {
@@ -53,7 +79,6 @@ async function Load_Image(Url) {
     const imageUrl = URL.createObjectURL(blob);
     return imageUrl;
 }
-
 
 function CheckUser() {
     if (User && User.profilePic) {
@@ -85,7 +110,6 @@ keySearch.addEventListener("click", async (e) => {
     await GetProducts(p.textContent);
     Loading.style.display = "none";
 });
-
 
 let searchOpen = false;
 
@@ -124,6 +148,7 @@ searchInput.addEventListener("keydown", (event) => {
 Auth.addEventListener("click", () => {
 
     if (User && User.account_completed === "YES") {
+
         window.location.href = "/main/main.html"
         window.history.clear();
     } else {
@@ -138,13 +163,18 @@ async function MakeSearch(Input) {
         input: Input
     }
 
-
+    let products = null;
     Loading.style.display = "flex";
-    const products = await fetchData(Payload);
 
     NoFoundProduct.style.display = "none";
     NoInternet.style.display = "none";
     Main.style.display = "none";
+
+    try {
+        products = await fetchData(Payload);
+    } catch (err) {
+        NoInternet.style.display = "flex";
+    }
 
     if (Array.isArray(products) && products.length > 0) {
         Loading.style.display = "none";
@@ -158,7 +188,6 @@ async function MakeSearch(Input) {
             ProductCard.className = "product-card";
             ProductCard.dataset.productId = prod.prodID;
             // Note: Removed the redundant nested div.product-card inside the innerHTML
-            alert(prod.profilePic);
             ProductCard.innerHTML = `
             <div class="product-image">
                 <img src="${ipAddress}/products/${prod.ImageUrl}" alt="image" class="prod-img">
@@ -196,10 +225,6 @@ async function MakeSearch(Input) {
         // EMPTY: It is an array, but nothing is in it
         NoFoundProduct.style.display = "flex";
         Loading.style.display = "none";
-    } else {
-        // ERROR: products is null, undefined, or a network error occurred
-        NoInternet.style.display = "flex";
-        Loading.style.display = "none";
     }
 }
 
@@ -231,6 +256,7 @@ async function Insert_Categories() {
             // Fallback to localStorage if online fetch fails
             if (storedCategories) displayCategories(storedCategories, keySearch);
         }
+
     } else {
         // Offline → use localStorage
         if (storedCategories) {
@@ -279,11 +305,20 @@ async function GetProducts(KeyWord1) {
         KeySearch: KeyWord1
     };
 
-    const products = await fetchData(Payload);  // await if Get is async
+    // await if Get is async
     // 1. First, hide all states to "reset" the view
     NoFoundProduct.style.display = "none";
     NoInternet.style.display = "none";
     Main.style.display = "none";
+
+    let products = null;
+
+    try {
+        products = await fetchData(Payload);
+
+    } catch (err) {
+        NoInternet.style.display = "flex";
+    }
 
     if (Array.isArray(products) && products.length > 0) {
         // SUCCESS: We have products
@@ -332,10 +367,6 @@ async function GetProducts(KeyWord1) {
     } else if (Array.isArray(products) && products.length === 0) {
         // EMPTY: It is an array, but nothing is in it
         NoFoundProduct.style.display = "flex";
-
-    } else {
-        // ERROR: products is null, undefined, or a network error occurred
-        NoInternet.style.display = "flex";
     }
 }
 
@@ -426,10 +457,15 @@ Main.addEventListener("click", async e => {
                             ProductPrice: newProductPrice
                         }
 
-
+                        let Result = null;
 
                         Loading.style.display = "flex";
-                        let Result = await fetchData(Payload);
+                        try {
+                            Result = await fetchData(Payload);
+                        } catch (err) {
+                            showToast("fa-solid fa-shopping-cart", "Oder Placement", "Error ocured", "red");
+                        }
+
                         if (Result && Result.status === "OK") {
                             Loading.style.display = "none";
                             Purchase_Overlay.style.display = "none";
@@ -441,7 +477,12 @@ Main.addEventListener("click", async e => {
                 };
             }
         } catch (err) {
-            alert("sorry Error cooured");
+            showToast(
+                "fa-solid fa-exclamation",
+                "Error",
+                "Sorry error occurred",
+                "red"
+            );
             Loading.style.display = "none";
         }
 
@@ -459,9 +500,19 @@ Main.addEventListener("click", async e => {
             Retailer_ID: Retailer_ID
         };
 
-        Loading.style.display = "flex";
+        let Result = null;
 
-        let Result = await fetchData(Payload);
+        Loading.style.display = "flex";
+        try {
+            Result = await fetchData(Payload);
+        } catch (err) {
+            showToast(
+                "fa-solid fa-wifi",
+                "Connection Error",
+                "Sorry error occurred",
+                "red"
+            );
+        }
 
         if (Result) {
             Loading.style.display = "none";
@@ -555,6 +606,7 @@ Main.addEventListener("click", async e => {
                             // If no data, go straight to the fallback icon
                             profileImg.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                         }
+
                         Cart_Overlay.querySelector(".cart-product__image").src = productImage;
                         Cart_Overlay.querySelector(".cart-product__name").textContent = productName;
                         Cart_Overlay.querySelector(".cart-product__price").textContent = productPrice;
@@ -564,7 +616,32 @@ Main.addEventListener("click", async e => {
                         Cart_Overlay.querySelector(".cart-retailer__email").textContent = Account_Info.Email;
                         Cart_Overlay.querySelector(".cart-retailer__phone").textContent = Account_Info.Phone;
                         Cart_Overlay.style.zIndex = "10000";
-                        Cart_Overlay.style.display = "flex";
+
+                        let Payload = {
+                            INSTRUCTION: "INFLATE-TRY-TO-BUY",
+                            productID: ProductID
+                        }
+
+                        let Result = null;
+                        try {
+                            Loading.style.display = "flex";
+                            Loading.style.zIndex = "10100";
+                            Result = await fetchData(Payload);
+                            Loading.style.display = "none";
+                            Loading.style.zIndex = "9999";
+                        } catch (err) {
+                            showToast(
+                                "fa-solid fa-exclamation",
+                                "Error",
+                                "Sorry error occurred",
+                                "red"
+                            );
+                            return;
+                        }
+
+                        if (Result && Result.status === "OK") {
+                            Cart_Overlay.style.display = "flex";
+                        }
 
                         // 🔥 Reset values
                         Cart_Overlay.querySelector(".qty-number").textContent = "1";
@@ -630,8 +707,12 @@ Main.addEventListener("click", async e => {
 
                                 } catch (err) {
                                     Loading.style.display = "none";
-                                    alert("Network error");
-                                    console.error(err);
+                                    showToast(
+                                        "fa-solid fa-exclamation",
+                                        "Error",
+                                        "Error Occured",
+                                        "red"
+                                    );
                                 }
                             };
                         };
@@ -690,9 +771,8 @@ async function fetchData(payload) {
 
     } catch (err) {
         console.error("Fetch error:", err);
-        alert("Sorry an error ocured. ! Please check your internet connect.");
         Loading.style.display = "none";
-        return null;
+        throw err;
     }
 }
 

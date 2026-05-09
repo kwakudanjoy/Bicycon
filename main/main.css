@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -152,6 +152,81 @@ nav .name {
     font-size: 18px;
 }
 
+
+
+/*======= Toast =========*/
+.toast{
+    position: fixed;
+
+    top: 20px;
+    right: 20px;
+
+    width: 320px;
+
+    background: #0d1424;
+
+    border: 1px solid #1b2a44;
+    border-left: 4px solid #3b82f6;
+
+    border-radius: 14px;
+
+    padding: 14px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+    opacity: 0;
+    transform: translateY(-20px);
+
+    transition: 
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.toast.show{
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 999
+}
+
+.toast.hide{
+    opacity: 0;
+    transform: translateY(-20px);
+    z-index: -20;
+}
+
+.toast-icon{
+    width: 42px;
+    height: 42px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #3b82f6;
+
+    flex-shrink: 0;
+}
+
+.toast-content h4{
+    margin: 0;
+    font-size: 15px;
+}
+
+.toast-text{
+    margin-top: 4px;
+    color: #b7c4e0;
+    font-size: 14px;
+}
+
+
 /* profile */
 .profile {
     display: flex;
@@ -192,6 +267,11 @@ nav .name {
 
 .pro-pic {
     display: none;
+   
+}
+
+.pro-pic:hover{
+    background: red;
 }
 
 .pro-pic img {
@@ -243,12 +323,16 @@ nav .name {
 
 main {
     height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* ===== PRODUCTS SECTION ===== */
 /* center everything */
 .product-section {
-    height: 100%;
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1115,7 +1199,8 @@ main {
     top: 20px;
     right: 20px;
 
-    background: #fff;
+    background: black;
+    color: red;
     border: none;
     border-radius: 50%;
     width: 40px;
@@ -1123,18 +1208,23 @@ main {
 
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: 0.3s ease;
+}
+
+.upgrade-overlay>button:hover{
+    background: red;
+    color: black;
+    transform: scale(1.035);
 }
 
 /* MODAL CONTAINER */
 .upgrade-modal {
     display: flex;
     gap: 20px;
-
     overflow-x: auto;
     /* 👈 REQUIRED for scrolling */
     scroll-snap-type: x mandatory;
     /* 👈 you already had this */
-
     width: 90%;
     max-width: 1000px;
     padding: 10px;
@@ -1164,15 +1254,15 @@ main {
     background: black;
     border-radius: 15px;
     padding: 20px;
-
-    min-width: 280px;
+    margin: 10px 0 ;
+    min-width: 320px;
     /* 👈 IMPORTANT (not width) */
     flex: 0 0 auto;
     /* 👈 prevents shrinking */
     scroll-snap-align: center;
     /* 👈 SNAP HERE */
 
-    height: 400px;
+    height: 500px;
 
     display: flex;
     flex-direction: column;
@@ -1202,9 +1292,9 @@ header h4 {
 }
 
 header p {
-    margin: 5px 0 0 20px;
+    margin: 60px 0 0 20px;
     color: #777;
-    font-size: 17px;
+    font-size: 35px;
     font-weight: bolder;
 }
 
@@ -1284,11 +1374,34 @@ header p {
 
 /*Edith account*/
 .my-profile {
-    height: 100%;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
     align-content: center;
     justify-items: center;
     display: none;
     padding: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Chrome, Edge, Safari */
+.my-profile::-webkit-scrollbar {
+    width: 8px;
+}
+
+.my-profile::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.my-profile::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.my-profile::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .active-profile {
@@ -1303,7 +1416,6 @@ header p {
 }
 
 .edith-user-icon {
-    background: rgba(255, 255, 255, 0.05);
     width: 200px;
     height: 200px;
     display: flex;
@@ -1313,6 +1425,7 @@ header p {
     margin: 0 auto;
     border-radius: 50%;
     color: black;
+    box-shadow: 0 0 5px black;
 }
 
 .profile-pic {
@@ -1322,6 +1435,7 @@ header p {
     display: none;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 5px black;
 }
 
 .profile-pic>img {
@@ -1362,13 +1476,15 @@ header p {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 20px;
-    width: fit-content;    
+    width: fit-content;
+    font-size: 15px;   
 }
 
 .copy-link {
     text-decoration: none;
     color: black;
     font-weight: 500;
+    font-size: 14px;   
 }
 
 .copy-link:hover{
@@ -1421,8 +1537,9 @@ header p {
     background: black;
     padding: 5px;
     margin: 5px;
+    gap: 10px;
     align-items: center;
-    width: 35%;
+    width: max-content;
     border-radius: 10px;
     justify-content: space-between;
 }
@@ -1436,6 +1553,37 @@ header p {
 .account-country-info > p{
     font-size: 14px;
     font-weight: bolder;
+}
+
+
+/*=========== Plan ==========*/
+.plan-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+    background: black;
+    width: max-content;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.plan-badge .label {
+    font-weight: 400;
+    color: white;
+}
+
+.plan-badge .value {
+    font-weight: 600;
+    color: #000;
+
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #f2f2f2;
+    cursor: pointer;
 }
 
 .edit-account-email button,
@@ -1936,10 +2084,7 @@ header p {
         justify-content: center;
 
     }
-    .account-country-info{
-        width: 310px;
-    }
-
+   
     .copy-container{
         width: 350px;
     }

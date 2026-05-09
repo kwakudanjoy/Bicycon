@@ -65,14 +65,24 @@ const NoFoundOrders = document.querySelector(".no-found-products");
 
 const LogOut = document.querySelector(".log-out > button");
 
+const toast = document.querySelector(".toast");
+const toastIcon = document.querySelector(".toast-icon > i");
+const toastHeader = document.querySelector(".toast-content > h4");
+const toastText = document.querySelector(".toast-text");
+
+//toast.classList.add("hide");
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
 //const ipAddress = "https://bicycon-server.onrender.com"; //"http://localhost:8080";
 const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
-// ====== DISPLAY FUNCTIONS ======
 
+document.addEventListener("DOMContentLoaded", async () => {
+    toast.classList.add("hide");
+});
+
+// ====== DISPLAY FUNCTIONS ======
 function showProducts() {
     NoProduct.style.display = "none";
     ProductSection.style.display = "flex";
@@ -126,6 +136,29 @@ function showOrders() {
 }
 
 
+function showToast(icon, header, text, iconColor) {
+    toastIcon.className = "toast-icon"; // safe reset
+    toastIcon.className = "";
+    icon.split(" ").forEach(cls => {
+        toastIcon.classList.add(cls);
+    });
+
+    toastIcon.style.color = iconColor;
+    toastHeader.textContent = header;
+    toastText.textContent = text;
+    toast.classList.remove("hide");
+
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        toast.classList.add("hide");
+    }, 3000);
+}
+
+
 async function Load_Image(Url) {
 
     const res = await fetch(`${ipAddress}/profile/${User["profilePic"]}`, {
@@ -148,25 +181,25 @@ Back.addEventListener("click", () => {
     }
 });
 
-window.addEventListener('popstate', function(event) {
+window.addEventListener('popstate', function (event) {
     if (!window.history.back()) {
         location.href = "/index.html";
         window.history.clear();
-    } 
+    }
 });
 
 Products.addEventListener("click", async (e) => {
     Profile.classList.remove("active-profile");
-    
+
     // Check if the list is empty OR contains the 'no product' message
     const isEmpty = ProductList.children.length === 0;
     const hasNoProductMessage = ProductList.querySelector(".no-product-section");
 
     if (isEmpty || hasNoProductMessage) {
         // This ensures data is fetched if the list is blank
-        await getMyProducts(); 
-    } 
-    
+        await getMyProducts();
+    }
+
     // Always show the section regardless of whether we just fetched or not
     ProductSection.style.display = "flex";
     MyProfile.style.display = "none";
@@ -213,7 +246,6 @@ async function fetchData(payload) {
 
     } catch (err) {
         console.error("Fetch error:", err);
-        alert("Sorry an error ocured. ! Please check your internet connect.");
         Loading.style.display = "none";
         return null;
     }
@@ -468,13 +500,13 @@ PlacedOrdersList.addEventListener("click", async (e) => {
     }
 });
 
-async function Insert_Categories () {
+async function Insert_Categories() {
     const selectWrapper = document.querySelector(".custom-select");
     const selected = selectWrapper.querySelector(".selected");
     const optionsContainer = selectWrapper.querySelector(".options");
 
     const storedCategories = getLocalCategories();
-   
+
     let online = true;
 
     // Check internet connection
@@ -648,10 +680,9 @@ AddNewProd.addEventListener("click", async (e) => {
         if (uploadResult && uploadResult.status === "OK") {
             // Hide loading
             Loading.style.display = "none";
-
             // Refresh products
             getMyProducts();
-
+            showToast("fa-solid fa-check", "New added product", "The push prodcut was suscessfully added", "green");
             // Hide add product modal
             AddProduct.style.display = "none";
 
@@ -669,7 +700,7 @@ AddNewProd.addEventListener("click", async (e) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message || "Upload failed");
+
         Loading.style.display = "none";
     }
 });
@@ -759,7 +790,6 @@ ProductList.addEventListener("click", async (e) => {
         };
 
         Loading.style.display = "flex";
-
         let Result = await fetchData(GET_Category_Payload);
 
         Loading.style.display = "none";
@@ -809,17 +839,24 @@ ProductList.addEventListener("click", async (e) => {
             // =========================
             // WITH IMAGE
             // =========================
-            if (selectedFile) {
 
+            if (selectedFile) {
                 const formData = new FormData();
                 formData.append("file", selectedFile);
                 formData.append("Data", JSON.stringify(Payload));
 
-                let Result = await UploadFileWithData(formData);
+                let Result = null;
+
+                try {
+                    Result = await UploadFileWithData(formData);
+                } catch (err) {
+                    showToast("fa-solid fa-check", "New added product", "The push prodcut was suscessfully added", "green");
+                }
 
                 Loading.style.display = "none";
 
                 if (Result && Result.status === "OK") {
+                    showToast("fa-solid fa-check", "Save product", "The product you edited has been save", "green");
                     getMyProducts();
                     EdithProduct.style.display = "none";
                 }
@@ -829,12 +866,17 @@ ProductList.addEventListener("click", async (e) => {
             // WITHOUT IMAGE
             // =========================
             else {
-
-                let Result = await fetchData(Payload);
-
+                
+                let Result = null;
+                try{
+                    Result = await fetchData(Payload);
+                }catch(err){
+                    showToast("fa-solid fa-exclamation", "Save product", "Error Occured", "red");
+                }
                 Loading.style.display = "none";
 
                 if (Result && Result.status === "OK") {
+                    showToast("fa-solid fa-check", "Save product", "The product you edited has been save", "green");
                     getMyProducts();
                     EdithProduct.style.display = "none";
                 }
@@ -855,9 +897,18 @@ ProductList.addEventListener("click", async (e) => {
         };
 
         Loading.style.display = "flex";
-        let Result = await fetchData(Payload);
+
+        let Result = null;
+
+        try{
+            Result = await fetchData(Payload);
+        }catch(err){
+            showToast("fa-solid fa-exclamation", "Deleted product", "Error Occured", "red");
+        }
 
         if (Result && Result.status === "OK") {
+            Loading.style.display = "none";
+            showToast("fa-solid fa-check", "Deleted product", "The product has been deleted", "green");
             getMyProducts();
         }
     }
@@ -865,21 +916,21 @@ ProductList.addEventListener("click", async (e) => {
 });
 
 Profile.addEventListener("click", async () => {
-    let currencyCode  = null;
+    let currencyCode = null;
 
     let User = JSON.parse(localStorage.getItem("user"));
-      
+
     let Payload = {
-        INSTRUCTION : "GET-COUNTRY-CURRENCY-CODE",
-        countryISO : User["CountryisoCode"]
+        INSTRUCTION: "GET-COUNTRY-CURRENCY-CODE",
+        countryISO: User["CountryisoCode"]
     }
 
-   let Result = await fetchData(Payload);
-  
-   if (Result){
-     currencyCode = Result["currencyCode"];
-   }
-  
+    let Result = await fetchData(Payload);
+
+    if (Result) {
+        currencyCode = Result["currencyCode"];
+    }
+
     if (User) {
         //showing nessary items for fist star
 
@@ -891,12 +942,12 @@ Profile.addEventListener("click", async () => {
         Cancel_New_Email_Upload.style.display = "none";
         Cancel_New_Phone_Upload.style.display = "none";
         document.querySelector(".iti").style.display = "none";
-       
+
         Display_Account_Name.textContent = User["User-Name"];
         Display_Account_Id.textContent = User["User-ID"];
         document.querySelector(".account-country-info > img").src = `https://flagcdn.com/w320/${User["CountryisoCode"]}.png`;
-        document.querySelector(".country-name").textContent = `Country: ${User["CountryName"]}`
-        document.querySelector(".country-currency").textContent = `Currency: ${currencyCode}`
+        document.querySelector(".country-name").textContent = `${User["CountryName"]}`
+        document.querySelector(".country-currency").textContent = `${currencyCode}`
         document.querySelector(".copy-link").textContent = `${ipAddress}/retailer/${User["User-ID"]}`;
         document.querySelector(".copy-container > a").href = `${ipAddress}/retailer/${User["User-ID"]}`;
         Display_Old_Email.textContent = User["Email"];
@@ -985,7 +1036,7 @@ Upload_New_Image.addEventListener("click", async () => {
 
 
 Cancel_New_Profile_Update.addEventListener("click", () => {
-    
+
     PickNew_Image_Container.style.display = "none";
     Cancel_New_Profile_Update.style.display = "none";
     Edith_OldPro_file_Image.style.display = "block";
@@ -1000,7 +1051,7 @@ copyIcon.onclick = () => {
     // 2. Check if the link isn't empty
     if (urlToCopy && urlToCopy !== window.location.href + "#") {
         navigator.clipboard.writeText(urlToCopy).then(() => {
-            
+
             // --- Visual Feedback ---
             // Change the icon to a checkmark briefly
             copyIcon.classList.replace("fa-copy", "fa-check");
@@ -1010,7 +1061,7 @@ copyIcon.onclick = () => {
                 copyIcon.classList.replace("fa-check", "fa-copy");
                 copyIcon.style.color = ""; // Reset color
             }, 2000);
-            
+
         }).catch(err => {
             console.error("Failed to copy!", err);
         });
