@@ -73,7 +73,7 @@ const toastText = document.querySelector(".toast-text");
 //toast.classList.add("hide");
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-const ipAddress = "https://reasonably-sink-weekend-retrieved.trycloudflare.com"; //"http://localhost:8080";
+const ipAddress = "https://targeted-copy-adams-producer.trycloudflare.com"; //"http://localhost:8080";
 //const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
@@ -655,7 +655,14 @@ AddNewProd.addEventListener("click", async (e) => {
 
     // Validation
     if (!file || !ProdName.value.trim() || !ProdPrice.value.trim() || Value === "Select Category" || !ProdDiscription.value.trim()) {
-        alert("Fill all inputs and select a category for your new product");
+        toast.style.zIndex = 10000;
+        showToast(
+            "fa-solid fa-keyboard",
+            "Required Inputs",
+            "All inputs are required to proceed and also remember to select a cartegory",
+            "green"
+        );
+        
         return;
     }
 
@@ -700,7 +707,12 @@ AddNewProd.addEventListener("click", async (e) => {
         }
     } catch (err) {
         console.error(err);
-
+        showToast(
+            "fa-solid fa-exclamation",
+            "Error",
+            "An error occured",
+            "red"
+        );
         Loading.style.display = "none";
     }
 });
@@ -822,7 +834,12 @@ ProductList.addEventListener("click", async (e) => {
 
             // VALIDATION
             if (!New_Name || !New_Price || !New_Description) {
-                alert("Please fill all fields");
+                showToast(
+                    "fa-solid fa-keyboard",
+                    "Required Inputs",
+                    "Name , Price and Description inputs are required to proceed",
+                    "green"
+                );
                 return;
             }
 
@@ -866,11 +883,11 @@ ProductList.addEventListener("click", async (e) => {
             // WITHOUT IMAGE
             // =========================
             else {
-                
+
                 let Result = null;
-                try{
+                try {
                     Result = await fetchData(Payload);
-                }catch(err){
+                } catch (err) {
                     showToast("fa-solid fa-exclamation", "Save product", "Error Occured", "red");
                 }
                 Loading.style.display = "none";
@@ -900,9 +917,9 @@ ProductList.addEventListener("click", async (e) => {
 
         let Result = null;
 
-        try{
+        try {
             Result = await fetchData(Payload);
-        }catch(err){
+        } catch (err) {
             showToast("fa-solid fa-exclamation", "Deleted product", "Error Occured", "red");
         }
 
@@ -988,7 +1005,6 @@ Upload_New_Image.addEventListener("click", async () => {
     let User = JSON.parse(localStorage.getItem("user"));
 
     if (!User || !User["User-ID"]) {
-        alert("User not found");
         return;
     }
 
@@ -1044,31 +1060,74 @@ Cancel_New_Profile_Update.addEventListener("click", () => {
 
 });
 
-copyIcon.onclick = () => {
-    // 1. Get the URL from the href attribute
+copyIcon.addEventListener("click", () => {
+
     const urlToCopy = copyLink.href;
 
-    // 2. Check if the link isn't empty
-    if (urlToCopy && urlToCopy !== window.location.href + "#") {
-        navigator.clipboard.writeText(urlToCopy).then(() => {
-
-            // --- Visual Feedback ---
-            // Change the icon to a checkmark briefly
-            copyIcon.classList.replace("fa-copy", "fa-check");
-            copyIcon.style.color = "#28a745"; // Green
-
-            setTimeout(() => {
-                copyIcon.classList.replace("fa-check", "fa-copy");
-                copyIcon.style.color = ""; // Reset color
-            }, 2000);
-
-        }).catch(err => {
-            console.error("Failed to copy!", err);
-        });
-    } else {
+    if (!urlToCopy || urlToCopy === window.location.href + "#") {
         console.warn("Nothing to copy yet!");
+        return;
     }
-};
+
+    // Modern clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(urlToCopy)
+            .then(() => {
+                showCopySuccess();
+            })
+            .catch(err => {
+                console.error("Clipboard API failed:", err);
+                fallbackCopy(urlToCopy);
+            });
+
+    } else {
+        // Fallback for mobile browsers
+        fallbackCopy(urlToCopy);
+    }
+});
+
+
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+
+    textArea.value = text;
+    // Prevent scrolling on iPhone
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+
+    document.body.appendChild(textArea);
+
+    textArea.focus();
+    textArea.select();
+
+    try {
+
+        const successful = document.execCommand("copy");
+
+        if (successful) {
+            showCopySuccess();
+        } else {
+            console.error("Fallback copy failed");
+        }
+
+    } catch (err) {
+        console.error("Fallback error:", err);
+    }
+
+    document.body.removeChild(textArea);
+}
+
+function showCopySuccess() {
+
+    copyIcon.classList.replace("fa-copy", "fa-check");
+    copyIcon.style.color = "#28a745";
+
+    setTimeout(() => {
+        copyIcon.classList.replace("fa-check", "fa-copy");
+        copyIcon.style.color = "";
+    }, 2000);
+}
 
 PickNew_Image.addEventListener("click", () => {
     NewImage_Input.click();

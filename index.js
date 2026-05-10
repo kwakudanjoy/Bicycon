@@ -30,7 +30,7 @@ const toastText = document.querySelector(".toast-text");
 
 const input = document.querySelector(".customer-number-input");
 
-const ipAddress = "https://reasonably-sink-weekend-retrieved.trycloudflare.com";
+const ipAddress = "https://targeted-copy-adams-producer.trycloudflare.com";
 //const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // Initially hide elements

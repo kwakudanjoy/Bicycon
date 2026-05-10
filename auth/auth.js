@@ -43,10 +43,46 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-const ipAddress ="https://reasonably-sink-weekend-retrieved.trycloudflare.com";
+const toast = document.querySelector(".toast");
+const toastIcon = document.querySelector(".toast-icon > i");
+const toastHeader = document.querySelector(".toast-content > h4");
+const toastText = document.querySelector(".toast-text");
+
+
+
+const ipAddress = "https://targeted-copy-adams-producer.trycloudflare.com";
 //const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // ==================== LOCAL STORAGE ====================
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+    toast.classList.add("hide");
+});
+
+
+function showToast(icon, header, text, iconColor) {
+    toastIcon.className = "toast-icon"; // safe reset
+    toastIcon.className = "";
+    icon.split(" ").forEach(cls => {
+        toastIcon.classList.add(cls);
+    });
+
+    toastIcon.style.color = iconColor;
+    toastHeader.textContent = header;
+    toastText.textContent = text;
+    toast.classList.remove("hide");
+
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        toast.classList.add("hide");
+    }, 3000);
+}
+
 
 const User = JSON.parse(localStorage.getItem("user") || "null");
 // ==================== CHECK USER ====================
@@ -168,7 +204,12 @@ signIn.addEventListener("click", async (event) => {
     const Id = SignId.value;
     const Password = SignInPassword.value;
 
-    if (!Id || !Password) return alert("Please enter ID and Password");
+    if (!Id || !Password) return showToast(
+            "fa-solid fa-keyboard",
+            "Required Inputs",
+            "User id and Password inputs are required to proceed",
+            "green"
+        );
 
     const Payload = {
         INSTRUCTION: "SIGN-IN",
@@ -203,14 +244,29 @@ signIn.addEventListener("click", async (event) => {
             SignInPassword.classList.add("password-mis-match");
             SignId.classList.remove("password-mis-match");
             Loading.style.display = "none";
+            showToast(
+            "fa-solid fa-lock",
+            "Password Mismatch",
+            "The password you provided is incorrect",
+            "red"
+        );
         } else if (Result && Result.status === "!USER") {
             SignId.classList.add("password-mis-match");
             SignInPassword.classList.remove("password-mis-match");
             Loading.style.display = "none";
+             showToast(
+            "fa-solid fa-user",
+            "Non Existing User",
+            "The user id you provided does not exist",
+            "red");
         }
     } catch (err) {
-        alert(err);
-        alert("Error signing in");
+        showToast(
+            "fa-solid fa-exclamation",
+            "Error",
+            "Sorry error occurred",
+            "red"
+        );
         Loading.style.display = "none";
     }
 });
@@ -223,7 +279,12 @@ signUp.addEventListener("click", async (event) => {
     const Password = SignUpPassword.value.trim();
     const ConfirmPassword = SignUpConfirmPassword.value.trim();
 
-    if (!Name || !Password || !ConfirmPassword) return alert("Fill all fields");
+    if (!Name || !Password || !ConfirmPassword) return showToast(
+            "fa-solid fa-keyboard",
+            "Required Inputs",
+            "All inputs are required to proceed",
+            "green"
+        );
 
     if (Password !== ConfirmPassword) {
         SignUpPassword.classList.add("password-mis-match");
@@ -245,7 +306,13 @@ signUp.addEventListener("click", async (event) => {
             CompleteAccount.style.display = "block";
         }
     } catch (err) {
-        alert("Error signing up");
+        showToast(
+            "fa-solid fa-exclamation",
+            "Error",
+            "Sorry error occurred",
+            "red"
+        );
+
         Loading.style.display = "none";
     }
 });
@@ -285,7 +352,13 @@ Next.addEventListener("click", async (event) => {
     const Email = EmailInput.value.trim();
 
     if (!Email || !Phone) {
-        alert("Please enter email and phone");
+        showToast(
+            "fa-solid fa-keyboard",
+            "Required Inputs",
+            "Email and Phone inputs are required to proceed",
+            "green"
+        );
+
         return;
     }
 
@@ -355,7 +428,12 @@ Next.addEventListener("click", async (event) => {
         }
 
     } catch (err) {
-        alert("Error completing account");
+        showToast(
+            "fa-solid fa-exclamation",
+            "Error",
+            "Sorry error occurred",
+            "red"
+        );
         Loading.style.display = "none";
     }
 });
@@ -377,9 +455,8 @@ async function fetchData(payload) {
 
     } catch (err) {
         console.error("Fetch error:", err);
-        alert("Sorry an error ocured. ! Please check your internet connect.");
         Loading.style.display = "none";
-        return null;
+        throw err;
     }
 }
 
