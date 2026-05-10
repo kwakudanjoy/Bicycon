@@ -73,8 +73,8 @@ const toastText = document.querySelector(".toast-text");
 //toast.classList.add("hide");
 // ====== CONFIG ======
 const User = JSON.parse(localStorage.getItem("user") || '{}');
-//const ipAddress = "https://bicycon-server.onrender.com"; //"http://localhost:8080";
-const ipAddress = "http://10.66.103.228:8080";
+const ipAddress = "https://reasonably-sink-weekend-retrieved.trycloudflare.com"; //"http://localhost:8080";
+//const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 
 

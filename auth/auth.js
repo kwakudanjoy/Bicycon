@@ -43,8 +43,8 @@ const SignUpName = document.querySelector("#sign-up-name");
 const SignUpPassword = document.querySelector("#sign-up-password");
 const SignUpConfirmPassword = document.querySelector("#sign-up-confirm-password");
 
-//const ipAddress ="https://bicycon-server.onrender.com";
-const ipAddress = "http://10.66.103.228:8080";
+const ipAddress ="https://reasonably-sink-weekend-retrieved.trycloudflare.com";
+//const ipAddress = "http://10.66.103.228:8080";
 //const ipAddress = "http://localhost:8080";
 // ==================== LOCAL STORAGE ====================
 
